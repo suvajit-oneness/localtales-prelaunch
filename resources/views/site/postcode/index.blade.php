@@ -49,7 +49,7 @@
                 <form action="{{ route('directory.search') }}" id="checkout-form">
                     <div class="filterSearchBox">
                         <div class="row">
-                            <div class="col-12 col-md fcontrol position-relative filter_selectWrap">
+                            <div class="col-5 col-md fcontrol position-relative filter_selectWrap">
                                 {{-- <input list="category_id" name="category_id" id="category_id">
                                 <datalist id="category_id" > --}}
                                 <select class="filter_select form-control" name="category_id">
@@ -59,9 +59,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col col-md fcontrol position-relative">
+                            <div class="col-5 col-md fcontrol position-relative">
                                 <div class="form-floating">
-                                    <input type="search" name="title" class="form-control pl-3"
+                                    <input type="search" name="title" class="form-control"
                                         placeholder="Search by keyword...">
                                     <label for="searchbykeyword" placeholder="Nom">Search by keyword</label>
                                 </div>
@@ -69,7 +69,7 @@
                             {{-- <div class="col-9 col-lg-2 plr-3">
                                 <input type="search" name="title" class="form-control pl-3" placeholder="Search by Pincode...">
                             </div> --}}
-                            <div class="col-auto">
+                            <div class="col-2 col-sm-auto">
                                 <a href="javascript:void(0);" id="btnFilter"
                                     class="w-100 btn btn-blue filterBtnOrange text-center ml-auto"><img
                                         src="{{ asset('front/img/search.svg') }}"></a>
@@ -81,7 +81,7 @@
         </div>
     </section>
 
-    <section class="map_section searchpadding">
+    <section class="map_section">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12">
@@ -106,7 +106,7 @@
 
 
     @if(count($dir) > 0)
-    <section class="py-4 py-lg-5 bg-light smallGapGrid">
+    <section class="py-2 py-sm-4 py-lg-5 bg-light smallGapGrid">
         <div class="container">
             <div class="best_deal page-title">
                 <h3> Directory </h3>
@@ -115,7 +115,7 @@
                 {{-- <div class="swiper-wrapper"> --}}
                 @foreach ($dir as $key => $directory)
                     {{-- dd{{ $dir}} --}}
-                    <div class="col-md-4 col-lg-3 jQueryEqualHeight">
+                    <div class="col-6 col-md-4 col-lg-3 jQueryEqualHeight">
                         <div class="card border-0 directoryCard">
                             <div class="bst_dimg">
                                 @if ($directory->image)
@@ -140,9 +140,9 @@
     @endif
 
     @if ($suburb->count() > 0)
-        <section class="py-4 py-lg-5">
+        <section class="py-2 py-sm-4 py-lg-5 similar_postcode">
             <div class="container">
-                <div class="row m-0 mb-4 justify-content-center">
+                <div class="row mb-0 mb-sm-4 justify-content-center">
                     <div class="page_title text-center">
                         <h2 class="mb-2">Similar places in {{ $data->pin }}</h2>
                         {{-- <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when.</p> --}}
@@ -158,9 +158,10 @@
 
                 <div class="row justify-content-center">
                     @foreach ($relatedProducts as $key => $blog)
-                        <div class="col-md-3 mb-4 mb-lg-0">
+                        <div class="col-6 col-md-3 mb-2 mb-sm-4 mb-lg-0">
                             <div class="smplace_card text-center">
                                 {{-- <img src="{{ asset('/admin/uploads/suburb/' . $blog->image) }}" height="130px" class="my-3"> --}}
+                                <img src="{{ asset('Directory/placeholder-image.png') }}" alt="">
                                 <h4><a href="{!! URL::to('suburb/' . $blog->pin_code) !!}" class="location_btn">{{ $blog->name }} </a></h4>
                                 <p>{{ $blog->description }}</p>
                                 <h5>{{ $blog->pin_code }}</h5>
@@ -174,7 +175,7 @@
 
 
     @if(count($article) > 0)
-    <section class="py-4 py-lg-5 bg-light">
+    <section class="py-2 py-sm-4 py-lg-5 bg-light">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col">
@@ -226,7 +227,7 @@
     </section>
     @endif
 
-    <section class="py-4 subscribe">
+    <section class="py-2 py-sm-4 subscribe">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">

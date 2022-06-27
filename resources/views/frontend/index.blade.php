@@ -27,24 +27,24 @@
                 <form action="" method="get" class="banner_form">
                     @csrf
                     <div class="row">
-                        <div class="col-12 mb-3 mb-lg-0 col-sm-4 pr-sm-0">
+                        <div class="col-5 col-sm-4 pr-sm-0">
                             <div class="banner-form-group">
                                 <input type="text" name="name" id="inputSearchTextFilter" class="form-control" placeholder="Your Business Name">
                                 <label>Your Business Name</label>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-4 pr-sm-0">
+                        <div class="col-5 col-sm-4 pr-sm-0">
                             <div class="banner-form-group">
                                 <input type="email" name="email" class="form-control" placeholder="Email">
                                 <label>Email</label>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-4">
+                        <div class="col-2 col-sm-4">
                             <input type="hidden" name="website" value="">
                             <input type="hidden" name="email" value="">
                             <input type="hidden" name="address" value="">
                             <input type="hidden" name="mobile" value="">
-                            <button type="submit" class="btn main-btn">Join Us</button>
+                            <button type="submit" class="btn main-btn"><span>Join Us</span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></button>
                         </div>
                     </div>
                 </form>

@@ -63,6 +63,10 @@
             prevEl: ".swiper-button-prev",
         },
         breakpoints: {
+            300: {
+                slidesPerView: 2,
+                spaceBetween: 8,
+            },
             640: {
                 slidesPerView: 1,
                 spaceBetween: 10,
@@ -81,7 +85,7 @@
             },
         },
     });
-    
+
     var swiper = new Swiper(".top_dect", {
         navigation: {
             nextEl: ".swiper-button-next",
@@ -181,7 +185,7 @@
         $(targetBox).addClass('active show');
         return false;
     });
-  
+
 
 
 })(jQuery, window);

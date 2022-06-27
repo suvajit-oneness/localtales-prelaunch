@@ -9,7 +9,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-3">
+            <div class="col-6 col-sm-6 col-lg-3">
                 <div class="f-menu">
                     <h6>Products</h6>
                     <ul class="f-menu p-0">
@@ -21,7 +21,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-3">
+            <div class="col-6 col-sm-6 col-lg-3">
                 <div class="f-menu">
                     <h6>Other</h6>
                     <ul class="f-menu p-0">

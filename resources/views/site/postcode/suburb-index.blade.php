@@ -27,24 +27,26 @@
 
     <section class="map_section">
         <div class="container">
-            <div class="row m-0 justify-content-center">
+            <div class="row justify-content-center">
                 <div class="col-12">
                     <p>
                         {{ ($data) ? $data->description : '' }}.
                     </p>
                 </div>
-                <div class="map col-12">
-                    {{-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2270.7669782997973!2d-1.9121755843464756!3d55.30969183354697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487dfb2f69ab851d%3A0x736c21f03db666c1!2sUnited%20Kingdom%20TaeKwon-Do%20Centres!5e0!3m2!1sen!2sin!4v1650272988401!5m2!1sen!2sin" width="100%" height="330" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> --}}
-                    <div id="mapShow" style="height: 400px;"></div>
-                    <input type="hidden" id="googlemapaddress" value="{{ ($data) ? $data->pin : '' }}">
+                <div class="col-12">
+                    <div class="map">
+                        {{-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2270.7669782997973!2d-1.9121755843464756!3d55.30969183354697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487dfb2f69ab851d%3A0x736c21f03db666c1!2sUnited%20Kingdom%20TaeKwon-Do%20Centres!5e0!3m2!1sen!2sin!4v1650272988401!5m2!1sen!2sin" width="100%" height="330" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> --}}
+                        <div id="mapShow" style="height: 400px;"></div>
+                        <input type="hidden" id="googlemapaddress" value="{{ ($data) ? $data->pin : '' }}">
+                    </div>
                 </div>
                 <div class="col-12 col-lg-10">
-                    <div class="card border-0 shadow-lg p-3">
-                    <form action="{{ route('directory.search') }}" id="checkout-form">
-                        <div class="row m-0 align-items-center">
-                            <div class="col-lg-11">
+                    <div class="page-search-block post_directory_search">
+                    <form action="{{ route('directory.search') }}" id="checkout-form" class="filterSearchBox">
+                        <div class="row align-items-center">
+                            <div class="col-10 col-lg-11">
                                 <div class="row">
-                                    <div class="col-12 col-lg-6 plr-3 pl-lg-0 fcontrol position-relative filter_selectWrap">
+                                    <div class="col-6 col-lg-6 plr-3 pl-lg-0 fcontrol position-relative filter_selectWrap">
                                         {{-- <input list="category_id" name="category_id" id="category_id">
                                         <datalist id="category_id" > --}}
 
@@ -56,7 +58,7 @@
                                         </select>
 
                                     </div>
-                                    <div class="col-12 col-lg-6 plr-3 pl-lg-0 fcontrol position-relative">
+                                    <div class="col-6 col-lg-6 plr-3 pl-lg-0 fcontrol position-relative">
                                         <input type="search" name="title" class="form-control pl-3 m-0" placeholder="Search by keyword...">
                                     </div>
                                 </div>
@@ -64,7 +66,7 @@
                             {{-- <div class="col-9 col-lg-2 plr-3">
                                 <input type="search" name="title" class="form-control pl-3" placeholder="Search by Pincode...">
                             </div> --}}
-                            <div class="col-3 col-lg-1 plr-3 pr-lg-0">
+                            <div class="col-2 col-lg-1 plr-3 pr-lg-0">
                                 <a href="javascript:void(0);" id="btnFilter" class="w-100 btn btn-blue filterBtnOrange text-center ml-auto"><img src="{{ asset('front/img/search.svg')}}"></a>
                             </div>
                         </div>
@@ -75,9 +77,11 @@
         </div>
     </section><!--end_map-->
     <section class="py-4 py-lg-5 bg-light">
-        <div class="container p-0">
-            <div class="row m-0 mb-4 mb-lg-5 justify-content-between best_deal">
-          <h4> Directory </h4>
+        <div class="container">
+            <div class="row mb-4 mb-lg-5 justify-content-between best_deal">
+                <div class="col-md-12">
+                    <h4>Directory </h4>
+                </div>
 
             </div>
             <div class="row m-0">
@@ -86,7 +90,7 @@
                         {{-- <div class="swiper-wrapper"> --}}
                         @foreach($dir as $key => $directory)
                         {{-- dd{{ $dir}} --}}
-                        <div class="col-md-4 mb-4 mb-lg-0">
+                        <div class="col-6 col-md-4 mb-4 mb-lg-0">
                                 <div class="card border-0">
                                     <div class="bst_dimg">
                                         @if($directory->image)

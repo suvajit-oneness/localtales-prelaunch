@@ -27,7 +27,7 @@
                                             </select>
                                             <div class="respDrop"></div>
                                         </div> --}}
-                                        <div class="col-12 col-lg-6 fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                                        <div class="col-5 col-lg-6 fcontrol position-relative filter_selectWrap filter_selectWrap2">
                                             <div class="select-floating">
                                                 <img src="{{ asset('front/img/grid.svg') }}">
                                                 <label for="blogcategory">State</label>
@@ -42,15 +42,15 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-5 col-sm">
                                             <div class="form-floating">
                                                 <input id="searchbykeyword" type="search" name="pin"
-                                                    value="{{ request()->input('pin') }}" class="form-control pl-3"
+                                                    value="{{ request()->input('pin') }}" class="form-control"
                                                     placeholder="Search by keyword...">
                                                 <label for="searchbykeyword" placeholder="Nom">Search by keyword</label>
                                             </div>
                                         </div>
-                                        <div class="col-auto">
+                                        <div class="col-2 col-sm-auto">
                                             <a href="javascript:void(0);" id="btnFilter"
                                                 class="w-100 btn btn-blue text-center ml-auto"><img
                                                     src="{{ asset('front/img/search.svg') }}"></a>
@@ -66,34 +66,34 @@
     </section>
 
     {{-- BLOG SEARCH RESULT --}}
-    <section class="pb-5" style="padding-top: 93px;">
+    <section class="postcode_main pb-5">
         <div class="container">
             <div class="">
                 @if (!empty($request->state_id) || !empty($request->pin))
                     @if ($pin->count() > 0)
-                        <h3 class="mb-3">Postcode with {{ $request->state_id ? 'state ' . $request->state_id : '' }}
+                        <h3 class="mb-2 mb-sm-3">Postcode with {{ $request->state_id ? 'state ' . $request->state_id : '' }}
                             {{ isset($request->state_id) && isset($request->pin) ? ' & ' : '' }}
                             {{ $request->pin ? 'keyword "' . $request->pin . '"' : '' }}</h3>
                     @else
-                        <h3 class="mb-3">No Postcode found for
+                        <h3 class="mb-2 mb-sm-3">No Postcode found for
                             {{ $request->state_id ? 'state ' . $request->state_id : '' }}
                             {{ isset($request->state_id) && isset($request->pin) ? ' & ' : '' }}
                             {{ $request->pin ? 'keyword "' . $request->pin . '"' : '' }}</h3>
 
-                        <p class="small mb-3 text-muted">Please try again with different State or keyword</p>
+                        <p class="mb-2 mb-sm-3 text-muted">Please try again with different State or keyword</p>
                     @endif
                 @else
-                    <h3 class="mb-3">All Postcodes</h3>
-                    <p class="small mb-5 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
+                    <h3 class="mb-2 mb-sm-3">All Postcodes</h3>
+                    <p class="mb-2 mb-sm-3 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
                         pariatur illo, optio corrupti saepe ipsum asperiores illum fugit! Dignissimos debitis nulla laborum
                         illum iure dolores deleniti aspernatur, sit iste quas?</p>
                 @endif
             </div>
             <div class="row justify-content-center">
                 @foreach ($pin as $key => $blog)
-                    <div class="col-md-4 mb-4">
+                    <div class="col-6 col-md-4 mb-4">
                         <div class="smplace_card text-center">
-                            <img src="{{ asset('/Directory/placeholder-image.png') }}" height="200px" class="my-3">
+                            <img src="{{ asset('/Directory/placeholder-image.png') }}">
                             <h4><a href="{!! URL::to('postcode/' . $blog->pin) !!}" class="location_btn">{{ $blog->pin }} </a></h4>
                             <p>{{ $blog->description }}</p>
                         </div>
