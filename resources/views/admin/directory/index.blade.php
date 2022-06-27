@@ -11,6 +11,7 @@
                 <a href="{{ route('admin.directory.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add New</a>
                 <a href="#csvUploadModal" data-toggle="modal" class="btn btn-primary "><i class="fa fa-cloud-upload"></i> CSV Upload</a>
                 <a href="{{route ('admin.directory.data.csv.export') }}" class="btn btn-primary "><i class="fa fa-cloud-download"></i> CSV Export</a>
+                <a href="{{route ('admin.directory.data.fix') }}" class="btn btn-primary "><i class="fa fa-cloud-download"></i> FIXES with APIs</a>
             </div>
         </div>
     </div>

@@ -37,7 +37,7 @@ class DirectoryController extends BaseController
     public function index(Request $request)
     {
 
-        $data =  Directory::paginate(5);
+        $data = Directory::paginate(5);
         //dd($request->all);
         if (!empty($request->term)) {
            // dd($request->term);
@@ -369,4 +369,12 @@ class DirectoryController extends BaseController
         return Excel::download(new DirectoryExport, 'directory.xlsx');
     }
     // csv upload
+
+    public function dataFix(Request $request)
+    {
+        $data = Directory::paginate(5);
+        $directory = Directory::paginate(5);
+        $this->setPageTitle('Fix Directories with Rating, Reviews, Images etc', 'List of all Directory');
+        return view('admin.directory.fix', compact('directory','data'));
+    }
 }

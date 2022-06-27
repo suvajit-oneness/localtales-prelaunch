@@ -76,6 +76,7 @@
                 @foreach($pin as  $key => $blog)
                 <div class="col-md-4 mb-4">
                     <div class="smplace_card text-center">
+                        <img src="{{asset('postcode/placeholder-image.png')}}" alt="">
                         <h4><a href="{!! URL::to('postcode/'.$blog->pin) !!}" class="location_btn">{{$blog->pin}} </a></h4>
                         <p>{{$blog->description}}</p>
                     </div>
