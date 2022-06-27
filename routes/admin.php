@@ -157,8 +157,6 @@ Route::group(['prefix' => 'admin'], function () {
 
         //**  Directory management  **/
         Route::group(['prefix'  =>   'directory'], function () {
-
-
             Route::get('/', 'Admin\DirectoryController@index')->name('admin.directory.index');
             Route::get('/create', 'Admin\DirectoryController@create')->name('admin.directory.create');
             Route::post('/store', 'Admin\DirectoryController@store')->name('admin.directory.store');
@@ -169,6 +167,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/{id}/details', 'Admin\DirectoryController@details')->name('admin.directory.details');
             Route::post('/csv-store', 'Admin\DirectoryController@csvStore')->name('admin.directory.data.csv.store');
             Route::get('/export', 'Admin\DirectoryController@export')->name('admin.directory.data.csv.export');
+            Route::get('/fix', 'Admin\DirectoryController@dataFix')->name('admin.directory.data.fix');
+            Route::get('/fix/rating', 'Admin\DirectoryController@dataFixrating')->name('admin.directory.data.fix.rating');
         });
 
         //**  Collection management  **/
