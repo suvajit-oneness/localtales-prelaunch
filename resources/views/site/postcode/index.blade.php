@@ -160,8 +160,7 @@
                     @foreach ($relatedProducts as $key => $blog)
                         <div class="col-md-3 mb-4 mb-lg-0">
                             <div class="smplace_card text-center">
-                                <img src="{{ asset('/admin/uploads/suburb/' . $blog->image) }}" height="130px"
-                                    class="my-3">
+                                {{-- <img src="{{ asset('/admin/uploads/suburb/' . $blog->image) }}" height="130px" class="my-3"> --}}
                                 <h4><a href="{!! URL::to('suburb/' . $blog->pin_code) !!}" class="location_btn">{{ $blog->name }} </a></h4>
                                 <p>{{ $blog->description }}</p>
                                 <h5>{{ $blog->pin_code }}</h5>
