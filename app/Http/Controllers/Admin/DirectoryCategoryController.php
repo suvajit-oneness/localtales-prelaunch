@@ -37,15 +37,16 @@ class DirectoryCategoryController extends BaseController
 
     public function index(Request $request)
     {
-        $data =  DirectoryCategory::paginate(5);
+
         if (!empty($request->term)) {
-            // dd($request->term);
+
              $categories = $this->DirectoryCategoryRepository->getSearchCategory($request->term);
 
-            // dd($categories);
+
          } else {
-        $categories = $this->DirectoryCategoryRepository->listdirectoryCategories();
+             $categories = DirectoryCategory::paginate(5);
          }
+         $data =  DirectoryCategory::paginate(5);
         $this->setPageTitle('Category', 'List of all categories');
         return view('admin.dircategory.index', compact('categories','data'));
     }
