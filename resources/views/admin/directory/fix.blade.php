@@ -68,11 +68,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I&libraries=places"></script>
 
 <script>
-    
-</script>
-
-<script>
-    {{-- @foreach($directory as $data)
+    @foreach($directory as $data)
         $.ajax({
             url: 'https://maps.googleapis.com/maps/api/place/textsearch/json?query={{$data->name}}&key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I',
             type: 'GET',
@@ -80,13 +76,13 @@
                 console.log(result);
                 // console.log(result.results.0.rating);
 
-                // $.ajax({
-                //     url: '{{route("admin.directory.data.fix.rating")}}',
-                //     type: 'POST',
-                //     data: 
-                // });
+                $.ajax({
+                    url: '{{route("admin.directory.data.fix.rating")}}',
+                    type: 'POST',
+                    data: 
+                });
             }
         });
-    @endforeach --}}
+    @endforeach
 </script>
 @endpush

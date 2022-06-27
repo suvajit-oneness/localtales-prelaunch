@@ -531,7 +531,7 @@
                         for (let index = 0; index < addressObjLength; index++) {
                             if(index = addressObjLength-1) {
                                 const pinCode = addressObj[index].long_name;
-                                console.log(pinCode);
+                                // console.log(pinCode);
                                 $("#pin").val(pinCode)
                             }
                         }

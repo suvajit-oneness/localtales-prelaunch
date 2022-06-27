@@ -27,14 +27,13 @@
                                             </select>
                                             <div class="respDrop"></div>
                                         </div> --}}
-                                        <div
-                                            class="col-12 col-lg-6 fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                                        <div class="col-12 col-lg-6 fcontrol position-relative filter_selectWrap filter_selectWrap2">
                                             <div class="select-floating">
                                                 <img src="{{ asset('front/img/grid.svg') }}">
                                                 <label for="blogcategory">State</label>
                                                 <select class="filter_select blogcategory floating-select form-control"
                                                     name="state_id">
-                                                    <option value="" hidden selected>Select State...</option>
+                                                    <option value="" hidden selected>Select state</option>
                                                     @foreach ($state as $index => $item)
                                                         <option value="{{ $item->id }}"
                                                             {{ $item->id == request()->input('state_id') ? 'selected' : '' }}>
@@ -84,7 +83,7 @@
                         <p class="small mb-3 text-muted">Please try again with different State or keyword</p>
                     @endif
                 @else
-                    <h3 class="mb-3">All PostCode</h3>
+                    <h3 class="mb-3">All Postcodes</h3>
                     <p class="small mb-5 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
                         pariatur illo, optio corrupti saepe ipsum asperiores illum fugit! Dignissimos debitis nulla laborum
                         illum iure dolores deleniti aspernatur, sit iste quas?</p>

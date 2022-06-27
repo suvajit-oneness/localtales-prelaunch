@@ -105,6 +105,7 @@
     <!--end_map-->
 
 
+    @if(count($dir) > 0)
     <section class="py-4 py-lg-5 bg-light smallGapGrid">
         <div class="container">
             <div class="best_deal page-title">
@@ -118,33 +119,25 @@
                         <div class="card border-0 directoryCard">
                             <div class="bst_dimg">
                                 @if ($directory->image)
-                                    <img src="{{ URL::to('/') . '/Directory/' }}{{ $directory->image }}"
-                                        class="card-img-top" alt="">
+                                    <img src="{{ URL::to('/') . '/Directory/' }}{{ $directory->image }}" class="card-img-top" alt="">
                                 @else
-                                    <img src="{{ asset('Directory/placeholder-image.png') }}" class="card-img-top"
-                                        alt="">
+                                    <img src="{{ asset('Directory/placeholder-image.png') }}" class="card-img-top" alt="">
                                 @endif
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><a href="{!! URL::to('directory-details/' . $directory->id . '/' . strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $directory->name))) !!}"
-                                        class="location_btn">{{ $directory->name }}</a></h5>
+                                <h5 class="card-title"><a href="{!! URL::to('directory-details/' . $directory->id . '/' . strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $directory->name))) !!}" class="location_btn">{{ $directory->name }}</a></h5>
                                 <p class="mb-0">{!! $directory->address !!}</p>
-
-                                {{-- <a href="#">Read More...</a> --}}
-
                             </div>
                         </div>
                     </div>
                 @endforeach
-                {{-- </div> --}}
-                {{-- <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div> --}}
             </div>
             <div class="d-flex justify-content-center mt-4">
                 {{ $dir->links() }}
             </div>
         </div>
     </section>
+    @endif
 
     @if ($suburb->count() > 0)
         <section class="py-4 py-lg-5">
@@ -156,23 +149,6 @@
                     </div>
                 </div>
                 @php
-                    /* foreach ($suburb as $catkey => $data) {
-                                                                                $pincode = Str::substr($data->pin_code, -4, 4);
-                                                                                $relatedProducts = \App\Models\Suburb::where('pin_code', 'LIKE', '%'.substr($data->pin_code, -6).'%')->where('id', '!=', $data->id)->limit(4)->get();
-                                                                                $newPInArr = [];
-                                                                                for($i = 1; $i < 7; $i++) {
-                                                                                    $newPincode = $pincode - $i;
-                                                                                    array_push($newPInArr, $newPincode);
-                                                                                }
-                                                                                dd($newPInArr);
-                                                                                $displayRelated = [];
-                                                                                foreach($newPInArr as $pinKey => $pinVal) {
-                                                                                    $relatedProducts = \App\Models\Suburb::where('pin_code', 'LIKE', '%'.$pinVal.'%')->first()->toArray();
-                                                                                    array_push($displayRelated, $relatedProducts);
-                                                                                   
-                                                                                }
-                                                                            } */
-                    
                     foreach ($suburb as $suburbKey => $suburbValue) {
                         // if ($suburbKey < 3) {
                         $relatedProducts = \DB::select('select * from suburbs order by abs(pin_code - ' . $pincode . ') limit 4');
@@ -197,6 +173,7 @@
     @endif
 
 
+    @if(count($article) > 0)
     <section class="py-4 py-lg-5 bg-light">
         <div class="container">
             <div class="row justify-content-between">
@@ -247,6 +224,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <section class="py-4 subscribe">
         <div class="container">
@@ -268,13 +246,12 @@
             </div>
         </div>
     </section>
-
-    <!-- ========== Inner Banner ========== -->
 @endsection
 @push('scripts')
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I" type="text/javascript">
     </script>
-    <script type="text/javascript">
+
+    <script>
         @php
             $locations = [];
             foreach ($businesses as $business) {
