@@ -72,7 +72,13 @@
             type: 'GET',
             success: function(result) {
                 console.log(result);
-                console.log(result.results.0.rating);
+                // console.log(result.results.0.rating);
+
+                // $.ajax({
+                //     url: '{{route("admin.directory.data.fix.rating")}}',
+                //     type: 'POST',
+                //     data: 
+                // });
             }
         });
     @endforeach
