@@ -65,8 +65,14 @@
 @endsection
 
 @push('scripts')
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I&libraries=places"></script>
+
 <script>
-    @foreach($directory as $data)
+    
+</script>
+
+<script>
+    {{-- @foreach($directory as $data)
         $.ajax({
             url: 'https://maps.googleapis.com/maps/api/place/textsearch/json?query={{$data->name}}&key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I',
             type: 'GET',
@@ -81,6 +87,6 @@
                 // });
             }
         });
-    @endforeach
+    @endforeach --}}
 </script>
 @endpush
