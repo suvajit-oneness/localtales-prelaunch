@@ -52,6 +52,7 @@
                     <table class="table table-hover custom-data-table-style table-striped" >
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th> Name</th>
                                 <th> Email</th>
                                 <th></th>
@@ -61,8 +62,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user_detail)
+                            @foreach($users as $key =>$user_detail)
                                 <tr>
+                                    <td>{{ $key+1 }}</td>
                                     <td>{{ $user_detail['name'] }}</td>
                                     <td>{{ $user_detail['email'] }}</td>
                                     <td>

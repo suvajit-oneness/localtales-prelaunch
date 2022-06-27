@@ -63,7 +63,7 @@
                         <tbody>
                             @foreach($pin as $key => $category)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
+                                    <td>{{ $key+1 }}</td>
                                     <td>{{ $category->pin }}</td>
                                     <td>{{$category->state? $category->state->name : ''}}</td>
                                     <td>{{ $category->description }}</td>

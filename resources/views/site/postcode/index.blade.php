@@ -157,7 +157,9 @@
                 @endphp
 
                 <div class="row justify-content-center">
+
                     @foreach ($relatedProducts as $key => $blog)
+                    {{-- {{ dd($blog) }} --}}
                         <div class="col-6 col-md-3 mb-2 mb-sm-4 mb-lg-0">
                             <div class="smplace_card text-center">
                                 {{-- <img src="{{ asset('/admin/uploads/suburb/' . $blog->image) }}" height="130px" class="my-3"> --}}
@@ -261,9 +263,9 @@
                 } else {
                     $img = 'https://demo91.co.in/localtales-prelaunch/public/Directory/placeholder-image.png';
                 }
-            
+
                 $page_link = URL::to('directory-details/' . $business->id . '/' . strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $business->name)));
-            
+
                 $data = [$business->name, floatval($business->latitude), floatval($business->longitude), $business->address, $img, $page_link];
                 array_push($locations, $data);
             }

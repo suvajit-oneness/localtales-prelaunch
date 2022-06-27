@@ -10,7 +10,7 @@
             <div class="col-md-6 text-right">
                 <a href="{{ route('admin.state.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add New</a>
                 <a href="#csvUploadModal" data-toggle="modal" class="btn btn-primary "><i class="fa fa-cloud-upload"></i> CSV Upload</a>
-                <a href="{{route('admin.state.data.csv.export')}}" class="btn btn-primary "><i class="fa fa-cloud-download"></i> CSV Export</a> 
+                <a href="{{route('admin.state.data.csv.export')}}" class="btn btn-primary "><i class="fa fa-cloud-download"></i> CSV Export</a>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
                         <tbody>
                             @foreach($states as $key => $category)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
+                                    <td> {{ $key+1 }} </td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
                                     <td class="text-center">

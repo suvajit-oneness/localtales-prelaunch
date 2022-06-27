@@ -51,6 +51,7 @@
                     <table class="table table-hover custom-data-table-style table-striped">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th class="text-center"><i class="fi fi-br-picture"></i> Image</th>
                                 <th> Title </th>
                                 <th> Description </th>
@@ -63,6 +64,7 @@
                         <tbody>
                             @foreach($blogs as $key => $blog)
                                 <tr>
+                                    <td>{{ $key+1 }}</td>
                                     <td>
                                         @if($blog->image!='')
                                         <img style="width: 100px;height: 100px;" src="{{URL::to('/').'/Blogs/'}}{{$blog->image}}">

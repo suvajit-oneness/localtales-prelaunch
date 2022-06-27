@@ -51,7 +51,7 @@
                     <table class="table table-hover custom-data-table-style table-striped">
                         <thead>
                             <tr>
-
+                                <th>#</th>
                                 <th> Title </th>
                                 <th> Short Description </th>
                                 <th> pin_code	 </th>
@@ -65,7 +65,7 @@
                             @foreach($col as $key => $blog)
                                 <tr>
 
-
+                                    <td>{{ $key+1 }}</td>
                                     <td>{{ $blog->title }}</td>
                                     <td>{{ $blog->short_description }}</td>
                                     <td>{{ $blog->pin_code }}</td>

@@ -52,7 +52,7 @@
                     <table class="table table-hover custom-data-table-style table-striped" >
                         <thead>
                             <tr>
-
+                                <th>#</th>
                                 <th> Title </th>
                                 <th> Slug </th>
                                 <th> Status </th>
@@ -62,7 +62,7 @@
                         <tbody>
                             @foreach($categories as $key => $category)
                                 <tr>
-
+                                    <td>{{ $key+1 }}</td>
                                     <td>{{ $category->title }}</td>
                                     <td>{{ $category->slug }}</td>
                                     <td class="text-center">

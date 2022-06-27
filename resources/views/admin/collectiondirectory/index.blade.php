@@ -22,7 +22,7 @@
                     <table class="table table-hover custom-data-table-style table-striped" id="sampleTable">
                         <thead>
                             <tr>
-
+                                <th>#</th>
                                 <th> Collection </th>
                                 <th> Directory </th>
 
@@ -32,10 +32,10 @@
                         </thead>
                         <tbody>
                             @foreach($directory as $key => $blog)
-                            
+
                                 <tr>
 
-
+                                    <td>{{ $key+1 }}</td>
 
                                     <td>{{$blog->collection ? $blog->collection->title : '' }}</td>
                                     <td>{{ $blog->directory ? $blog->directory->name  : ''}}</td>
