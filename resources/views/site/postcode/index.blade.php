@@ -157,21 +157,21 @@
                 </div>
                 @php
                     /* foreach ($suburb as $catkey => $data) {
-                                                                                $pincode = Str::substr($data->pin_code, -4, 4);
-                                                                                $relatedProducts = \App\Models\Suburb::where('pin_code', 'LIKE', '%'.substr($data->pin_code, -6).'%')->where('id', '!=', $data->id)->limit(4)->get();
-                                                                                $newPInArr = [];
-                                                                                for($i = 1; $i < 7; $i++) {
-                                                                                    $newPincode = $pincode - $i;
-                                                                                    array_push($newPInArr, $newPincode);
-                                                                                }
-                                                                                dd($newPInArr);
-                                                                                $displayRelated = [];
-                                                                                foreach($newPInArr as $pinKey => $pinVal) {
-                                                                                    $relatedProducts = \App\Models\Suburb::where('pin_code', 'LIKE', '%'.$pinVal.'%')->first()->toArray();
-                                                                                    array_push($displayRelated, $relatedProducts);
-                                                                                   
-                                                                                }
-                                                                            } */
+                                                                                                                                            $pincode = Str::substr($data->pin_code, -4, 4);
+                                                                                                                                            $relatedProducts = \App\Models\Suburb::where('pin_code', 'LIKE', '%'.substr($data->pin_code, -6).'%')->where('id', '!=', $data->id)->limit(4)->get();
+                                                                                                                                            $newPInArr = [];
+                                                                                                                                            for($i = 1; $i < 7; $i++) {
+                                                                                                                                                $newPincode = $pincode - $i;
+                                                                                                                                                array_push($newPInArr, $newPincode);
+                                                                                                                                            }
+                                                                                                                                            dd($newPInArr);
+                                                                                                                                            $displayRelated = [];
+                                                                                                                                            foreach($newPInArr as $pinKey => $pinVal) {
+                                                                                                                                                $relatedProducts = \App\Models\Suburb::where('pin_code', 'LIKE', '%'.$pinVal.'%')->first()->toArray();
+                                                                                                                                                array_push($displayRelated, $relatedProducts);
+                                                                                                                                               
+                                                                                                                                            }
+                                                                                                                                        } */
                     
                     foreach ($suburb as $suburbKey => $suburbValue) {
                         // if ($suburbKey < 3) {
@@ -184,7 +184,8 @@
                     @foreach ($relatedProducts as $key => $blog)
                         <div class="col-md-3 mb-4 mb-lg-0">
                             <div class="smplace_card text-center">
-                                <img src="{{ asset('/Directory/placeholder-image.png') }}" height="130px" class="my-3">
+                                <img src="{{ asset('/admin/uploads/suburb/' . $blog->image) }}" height="130px"
+                                    class="my-3">
                                 <h4><a href="{!! URL::to('suburb/' . $blog->pin_code) !!}" class="location_btn">{{ $blog->name }} </a></h4>
                                 <p>{{ $blog->description }}</p>
                                 <h5>{{ $blog->pin_code }}</h5>
