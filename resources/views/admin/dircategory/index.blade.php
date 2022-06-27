@@ -10,7 +10,7 @@
             <div class="col-md-6 text-right">
                 <a href="{{ route('admin.dircategory.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add New</a>
                 <a href="#csvUploadModal" data-toggle="modal" class="btn btn-primary "><i class="fa fa-cloud-upload"></i> CSV Upload</a>
-                 <a href="{{route('admin.dircategory.data.csv.export')}}" class="btn btn-primary "><i class="fa fa-cloud-download"></i> CSV Export</a> 
+                 <a href="{{route('admin.dircategory.data.csv.export')}}" class="btn btn-primary "><i class="fa fa-cloud-download"></i> CSV Export</a>
             </div>
         </div>
     </div>
@@ -46,8 +46,9 @@
                 </div>
             </div>
             <div class="tile">
+                {{-- {{ dd($data) }} --}}
                 <div class="tile-body">
-                    @if(isset($data))
+                    {{-- @if(isset($data)) --}}
                     <table class="table table-hover custom-data-table-style table-striped" >
                         <thead>
                             <tr>
@@ -91,7 +92,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {!! $data->render() !!}@endif
+                    {{ $categories->links() }}
                 </div>
             </div>
         </div>
