@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Suburb;
@@ -10,6 +11,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+
 /**
  * Class StateRepository
  *
@@ -49,7 +52,6 @@ class SuburbRepository extends BaseRepository implements SuburbContract
     {
         try {
             return $this->findOneOrFail($id);
-
         } catch (ModelNotFoundException $e) {
 
             throw new ModelNotFoundException($e);
@@ -69,17 +71,17 @@ class SuburbRepository extends BaseRepository implements SuburbContract
             $suburb = new Suburb;
             $suburb->name = $collection['name'];
             $suburb->pin_code = $collection['pin_code'];
-             $suburb->description = $collection['description'];
+            $suburb->description = $collection['description'];
+            $suburb->image = $collection['image'];
             $slug = Str::slug($collection['name'], '-');
             $slugExistCount = Suburb::where('slug', $slug)->count();
-            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+            if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
             $suburb->slug = $slug;
 
 
             $suburb->save();
 
             return $suburb;
-
         } catch (QueryException $exception) {
             throw new InvalidArgumentException($exception->getMessage());
         }
@@ -96,10 +98,16 @@ class SuburbRepository extends BaseRepository implements SuburbContract
 
         $suburb->name = $collection['name'];
         $suburb->pin_code = $collection['pin_code'];
-         $suburb->description = $collection['description'];
+        $suburb->description = $collection['description'];
+
+        if (isset($collection['image'])) {
+            File::delete(public_path() . '/admin/uploads/suburb/' . $suburb->image);
+            $suburb->image = $collection['image'];
+        }
+
         $slug = Str::slug($collection['name'], '-');
         $slugExistCount = Suburb::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
         $suburb->slug = $slug;
         // $profile_image = $collection['image'];
         // $imageName = time().".".$profile_image->getClientOriginalName();
@@ -127,7 +135,8 @@ class SuburbRepository extends BaseRepository implements SuburbContract
      * @param array $params
      * @return mixed
      */
-    public function updateSuburbStatus(array $params){
+    public function updateSuburbStatus(array $params)
+    {
         $suburb = $this->findOneOrFail($params['id']);
         $collection = collect($params)->except('_token');
         $suburb->status = $collection['check_status'];
@@ -142,7 +151,7 @@ class SuburbRepository extends BaseRepository implements SuburbContract
      */
     public function detailsSuburb($id)
     {
-        $categories = Suburb::where('id',$id)->get();
+        $categories = Suburb::where('id', $id)->get();
 
         return $categories;
     }
@@ -161,22 +170,19 @@ class SuburbRepository extends BaseRepository implements SuburbContract
     {
         return Suburb::where([['name', 'LIKE', '%' . $term . '%']])
 
-        ->get();
+            ->get();
     }
 
 
 
 
-    public function searchSuburb($pinCode){
-        $blogs = Suburb::
-        when($pinCode, function($query) use ($pinCode){
+    public function searchSuburb($pinCode)
+    {
+        $blogs = Suburb::when($pinCode, function ($query) use ($pinCode) {
             $query->where('pin_code', '=', $pinCode);
         })
-        ->get();
+            ->get();
 
         return $blogs;
     }
-    }
-
-
-
+}

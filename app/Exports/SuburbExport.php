@@ -17,8 +17,8 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 class SuburbExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return Suburb::all();
@@ -27,19 +27,17 @@ class SuburbExport implements FromCollection, WithHeadings, WithMapping, ShouldA
     public function map($categories): array
     {
         return [
-           
+
             $categories->name,
             $categories->pincode,
             $categories->description,
-          
+            $categories->image,
             $categories->created_at,
         ];
     }
 
     public function headings(): array
     {
-        return [ 'Name', 'Pincode', 'Description','Created'];
+        return ['Name', 'Pincode', 'Description', 'image', 'Created'];
     }
-
 }
-

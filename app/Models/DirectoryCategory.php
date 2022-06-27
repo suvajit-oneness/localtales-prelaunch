@@ -16,4 +16,9 @@ class DirectoryCategory extends Model
            DB::table('directory_categories')->insert($data);
         }
     }
+
+    public function productDetails()
+    {
+        return $this->hasMany('App\Models\Blog', 'blog_category_id', 'id');
+    }
 }

@@ -9,6 +9,7 @@ use App\Models\BlogCategory;
 use App\Models\SubCategory;
 use App\Models\User;
 use App\Contracts\BlogContract;
+use App\Contracts\DirectoryCategoryContract;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
@@ -17,6 +18,7 @@ use Session;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BlogExport;
 use DB;
+
 class BlogController extends BaseController
 {
     protected $BlogRepository;
@@ -26,9 +28,10 @@ class BlogController extends BaseController
      * @param BlogRepository $BlogRepository
      */
 
-    public function __construct(BlogContract $BlogRepository)
+    public function __construct(BlogContract $BlogRepository, DirectoryCategoryContract $directoryCategoryRepository)
     {
         $this->BlogRepository = $BlogRepository;
+        $this->directoryCategoryRepository = $directoryCategoryRepository;
     }
 
     /**
@@ -39,14 +42,14 @@ class BlogController extends BaseController
         $data =  Blog::paginate(5);
         if (!empty($request->term)) {
             // dd($request->term);
-             $blogs = $this->BlogRepository->getSearchBlog($request->term);
+            $blogs = $this->BlogRepository->getSearchBlog($request->term);
 
             // dd($categories);
-         } else {
-        $blogs = $this->BlogRepository->listBlogs();
-    }
+        } else {
+            $blogs = $this->BlogRepository->listBlogs();
+        }
         $this->setPageTitle('Blog', 'List of all Blog');
-        return view('admin.blog.index', compact('blogs','data'));
+        return view('admin.blog.index', compact('blogs', 'data'));
     }
 
     /**
@@ -55,12 +58,13 @@ class BlogController extends BaseController
     public function create()
     {
         $this->setPageTitle('Blog', 'Create Blog');
-        $blogcat = $this->BlogRepository->getBlogcategories();
+        // $blogcat = $this->BlogRepository->getBlogcategories();
+        $blogcat = $this->directoryCategoryRepository->listdirectoryCategories('title', 'asc');
         $blogsubcat = $this->BlogRepository->getBlogsubcategories();
         $suburb = $this->BlogRepository->getSuburb();
         $pin = $this->BlogRepository->getPincode();
 
-        return view('admin.blog.create',compact('blogcat','blogsubcat','suburb','pin'));
+        return view('admin.blog.create', compact('blogcat', 'blogsubcat', 'suburb', 'pin'));
     }
 
     /**
@@ -89,7 +93,7 @@ class BlogController extends BaseController
         if (!$blog) {
             return $this->responseRedirectBack('Error occurred while creating Blog.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.blog.index', 'Blog has been created successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.blog.index', 'Blog has been created successfully', 'success', false, false);
     }
 
     /**
@@ -99,12 +103,12 @@ class BlogController extends BaseController
     public function edit($id)
     {
         $targetblog = $this->BlogRepository->findBlogById($id);
-        $blogcat = $this->BlogRepository->getBlogcategories();
+        $blogcat = $this->directoryCategoryRepository->listdirectoryCategories('title', 'asc');
         $blogsubcat = $this->BlogRepository->getBlogsubcategories();
         $suburb = $this->BlogRepository->getSuburb();
         $pin = $this->BlogRepository->getPincode();
-        $this->setPageTitle('Blog', 'Edit Blog : '.$targetblog->title);
-        return view('admin.blog.edit', compact('targetblog','blogcat','blogsubcat','suburb','pin'));
+        $this->setPageTitle('Blog', 'Edit Blog : ' . $targetblog->title);
+        return view('admin.blog.edit', compact('targetblog', 'blogcat', 'blogsubcat', 'suburb', 'pin'));
     }
 
     /**
@@ -138,7 +142,7 @@ class BlogController extends BaseController
         if (!$targetblog) {
             return $this->responseRedirectBack('Error occurred while updating blog.', 'error', true, true);
         }
-        return $this->responseRedirectBack('Blog has been updated successfully' ,'success',false, false);
+        return $this->responseRedirectBack('Blog has been updated successfully', 'success', false, false);
     }
 
     /**
@@ -152,7 +156,7 @@ class BlogController extends BaseController
         if (!$targetblog) {
             return $this->responseRedirectBack('Error occurred while deleting Blog.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.blog.index', 'Blog has been deleted successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.blog.index', 'Blog has been deleted successfully', 'success', false, false);
     }
 
     /**
@@ -160,14 +164,15 @@ class BlogController extends BaseController
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
 
         $params = $request->except('_token');
 
         $targetblog = $this->BlogRepository->updateBlogStatus($params);
 
         if ($targetblog) {
-            return response()->json(array('message'=>'Blog status has been successfully updated'));
+            return response()->json(array('message' => 'Blog status has been successfully updated'));
         }
     }
 
@@ -180,7 +185,7 @@ class BlogController extends BaseController
         $targetblog = $this->BlogRepository->detailsBlog($id);
         $blog = $targetblog[0];
 
-        $this->setPageTitle('Blog', 'Blog Details : '.$blog->title);
+        $this->setPageTitle('Blog', 'Blog Details : ' . $blog->title);
         return view('admin.blog.details', compact('blog'));
     }
 
@@ -232,17 +237,17 @@ class BlogController extends BaseController
                     // echo '<pre>';print_r($importData_arr);exit();
 
                     // Insert into database
-                    
-                    
-                    
+
+
+
                     foreach ($importData_arr as $importData) {
-                        
-                         $commaSeperatedCats = '';
-                        foreach( $importData as $cateKey => $catVal) {
+
+                        $commaSeperatedCats = '';
+                        foreach ($importData as $cateKey => $catVal) {
                             $catExistCheck = BlogCategory::where('title', $catVal)->first();
                             if ($catExistCheck) {
                                 $insertDirCatId = $catExistCheck->id;
-                                $commaSeperatedCats .= $insertDirCatId.',';
+                                $commaSeperatedCats .= $insertDirCatId . ',';
                             } else {
                                 $dirCat = new BlogCategory();
                                 $dirCat->title = $catVal;
@@ -250,16 +255,16 @@ class BlogController extends BaseController
                                 $dirCat->save();
                                 $insertDirCatId = $dirCat->id;
 
-                                $commaSeperatedCats .= $insertDirCatId.',';
+                                $commaSeperatedCats .= $insertDirCatId . ',';
                             }
                         }
-                        
-                         $commaSeperatedSubCats = '';
-                        foreach( $importData as $cateKey => $catVal) {
+
+                        $commaSeperatedSubCats = '';
+                        foreach ($importData as $cateKey => $catVal) {
                             $catExistCheck = SubCategory::where('title', $catVal)->first();
                             if ($catExistCheck) {
                                 $insertDirCatId = $catExistCheck->id;
-                                $commaSeperatedCats .= $insertDirCatId.',';
+                                $commaSeperatedCats .= $insertDirCatId . ',';
                             } else {
                                 $dirCat = new SubCategory();
                                 $dirCat->title = $catVal;
@@ -267,10 +272,10 @@ class BlogController extends BaseController
                                 $dirCat->save();
                                 $insertDirCatId = $dirCat->id;
 
-                                $commaSeperatedCats .= $insertDirCatId.',';
+                                $commaSeperatedCats .= $insertDirCatId . ',';
                             }
                         }
-                        
+
                         if (!empty($importData[0])) {
                             // dd($importData[0]);
                             $titleArr = explode(',', $importData[0]);
@@ -281,31 +286,26 @@ class BlogController extends BaseController
                                 // slug generate
                                 $slug = Str::slug($titleValue, '-');
                                 $slugExistCount = DB::table('blogs')->where('title', $titleValue)->count();
-                                if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+                                if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
 
                                 $insertData = array(
                                     "title" => $titleValue,
-                                  
-                                      "content" => isset($importData[1]) ? $importData[1] : null,
-                                       "meta_title" => isset($importData[2]) ? $importData[2] : null,
+
+                                    "content" => isset($importData[1]) ? $importData[1] : null,
+                                    "meta_title" => isset($importData[2]) ? $importData[2] : null,
                                     "meta_key" => isset($importData[3]) ? $importData[3] : null,
-                                   "blog_category_id" => isset($commaSeperatedCats) ? $commaSeperatedCats : null,
-                                   "blog_sub_category_id" => isset($commaSeperatedSubCats) ? $commaSeperatedSubCats : null,
+                                    "blog_category_id" => isset($commaSeperatedCats) ? $commaSeperatedCats : null,
+                                    "blog_sub_category_id" => isset($commaSeperatedSubCats) ? $commaSeperatedSubCats : null,
                                     "slug" => $slug,
-                                  
-                                   
+
+
                                     "meta_description" => isset($importData[8]) ? $importData[8] : null,
-                                            
+
                                 );
 
                                 Blog::insertData($insertData);
                             }
                         }
-                        
-                        
-                        
-                        
-                    
                     }
                     Session::flash('message', 'Import Successful.');
                 } else {

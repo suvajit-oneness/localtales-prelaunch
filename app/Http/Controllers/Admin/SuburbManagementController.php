@@ -35,17 +35,17 @@ class SuburbManagementController extends BaseController
      */
     public function index(Request $request)
     {
-        $data =  Suburb::paginate(5);
+        $data =  Suburb::paginate(10);
         if (!empty($request->term)) {
             // dd($request->term);
-             $suburb = $this->SuburbRepository->getSearchSuburb($request->term);
+            $suburb = $this->SuburbRepository->getSearchSuburb($request->term);
 
             // dd($categories);
-         } else {
-        $suburb = $this->SuburbRepository->listSuburb();
-         }
+        } else {
+            $suburb = Suburb::paginate(10);
+        }
         $this->setPageTitle('Suburb', 'List of all suburb');
-        return view('admin.suburb.index', compact('suburb','data'));
+        return view('admin.suburb.index', compact('suburb', 'data'));
     }
 
     /**
@@ -55,7 +55,7 @@ class SuburbManagementController extends BaseController
     {
         $this->setPageTitle('Suburb', 'Create suburb');
         $pin = $this->SuburbRepository->getAllpincode();
-        return view('admin.suburb.create',compact('pin'));
+        return view('admin.suburb.create', compact('pin'));
     }
 
     /**
@@ -67,23 +67,26 @@ class SuburbManagementController extends BaseController
     {
         $this->validate($request, [
             'name'      =>  'required|max:191',
-
+            'image' => 'required | mimes:jpeg,png',
         ]);
         $slug = Str::slug($request->name, '-');
         $slugExistCount = Suburb::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
 
         // send slug
         request()->merge(['slug' => $slug]);
 
         $params = $request->except('_token');
 
+        $params['image'] = uniqid() . '.' . $request->image->getClientOriginalExtension();
+        $request->image->move(public_path() . '/admin/uploads/suburb/', $params['image']);
+
         $suburb = $this->SuburbRepository->createSuburb($params);
 
         if (!$suburb) {
             return $this->responseRedirectBack('Error occurred while creating state.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.suburb.index', 'Suburb has been created successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.suburb.index', 'Suburb has been created successfully', 'success', false, false);
     }
 
     /**
@@ -94,9 +97,9 @@ class SuburbManagementController extends BaseController
     {
         $suburb = $this->SuburbRepository->findSuburbById($id);
 
-        $this->setPageTitle('Suburb', 'Edit Suburb : '.$suburb->title);
+        $this->setPageTitle('Suburb', 'Edit Suburb : ' . $suburb->title);
         $pin = $this->SuburbRepository->getAllpincode();
-        return view('admin.suburb.edit', compact('suburb','pin'));
+        return view('admin.suburb.edit', compact('suburb', 'pin'));
     }
 
     /**
@@ -108,19 +111,23 @@ class SuburbManagementController extends BaseController
     {
         $this->validate($request, [
             'name'      =>  'required|max:191',
-
         ]);
         $slug = Str::slug($request->name, '-');
         $slugExistCount = Suburb::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
         $params = $request->except('_token');
+
+        if ($request->image) {
+            $params['image'] = uniqid() . '.' . $request->image->getClientOriginalExtension();
+            $request->image->move(public_path() . '/admin/uploads/suburb/', $params['image']);
+        }
 
         $targetstate = $this->SuburbRepository->updateSuburb($params);
 
         if (!$targetstate) {
             return $this->responseRedirectBack('Error occurred while updating state.', 'error', true, true);
         }
-        return $this->responseRedirectBack('State has been updated successfully' ,'success',false, false);
+        return $this->responseRedirectBack('State has been updated successfully', 'success', false, false);
     }
 
     /**
@@ -134,7 +141,7 @@ class SuburbManagementController extends BaseController
         if (!$targetstate) {
             return $this->responseRedirectBack('Error occurred while deleting State.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.suburb.index', 'State has been deleted successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.suburb.index', 'State has been deleted successfully', 'success', false, false);
     }
 
     /**
@@ -142,14 +149,15 @@ class SuburbManagementController extends BaseController
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
 
         $params = $request->except('_token');
 
         $targetstate = $this->SuburbRepository->updateSuburbStatus($params);
 
         if ($targetstate) {
-            return response()->json(array('message'=>'State status has been successfully updated'));
+            return response()->json(array('message' => 'State status has been successfully updated'));
         }
     }
 
@@ -159,10 +167,10 @@ class SuburbManagementController extends BaseController
      */
     public function details($id)
     {
-        $targetsuburb= $this->SuburbRepository->detailsSuburb($id);
+        $targetsuburb = $this->SuburbRepository->detailsSuburb($id);
         $suburb = $targetsuburb[0];
 
-        $this->setPageTitle('Suburb', 'Suburb Details : '.$suburb->name);
+        $this->setPageTitle('Suburb', 'Suburb Details : ' . $suburb->name);
         return view('admin.suburb.details', compact('suburb'));
     }
 
@@ -216,13 +224,14 @@ class SuburbManagementController extends BaseController
                     // Insert into database
                     foreach ($importData_arr as $importData) {
                         $storeData = 0;
-                        if(isset($importData[5]) == "Carry In") $storeData = 1;
+                        if (isset($importData[5]) == "Carry In") $storeData = 1;
 
                         $insertData = array(
                             "name" => isset($importData[0]) ? $importData[0] : null,
-                          
+
                             "pin_code" => isset($importData[1]) ? $importData[1] : null,
-                              "description" => isset($importData[2]) ? $importData[2] : null,
+                            "description" => isset($importData[2]) ? $importData[2] : null,
+                            "image" => isset($importData[3]) ? $importData[3] : null,
 
                         );
                         // echo '<pre>';print_r($insertData);exit();
@@ -242,11 +251,19 @@ class SuburbManagementController extends BaseController
         return redirect()->route('admin.suburb.index');
     }
     // csv upload
-    
-    
-    
-     public function export()
+
+    public function export()
     {
         return Excel::download(new SuburbExport, 'suburb.xlsx');
+    }
+
+    public function upload_bulk_images(Request $request)
+    {
+        foreach ($request->image as $image) {
+            $name = $image->getClientOriginalName();
+            $image->move(public_path() . '/admin/uploads/suburb/', $name);
+        }
+        Session::flash('image_uploaded', 'All images imported Successfully.');
+        return redirect()->back();
     }
 }

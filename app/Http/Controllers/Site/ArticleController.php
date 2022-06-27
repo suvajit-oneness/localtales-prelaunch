@@ -9,6 +9,7 @@ use App\Contracts\SearchContract;
 use App\Contracts\SuburbContract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
+use App\Models\DirectoryCategory;
 use Auth;
 
 class ArticleController extends BaseController
@@ -58,7 +59,8 @@ class ArticleController extends BaseController
         $blogs = $this->blogRepository->searchBlogsData($pinCode,$categoryId,$keyword,$suburb);
         $latestBlogs = $this->blogRepository->latestBlogs();
        // $categories = $this->blogRepository->getBlogcategories();
-       $categories = $this->blogRepository->getBlogcategories();
+    //    $categories = $this->blogRepository->getBlogcategories();
+    $categories = DirectoryCategory::orderBy('title')->get();
        $pin=$this->PincodeRepository->listPincode();
        $suburb=$this->SuburbRepository->listSuburb();
 
