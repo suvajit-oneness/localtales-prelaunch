@@ -69,11 +69,6 @@
 {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I&libraries=places"></script> --}}
 
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 
     @foreach($directory as $data)
         $.ajax({
@@ -81,13 +76,13 @@
             type: 'GET',
             success: function(result) {
                 console.log(result);
-                // console.log(result.results.0.rating);
-
-                // $.ajax({
-                //     url: '{{route("admin.directory.data.fix.rating")}}',
-                //     type: 'POST',
-                //     data: 
-                // });
+                console.log(result);
+              
+                $.ajax({
+                    url: '{{route("admin.directory.data.fix.rating")}}',
+                    type: 'POST',
+                    data:
+                });
             }
         });
     @endforeach

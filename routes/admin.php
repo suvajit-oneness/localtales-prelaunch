@@ -168,7 +168,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/csv-store', 'Admin\DirectoryController@csvStore')->name('admin.directory.data.csv.store');
             Route::get('/export', 'Admin\DirectoryController@export')->name('admin.directory.data.csv.export');
             Route::get('/fix', 'Admin\DirectoryController@dataFix')->name('admin.directory.data.fix');
-            Route::get('/fix/rating', 'Admin\DirectoryController@dataFixrating')->name('admin.directory.data.fix.rating');
+            Route::post('/fix/rating', 'Admin\DirectoryController@dataFixrating')->name('admin.directory.data.fix.rating');
         });
 
         //**  Collection management  **/
