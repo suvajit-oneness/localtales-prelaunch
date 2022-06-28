@@ -18,10 +18,10 @@
     </figure>
     <figcaption>
         <div class="container">
-            <div class="details_info py-4 py-lg-5">
+            <div class="details_info py-2 py-sm-4 py-lg-5">
             <div class="row justify-content-between">
                 <div class="col-lg">
-                    <ul class="breadcumb_list mb-4">
+                    <ul class="breadcumb_list mb-2 mb-sm-4">
                         <li><a href="{!! URL::to('') !!}">Home</a></li>
                         <li>/</li>
                         <li><a href="{!! URL::to('directory-list') !!}"> @php
@@ -79,7 +79,7 @@
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </a>
-                    
+
                     <div class="share-btns">
                         <div class="dropdown">
                             <button class="share_button dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -331,11 +331,13 @@
                     </div>
                 </div>
             </section> --}}
+        </div>
+    </section>
 
 
 
             <!-- Related B -->
-            <section class="py-4 py-lg-5">
+            <section class="py-2 py-sm-4 py-lg-5">
                 <div class="container">
                     <div class="row">
                         <div class="reviewListWrap col">
@@ -480,7 +482,7 @@
             </section>
             <!-- Related B -->
 
-         <section class="py-4 py-lg-5 smallGapGrid">
+         <section class="py-2 py-sm-4 py-lg-5 smallGapGrid">
                 <div class="container">
                     <div class="page-title best_deal">
                         <h2>Related directory</h2>
@@ -500,7 +502,7 @@
                             $newPincode = $pincode - $i;
                             array_push($newPInArr, $newPincode);
                         }
-                        
+
 
                         dd($newPInArr);
 
@@ -515,13 +517,13 @@
                         }
 
                          //dd($displayRelated);*/
-                         
+
                         $displayRelated = array();
-                         
+
                         $cat = explode(',', $cat);
 
                         $pincode = Str::substr($business->address, -4, 4);
-                         
+
                         $pin1 = $pincode + 1;
                         $pin2 = $pincode - 1;
                         $pin3 = $pincode + 2;
@@ -532,66 +534,66 @@
                         $pin8 = $pincode - 4;
                         $pin9 = $pincode + 5;
                         $pin10 = $pincode - 5;
-                        
+
                         $cat1 = $cat[0];
-                         
+
                         $data1 = DB::select("select * from directories where address like '%, ".$pin1."' and category_id like '$cat1,%'");
                         $data2 = DB::select("select * from directories where address like '%, ".$pin2."' and category_id like '$cat1,%'");
-                        
+
                         foreach($data1 as $d){
                             array_push($displayRelated,$d);
                         }
-                        
+
                         foreach($data2 as $d){
                             array_push($displayRelated,$d);
                         }
-                        
+
                         if(count($displayRelated)<8){
                             $data3 = DB::select("select * from directories where address like '%, ".$pin3."' and category_id like '$cat1,%'");
                             $data4 = DB::select("select * from directories where address like '%, ".$pin4."' and category_id like '$cat1,%'");
-                            
+
                             foreach($data3 as $d){
                                 array_push($displayRelated,$d);
                             }
-                            
+
                             foreach($data4 as $d){
                                 array_push($displayRelated,$d);
                             }
                         }
-                        
+
                         if(count($displayRelated)<8){
                             $data5 = DB::select("select * from directories where address like '%, ".$pin5."' and category_id like '$cat1,%'");
                             $data6 = DB::select("select * from directories where address like '%, ".$pin6."' and category_id like '$cat1,%'");
-                            
+
                             foreach($data5 as $d){
                                 array_push($displayRelated,$d);
                             }
-                            
+
                             foreach($data6 as $d){
                                 array_push($displayRelated,$d);
                             }
                         }
-                        
+
                         if(count($displayRelated)<8){
                             $data7 = DB::select("select * from directories where address like '%, ".$pin7."' and category_id like '$cat1,%'");
                             $data8 = DB::select("select * from directories where address like '%, ".$pin8."' and category_id like '$cat1,%'");
-                            
+
                             foreach($data7 as $d){
                                 array_push($displayRelated,$d);
                             }
-                            
+
                             foreach($data8 as $d){
                                 array_push($displayRelated,$d);
                             }
                         }
-                        
+
                     @endphp
 
                 <div class="row">
                    <div class="col-md-12">
                        <div class="row Bestdeals">
                          @foreach($displayRelated as $key => $blog)
-                        <div class="col-md-4 col-lg-3 jQueryEqualHeight">
+                        <div class="col-6 col-md-4 col-lg-3 jQueryEqualHeight">
                             <div class="card directoryCard border-0">
                                 <div class="bst_dimg">
                                     @if($blog->image)
@@ -614,7 +616,7 @@
                 </div>
             </section>
 
-            <section class="py-4 py-lg-5 smallGapGrid">
+            <section class="py-2 py-sm-4 py-lg-5 smallGapGrid">
                 <div class="container">
                     <div class="page-title best_deal">
                         <h2>Nearby directory</h2>
@@ -627,11 +629,11 @@
                         $nearbyProducts = \App\Models\Directory::where('address', 'LIKE', '%'.substr($business->address, -4).'%')->where('id', '!=', $business->id)->limit(4)->get();
                     @endphp
 
-                <div class="row m-0">
+                <div class="row">
                           <div class="col-md-12">
                            <div class="row Bestdeals">
                         @foreach($nearbyProducts as $key => $blog)
-                        <div class="col-md-4 col-lg-3 jQueryEqualHeight">
+                        <div class="col-6 col-md-4 col-lg-3 jQueryEqualHeight">
                             <div class="card directoryCard border-0">
                                 <div class="bst_dimg">
                                     @if($blog->image)

@@ -67,7 +67,7 @@
         </div>
     </section>
     @endforeach<!--end_innerbanner-->
-    
+
     @foreach($data as  $key => $blog)
     <section class="collectionbreadcumbPadding pb-4 pb-lg-5">
         <div class="container">
@@ -103,7 +103,7 @@
                 <div class="tab-content smallGapGrid Bestdeals" id="grid">
                     <div class="row cafe-card">
                         @foreach($categories as $key => $directory)
-                        <div class="col-md-4 col-sm-6 col-lg-3 col-12 jQueryEqualHeight">
+                        <div class="col-md-4 col-sm-6 col-lg-3 col-6 jQueryEqualHeight">
                             <div class="card directoryCard collectiondirectoryCard border-0">
                                 <img src="{{URL::to('/').'/Directory/'}}{{$directory->directory->image}}" class="card-img-top" alt="">
                                 <div class="card-body">
@@ -118,7 +118,7 @@
 
                                     </div>
                                 </div>
-                                
+
                                 <!--<span class="save">-->
                                 <!--    <img src="{{ asset('front/img/bookmark.png')}}" alt="">-->
                                 <!--</span>-->
@@ -128,11 +128,11 @@
                         @endforeach
                     </div>
                 </div>
-                
+
                 <div class="tab-content smallGapGrid" id="map">
                                 <div class="row justify-content-center">
                                     <div class="col-12">
-                            
+
                                     </div>
                                     <div class="col-12">
                                         <div class="map">
@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                             </div>
-                
+
                 <!--<div class="tab-content" id="list">-->
 
                 <!--    <div class="row cafe-card  justify-content-center">-->
@@ -188,8 +188,8 @@
                 <!--        @endforeach-->
                 <!--    </div>-->
                 <!--</div>-->
-                
-                
+
+
             <!--    <div class="tab-content smallGapGrid Bestdeals" id="list">-->
             <!--    <div class="row justify-content-center">-->
             <!--        <div class="col-12 col-lg-10 col-xl-9 mb-4">-->
@@ -210,7 +210,7 @@
 
             <!--                        <figcaption>-->
             <!--                            <div class="categoryB-list">-->
-                                     
+
             <!--    </div>-->
             <!--                            <h4 class="place_title bebasnew">{{$directory->directory->name}}</h4>-->
             <!--                            <ul class="bBusinessMailPhone">-->
@@ -241,7 +241,7 @@
 
             <!--        </div>-->
             <!--        <div class="col-12 col-lg-10 col-xl-9">-->
-                        
+
             <!--        </div>-->
             <!--    </div>-->
             <!--</div>-->
@@ -253,7 +253,7 @@
     </section>
 @endforeach
 
-    <section class="py-s py-5 light-bg more-collection">
+    <section class="py-2 py-sm-4 light-bg more-collection">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center cafe-listing-nav page-title">
                 <h3>More Collections</h3>
@@ -263,8 +263,8 @@
             <div class="row">
                 @foreach($leaduser as  $key => $col)
 
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+
                     <div class="card collectionCard">
                         <a class="cardLink d-block" href="{!! URL::to('collection-page/'.$col->id) !!}">
                             <img src="{{URL::to('/').'/Collection/'}}{{$col->image}}" alt="">
@@ -442,7 +442,7 @@
     </section>
 
     @foreach($data as  $key => $blog)
-    <section class="py-4 py-lg-5">
+    <section class="py-2 py-sm-4 py-lg-5">
         <div class="container">
             <div class="row page-title">
                 <div class="col-12 mb-4">
@@ -457,7 +457,7 @@
         </div>
     </section>
   @endforeach
-    <section class="py-4 subscribe">
+    <section class="py-2 py-sm-4 subscribe">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
@@ -489,24 +489,24 @@
 	$locations = array();
   foreach($categories as $key => $business){
         $address = $business->directory->address;
-        
+
         $url = "https://maps.google.com/maps/api/geocode/json?address=".urlencode($address)."&key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I";
-        
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $responseJson = curl_exec($ch);
         curl_close($ch);
-        
+
         $response = json_decode($responseJson);
-        
+
         // echo "<pre>";
         // print_r($response);
         // die();
-        
+
         $latitude = $response->results[0]->geometry->location->lat;
         $longitude = $response->results[0]->geometry->location->lng;
-        
+
         $business->directory->latitude = $latitude;
         $business->directory->longitude = $longitude;
 	    if($business->directory->image){
@@ -514,9 +514,9 @@
 	    }else{
 	        $img = "https://demo91.co.in/localtales-prelaunch/public/Directory/placeholder-image.png";
 	    }
-	    
+
 	    $page_link = URL::to('directory-details/'.$business->directory->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $business->directory->name)));
-        
+
 		$data = array($business->directory->name,floatval($business->directory->latitude),floatval($business->directory->longitude),$business->directory->address,$img,$page_link);
 
 		array_push($locations,$data);
@@ -585,14 +585,14 @@
 				}]
 			}],
     });
-    
+
     var infowindow = new google.maps.InfoWindow();
 
     var marker, i;
     var iconBase = 'https://demo91.co.in/localtales-prelaunch/public/site/images/';
-    
+
     for (i = 0; i < locations.length; i++) {
-      
+
       const contentString =
     '<div id="content">' +
     '<div id="siteNotice">' +
@@ -622,7 +622,7 @@
   });
     }
   </script>
-  
+
     <script>
         $('input[name="address"]').on('keyup', function() {
             var $this = 'input[name="address"]'
@@ -660,7 +660,7 @@
             $('.postcode-dropdown').hide()
             $('input[name="address"]').val(code)
         }
-        
+
         // collection bookmark/ save/ wishlist
         function collectionBookmark(collectionId) {
             $.ajax({

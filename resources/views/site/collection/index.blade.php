@@ -11,7 +11,7 @@
                 <form action="" id="checkout-form">
                     <div class="filterSearchBox">
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-lg-5">
+                            <div class="col-5 col-sm-6 col-lg-5">
                                 {{-- <input type="" class="form-control" name="pin_code" placeholder="Postcode" value="{{ $request->pin_code ? $request->pin_code : '' }}"  autocomplete="off">
                                 <div class="respDrop"></div> --}}
                                 <div class="form-floating">
@@ -21,14 +21,14 @@
                                 <div class="respDrop"></div>
                             </div>
 
-                            <div class="col">
+                            <div class="col-5 col-sm">
                                 <div class="form-floating">
                                     <input id="searchbykeyword" type="search" name="title" class="form-control pl-3" placeholder="Search by keyword...">
                                     <label for="searchbykeyword" placeholder="Nom">Search by keyword</label>
                                 </div>
                             </div>
 
-                            <div class="col-auto">
+                            <div class="col-2 col-sm-auto">
                                 <a href="javascript:void(0);" id="btnFilter" class="w-100 btn btn-blue text-center ml-auto"><img src="{{ asset('front/img/search.svg')}}"></a>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
 	</div>
 </section>
 
-<section class="pb-5 light-bg more-collection" style="padding-top: 93px;">
+<section class="pb-5 light-bg more-collection">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center cafe-listing-nav">
             <ul class="d-flex" id="tabs-nav">
@@ -69,7 +69,7 @@
             <div class="tab-content" id="all-collections" style="">
                 <div class="row">
                     @foreach($data as $collectionKey => $collectionVal)
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                             <div class="card collectionCard">
                                 <a class="cardLink d-block" href="{!! URL::to('collection-page/'.$collectionVal->id) !!}">
                                     <img src="{{URL::to('/').'/Collection/'}}{{$collectionVal->image}}" alt="">
@@ -97,7 +97,7 @@
                     @endphp
 
                     @forelse($savedData as $savedCollectionKey => $savedCollectionVal)
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                             <div class="card collectionCard">
                                 <a class="cardLink d-block" href="{!! URL::to('collection-page/'.$savedCollectionVal->collection->id) !!}">
                                     <img src="{{URL::to('/').'/Collection/'}}{{$savedCollectionVal->collection->image}}" alt="">

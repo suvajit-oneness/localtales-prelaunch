@@ -43,14 +43,14 @@ foreach($businesses_datas as $business){
                 <div class="filterSearchBox">
                     <form action="">
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="mb-2 mb-sm-0 col-6 col-sm-6 col-lg-4">
                                 <div class="form-floating">
                                     <input id="postcodefloting" type="text" class="form-control pl-3" name="address" placeholder="Postcode/ State" value="{{ request()->input('address') }}" autocomplete="off">
                                     <label for="postcodefloting">Postcode/ State</label>
                                 </div>
                                 <div class="respDrop"></div>
                             </div>
-                            <div class="col-12 col-sm-6 col-lg-4 fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                            <div class="mb-2 mb-sm-0 col-6 col-sm-6 col-lg-4 fcontrol position-relative filter_selectWrap filter_selectWrap2">
                                 <div class="select-floating">
                                     <img src="{{ asset('front/img/grid.svg')}}">
                                     <label>Category</label>
@@ -62,25 +62,25 @@ foreach($businesses_datas as $business){
                                     </select>
                                 </div>
                             </div>
-                             <div class="col-12 col-sm-6 col-lg-4">
+                             <div class="mb-2 mb-sm-0 col-6 col-sm-6 col-lg-4">
                                 <div class="form-floating">
                                     <input type="text" id="keywordfloting" class="form-control pl-3" name="keyword" placeholder="Keyword" value="{{ request()->input('keyword') }}">
                                     <label for="keywordfloting">Keyword</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm">
+                            <div class="mb-2 mb-sm-0 col-6 col-sm">
                                 <div class="form-floating">
                                     <input type="text" id="establishyearfloting" class="form-control pl-3" name="establish_year" placeholder="Establish Year" value="{{ request()->input('establish_year') }}">
                                     <label for="establishyearfloting">Establish Year</label>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-5 col-sm">
                                 <div class="form-floating">
                                     <input type="text" id="openhourfloting" class="form-control pl-3" name="opening_hour" placeholder="Opening Hour" value="{{ request()->input('opening_hour') }}">
                                     <label for="openhourfloting">Opening Hour</label>
                                 </div>
                             </div>
-                            <div class="col fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                            <div class="col-5 col-sm fcontrol position-relative filter_selectWrap filter_selectWrap2">
                                 <div class="select-floating">
                                     <img src="{{ asset('front/img/grid.svg')}}">
                                     <label>Sort by</label>
@@ -91,7 +91,7 @@ foreach($businesses_datas as $business){
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-auto">
+                            <div class="col-2 col-sm-auto">
                                 <button class="btn btn-blue text-center ml-auto"><img src="{{asset('front/img/search.svg')}}"></button>
                             </div>
                         </div>
@@ -146,18 +146,18 @@ foreach($businesses_datas as $business){
                             </a>
                         </li>
                     </ul>
-        
+
                 </div>
             </div>
         </div>
-        
+
         <div id="tab-contents">
             <div class="tab-content smallGapGrid" id="grid">
                 <div class="row Bestdeals">
                     {{-- <div class="swiper-wrapper"> --}}
                         @foreach($businesses as $key => $business)
                     {{-- dd{{ $dir}} --}}
-                        <div class="col-md-4 col-lg-3 jQueryEqualHeight">
+                        <div class="col-6 col-md-4 col-lg-3 jQueryEqualHeight">
                             <div class="card directoryCard border-0">
                                 <div class="bst_dimg">
                                     @if($business->image)
@@ -259,7 +259,7 @@ foreach($businesses_datas as $business){
             <div class="tab-content smallGapGrid Bestdeals" id="map">
                 <div class="row justify-content-center">
                     <div class="col-12">
-            
+
                     </div>
                     <div class="col-12">
                         <div class="map">
@@ -293,9 +293,9 @@ foreach($businesses_datas as $business){
 	    }else{
 	        $img = "https://demo91.co.in/localtales-prelaunch/public/Directory/placeholder-image.png";
 	    }
-	    
+
 	    $page_link = URL::to('directory-details/'.$business->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $business->name)));
-        
+
 		$data = array($business->name,floatval($business->latitude),floatval($business->longitude),$business->address,$img,$page_link);
 		array_push($locations,$data);
 	}
@@ -363,14 +363,14 @@ foreach($businesses_datas as $business){
 				}]
 			}],
     });
-    
+
     var infowindow = new google.maps.InfoWindow();
 
     var marker, i;
     var iconBase = 'https://demo91.co.in/localtales-prelaunch/public/site/images/';
-    
+
     for (i = 0; i < locations.length; i++) {
-      
+
       const contentString =
     // '<div id="content">' +
     // '<div id="siteNotice">' +
@@ -384,10 +384,10 @@ foreach($businesses_datas as $business){
     '<div id="siteNotice">' +
     "</div>" +
     '<img src="'+locations[i][4]+'" width="">' +
-    
+
     '<div class="mapPopContent"><div id="bodyContent"><a href="'+locations[i][5]+'" target="_blank"><h6 id="firstHeading" class="firstHeading mb-2">'+locations[i][0]+'</h6></a>' +
     '<p>' +locations[i][3]+'</p></div>' +
-    
+
      '<a href="'+locations[i][5]+'" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
     '</div></div>';
 
@@ -411,7 +411,7 @@ foreach($businesses_datas as $business){
   });
     }
   </script>
-  
+
     <script>
         // state, suburb, postcode data fetch
         $('input[name="address"]').on('keyup', function() {

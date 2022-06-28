@@ -10,19 +10,19 @@
             <form action="" id="checkout-form">
                 <div class="filterSearchBox">
                     <div class="row">
-                        <div class="col-12 col-lg-4 fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                        <div class="col-12 col-lg-4 mb-1 mb-sm-0 fcontrol position-relative filter_selectWrap filter_selectWrap2">
                             <div class="select-floating">
                                 <img src="{{ asset('front/img/grid.svg')}}">
-                                <label for="blogcategory">Categoy</label>
+                                <label for="blogcategory">Category</label>
                                 <select class="filter_select blogcategory floating-select form-control" name="blog_category_id">
-                                    <option value="" hidden selected>Select Categoy...</option>
+                                    <option value="" hidden selected>Select Category...</option>
                                     @foreach ($categories as $index => $item)
                                         <option value="{{$item->id}}">{{ $item->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4 fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                        <div class="col-5 col-lg-4 fcontrol position-relative filter_selectWrap filter_selectWrap2">
                             {{-- <div class="select-floating">
                                 <img src="{{ asset('front/img/map-pin.svg')}}">
                                 <label for="blogpostcode">Postcode</label>
@@ -35,7 +35,7 @@
                             </div> --}}
 
                             <div class="form-floating">
-                                <input id="postcodefloting" type="text" class="form-control pl-3" name="pincode" placeholder="Postcode/ State" value="{{ request()->input('pincode') }}" autocomplete="off">
+                                <input id="postcodefloting" type="text" class="form-control" name="pincode" placeholder="Postcode/ State" value="{{ request()->input('pincode') }}" autocomplete="off">
                                 <label for="postcodefloting">Postcode/ State</label>
                             </div>
                             <div class="respDrop"></div>
@@ -49,13 +49,13 @@
                         <!--        @endforeach-->
                         <!--    </select>-->
                         <!--</div>-->
-                        <div class="col">
+                        <div class="col-5 col-sm">
                             <div class="form-floating">
-                                <input id="searchbykeyword" type="search" name="title" class="form-control pl-3" placeholder="Search by keyword...">
+                                <input id="searchbykeyword" type="search" name="title" class="form-control" placeholder="Search by keyword...">
                                 <label for="searchbykeyword" placeholder="Nom">Search by keyword</label>
                             </div>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-2 col-sm-auto">
                             <a href="javascript:void(0);" id="btnFilter" class="w-100 btn btn-blue text-center ml-auto"><img src="{{ asset('front/img/search.svg')}}"></a>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
     </section>
 
     {{-- BLOG SEARCH RESULT --}}
-    <section class="pb-4 pb-lg-5 searchpadding">
+    <section class="pb-2 pb-sm-4 pb-lg-5 searchpadding">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="swiperSliderWraper">
                 <div class="swiper Bestdeals">
                     <div class="swiper-wrapper">
@@ -124,7 +124,7 @@
         if($blog->productDetails->count() == 0) { continue; }
     @endphp
     {{-- @if() {{ break; }} @endif --}}
-    <section class="py-4 py-lg-5 bg-light">
+    <section class="py-2 py-sm-4 py-lg-5 bg-light article_blogs">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col">
@@ -141,7 +141,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="swiperSliderWraper swiperSliderWraper__two">
                 <div class="swiper Bestdeals">
                     <div class="swiper-wrapper">

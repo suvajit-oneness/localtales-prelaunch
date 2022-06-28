@@ -18,9 +18,9 @@
 <section class="login_block" style="background: url({{asset('site/images/banner')}}-image.jpg) no-repeat center center; background-size:cover;">
     <div class="container">
             <div class="row align-items-center">
-                <div class="col-sm-auto">
+                <div class="col-sm-auto login_wrap">
                     <a href="{!! URL::to('') !!}"><img src="{{asset('site/images/login')}}-logo.png" class="login_logo"></a>
-                    <h1><span>Advertise</span><br/>Your Business</h1>
+                    <h1><span>Advertise</span> <br/>Your Business</h1>
                 </div>
                 <div class="col">
                     <div class="form_holder">
@@ -39,11 +39,11 @@
                         @csrf
                         <div class="row px-3">
                             <label class="mb-1">Email Address</label>
-                            <input class="mb-3" type="text" name="email" placeholder="Enter a valid email address">
+                            <input class="mb-1 mb-sm-3" type="text" name="email" placeholder="Enter a valid email address">
                         </div>
                         <div class="row px-3">
                             <label class="mb-1">Password</label>
-                            <input class="mb-4" type="password" name="password" placeholder="Enter password">
+                            <input class="mb-2 mb-sm-3" type="password" name="password" placeholder="Enter password">
                         </div>
                         <div class="row mb-3 align-items-center">
                             <div class="col-sm-6">
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <!-- <div class="row px-3">
-                            <div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> <label for="chk1" class="custom-control-label text-sm text-dark">Remember me</label> </div> 
+                            <div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> <label for="chk1" class="custom-control-label text-sm text-dark">Remember me</label> </div>
                         </div> -->
                         <!-- <div class="row mb-3 px-3">  </div> -->
                         <div class="w-100">Don't have an account? <a class="text-orange " href="{{ route('site.register') }}">Register</a></div>
@@ -66,8 +66,8 @@
             </div>
         </div>
       </div>
-      
-      
+
+
 </section>
 <!--Script-->
 

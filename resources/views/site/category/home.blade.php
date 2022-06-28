@@ -21,8 +21,7 @@
                             </div>
                             <div class="col-auto">
                                 <a href="javascript:void(0);" id="btnFilter"
-                                    class="w-100 btn btn-blue text-center ml-auto"><img
-                                        src="http://127.0.0.1:8000/front/img/search.svg"></a>
+                                    class="w-100 btn btn-blue text-center ml-auto"><img src="{{ asset('front/img/search.svg')}}"></a>
                             </div>
                         </div>
                     </div>
@@ -32,10 +31,10 @@
     </section>
 
     {{-- BLOG SEARCH RESULT --}}
-    <section class="py-4 py-lg-5">
+    <section class="py-2 py-sm-4 py-lg-5">
         <div class="container">
-            <h3 class="my-4">Category</h3>
-            <p class="small my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae eaque culpa quos optio qui
+            <h2 class="">Category</h2>
+            <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae eaque culpa quos optio qui
                 quia ex, blanditiis explicabo quod consequatur rerum assumenda amet sit exercitationem quo esse impedit,
                 doloribus at, nobis eos ullam iste? Perspiciatis accusamus voluptatem accusantium distinctio tempore placeat
                 odio voluptate delectus mollitia eum quia veniam cum magnam vel quam quibusdam, quis officia quae deleniti
@@ -53,10 +52,9 @@
                 {{-- <div class="swiper-wrapper"> --}}
                 @foreach ($cat as $key => $blog)
                     {{-- dd{{ $suburb }} --}}
-                    <div class="col-md-4 mb-4">
+                    <div class="col-6 col-md-4 mb-4">
                         <div class="smplace_card text-center">
-                            <img src="{{ asset('AboutusBanner/about-banner.png') }}" height="200px" width="200px"
-                                class="mx-auto my-4">
+                            <img src="{{ asset('AboutusBanner/about-banner.png') }}">
                             <h4><a href="{!! URL::to('category/' . $blog->id) !!}" class="location_btn">{{ $blog->title }} </a></h4>
                             {{-- <p>{{$blog->description}}</p> --}}
                             @php

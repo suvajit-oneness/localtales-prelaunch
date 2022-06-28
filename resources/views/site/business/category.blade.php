@@ -57,7 +57,7 @@ foreach($businesses_datas as $business){
                     <div class="col-12 col-lg-4 fcontrol position-relative filter_selectWrap filter_selectWrap2">
                         <img src="{{ asset('front/img/grid.svg')}}">
                         <select class="filter_select form-control" name="category_id">
-                            <option value="" hidden selected>Select Categoy...</option>
+                            <option value="" hidden selected>Select Category...</option>
                             @foreach ($categories as $index => $item)
                                 <option value="{{$item->id}}">{{ $item->title }}</option>
                             @endforeach
@@ -118,7 +118,7 @@ foreach($businesses_datas as $business){
                             </a>
                         </li>
                     </ul>
-        
+
                 </div>
             </div>
         </div>
@@ -188,7 +188,7 @@ foreach($businesses_datas as $business){
                 @endphp
                 </div>
                                         <h4 class="place_title bebasnew">{{$business->name}}</h4>
-                                        
+
                                     </figcaption>
                                         <p class="history_details">{!!strip_tags(substr($business->description,0,300))!!}</p>
                                         <div class="d-flex location_details">
@@ -206,7 +206,7 @@ foreach($businesses_datas as $business){
                                         </div>
                                         {{-- <p>{{ $business->email }}</p> --}}
                                 </div>
-                                
+
                                 <div class="location_metaBOttom">
                                     <ul class="bBusinessMailPhone">
                                         <li><a href="#"><i class="fas fa-envelope"></i>{{ $business->email }}</a></li>
@@ -235,7 +235,7 @@ foreach($businesses_datas as $business){
                 <div class="col-12">
                     <div class="map">
                         <div id="mapShow" style="height: 600px;"></div>
-            
+
                         <p></p> <span id="latLngShow"></span>
                         <input type="hidden" id="googlemapaddress" value="">
                     </div>

@@ -53,7 +53,7 @@
                                 {{-- <input list="category_id" name="category_id" id="category_id">
                                 <datalist id="category_id" > --}}
                                 <select class="filter_select form-control" name="category_id">
-                                    <option value="" hidden selected>Select Categoy...</option>
+                                    <option value="" hidden selected>Select Category...</option>
                                     @foreach ($cat as $index => $item)
                                         <option value="{{ $item->id }}">{{ $item->title }}</option>
                                     @endforeach
@@ -157,9 +157,7 @@
                 @endphp
 
                 <div class="row justify-content-center">
-
                     @foreach ($relatedProducts as $key => $blog)
-                    {{-- {{ dd($blog) }} --}}
                         <div class="col-6 col-md-3 mb-2 mb-sm-4 mb-lg-0">
                             <div class="smplace_card text-center">
                                 {{-- <img src="{{ asset('/admin/uploads/suburb/' . $blog->image) }}" height="130px" class="my-3"> --}}
@@ -342,16 +340,7 @@
         for (i = 0; i < locations.length; i++) {
 
             const contentString =
-                // '<div id="content">' +
-                // '<div id="siteNotice">' +
-                // "</div>" +
-                // '<img src="'+locations[i][4]+'" width="">' +
 
-                // '<div class="mapPopContent"><div id="bodyContent"><a href="'+locations[i][5]+'" target="_blank"><h6 id="firstHeading" class="firstHeading">'+locations[i][0]+'</h6></a>' +
-                // '<p>' +locations[i][3]+'</p></div>' +
-
-                //  '<a href="'+locations[i][5]+'" target="_blank" class="directionBtn"><i class="fas fa-directions"></i></a>' +
-                // '</div></div>';
                 '<div id="content">' +
                 '<div id="siteNotice">' +
                 "</div>" +
@@ -407,7 +396,7 @@
                                     `<a class="dropdown-item" href="javascript: void(0)" onclick="fetchCode(${value.pin})">${value.state}, ${value.pin}</a>`;
                             })
                             content += `</div>`;
-                            // $($this).parent().after(content);
+
                         } else {
                             content +=
                                 `<div class="dropdown-menu show w-100 postcode-dropdown" aria-labelledby="dropdownMenuButton"><li class="dropdown-item">${result.message}</li></div>`;

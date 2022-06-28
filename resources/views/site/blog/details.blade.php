@@ -31,7 +31,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                                         {{ $blog->category->title }}
                                     </li>
-                                </ul>    
+                                </ul>
                             </div>
                             <div class="col-auto">
                                 <div class="share-btns">
@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
                                  </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
     </section>
 
     <!-- ========== Articles section ========== -->
-    <section class="py-4 art-dtls">
+    <section class="py-2 py-sm-4 art-dtls">
         <div class="container">
             <div class="row">
                 <div class="col-lg-7 mb-4 mb-lg-0">
@@ -213,7 +213,7 @@
                                     <i class="fa fa-check-circle"></i>
                                     Features 9
                                 </li>
-            
+
                             </ul>
                         </div>
                         <div class="card mt-0 text-center">
@@ -277,7 +277,7 @@
                                     <i class="fa fa-check-circle"></i>
                                     Features 9
                                 </li>
-            
+
                             </ul>
                         </div>
                         <div class="card mt-0 text-center">
@@ -341,7 +341,7 @@
                                     <i class="fa fa-check-circle"></i>
                                     Features 9
                                 </li>
-            
+
                             </ul>
                         </div>
                         <div class="card mt-0 text-center">
@@ -357,7 +357,7 @@
     </section>
 
     <!--FAQ-->
-    <section class="py-4 py-lg-5">
+    <section class="py-2 py-sm-4 py-lg-5">
         <div class="container">
             <!-- ========== FAQ ========== -->
             <div class="faq mt-4">
@@ -800,7 +800,7 @@
     </section>
 
     <!-- ========== Relevent Articles ========== -->
-    <section class="py-4 py-lg-5 bg-light">
+    <section class="py-2 py-sm-4 py-lg-5 bg-light">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col">
@@ -808,7 +808,7 @@
                         <h2>Relevent Articles</h2>
                     </div>
                 </div>
-                
+
                 <div class="col-auto">
                     <!--<a href="#" class="viewAllBtn">View All</a>-->
                     <div class="articleSliderBtn">
@@ -880,11 +880,11 @@
             </div>
         </div>
     </section>
-    
-    
+
+
 
     <!-- ========== Subscribe ========== -->
-    <section class="py-4 subscribe">
+    <section class="py-2 py-sm-4 subscribe">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
@@ -908,9 +908,9 @@
     <!-- ========== Inner Banner ========== -->
    @endsection
 @push('scripts')
- 
+
     <script async src="https://static.addtoany.com/menu/page.js"></script>
-    
-    
-    
+
+
+
 @endpush
