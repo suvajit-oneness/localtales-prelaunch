@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\Input;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DirectoryExport;
 use App\Models\DirectoryCategory;
+use GuzzleHttp\Client;
 
 class DirectoryController extends BaseController
 {
@@ -40,7 +41,7 @@ class DirectoryController extends BaseController
         $data = Directory::paginate(5);
         //dd($request->all);
         if (!empty($request->term)) {
-           // dd($request->term);
+            // dd($request->term);
             $directory = $this->DirectoryRepository->getSearchDirectory($request->term);
 
             //dd($data);
@@ -51,10 +52,10 @@ class DirectoryController extends BaseController
         }
 
         //$data = $this->DirectoryRepository->search($params);
-       // $dummyDetails = User::paginate(25);
-         //return view ( ‘welcome’ )->withUsers($dummyDetails);
+        // $dummyDetails = User::paginate(25);
+        //return view ( ‘welcome’ )->withUsers($dummyDetails);
         $this->setPageTitle('Directory', 'List of all Directory');
-        return view('admin.directory.index', compact('directory','data'));
+        return view('admin.directory.index', compact('directory', 'data'));
     }
 
     /**
@@ -64,7 +65,7 @@ class DirectoryController extends BaseController
     {
         $this->setPageTitle('Directory', 'Create Directory');
         $dircategory = $this->DirectoryRepository->getDirectorycategories();
-        return view('admin.directory.create',compact('dircategory'));
+        return view('admin.directory.create', compact('dircategory'));
     }
 
     /**
@@ -114,7 +115,7 @@ class DirectoryController extends BaseController
         if (!$state) {
             return $this->responseRedirectBack('Error occurred while creating Directory.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.directory.index', 'Directory has been created successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.directory.index', 'Directory has been created successfully', 'success', false, false);
     }
 
     /**
@@ -125,8 +126,8 @@ class DirectoryController extends BaseController
     {
         $targetdirectory = $this->DirectoryRepository->findDirectoryById($id);
         $directory = $this->DirectoryRepository->getDirectorycategories();
-        $this->setPageTitle('Directory', 'Edit Directory : '.$targetdirectory->name);
-        return view('admin.directory.edit', compact('targetdirectory','directory'));
+        $this->setPageTitle('Directory', 'Edit Directory : ' . $targetdirectory->name);
+        return view('admin.directory.edit', compact('targetdirectory', 'directory'));
     }
 
     /**
@@ -176,7 +177,7 @@ class DirectoryController extends BaseController
         if (!$targetstate) {
             return $this->responseRedirectBack('Error occurred while updating Directory.', 'error', true, true);
         }
-        return $this->responseRedirectBack('Directory has been updated successfully' ,'success',false, false);
+        return $this->responseRedirectBack('Directory has been updated successfully', 'success', false, false);
     }
 
     /**
@@ -190,7 +191,7 @@ class DirectoryController extends BaseController
         if (!$targetdirectory) {
             return $this->responseRedirectBack('Error occurred while deleting State.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.directory.index', 'Directory has been deleted successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.directory.index', 'Directory has been deleted successfully', 'success', false, false);
     }
 
     /**
@@ -198,14 +199,15 @@ class DirectoryController extends BaseController
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
 
         $params = $request->except('_token');
 
         $targetdirectory = $this->DirectoryRepository->updateDirectoryStatus($params);
 
         if ($targetdirectory) {
-            return response()->json(array('message'=>'Directory status has been successfully updated'));
+            return response()->json(array('message' => 'Directory status has been successfully updated'));
         }
     }
 
@@ -218,23 +220,24 @@ class DirectoryController extends BaseController
         $targetdirectory = $this->DirectoryRepository->detailsDirectory($id);
         $directory = $targetdirectory[0];
 
-        $this->setPageTitle('Directory', 'Directory Details : '.$directory->name);
+        $this->setPageTitle('Directory', 'Directory Details : ' . $directory->name);
         return view('admin.directory.details', compact('directory'));
     }
 
-     public function search(Request $request){
-        $q = Input::get ( 'q' );
-        if($q != ""){
-        $user = Directory::where ( 'name', 'LIKE', '%' . $q . '%' )->orWhere ( 'email', 'LIKE', '%' . $q . '%' )->paginate (5)->setPath ( '' );
-        $pagination = $user->appends ( array (
-        'q' => Input::get ( 'q' )
-       ) );
-       if (count ( $user ) > 0)
-             return view ( 'admin.directory.index' )->withDetails ( $user )->withQuery ( $q );
-       }
-         return view ( 'admin.directory.index' )->withMessage ( 'No Details found. Try to search again !' );
-       // return view('admin.directory.index', compact('data', 'request'));
-     }
+    public function search(Request $request)
+    {
+        $q = Input::get('q');
+        if ($q != "") {
+            $user = Directory::where('name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%')->paginate(5)->setPath('');
+            $pagination = $user->appends(array(
+                'q' => Input::get('q')
+            ));
+            if (count($user) > 0)
+                return view('admin.directory.index')->withDetails($user)->withQuery($q);
+        }
+        return view('admin.directory.index')->withMessage('No Details found. Try to search again !');
+        // return view('admin.directory.index', compact('data', 'request'));
+    }
     public function csvStore(Request $request)
     {
         if (!empty($request->file)) {
@@ -290,11 +293,11 @@ class DirectoryController extends BaseController
                         // make all fields null
 
                         $commaSeperatedCats = '';
-                        foreach(explode(',', $importData[15]) as $cateKey => $catVal) {
+                        foreach (explode(',', $importData[15]) as $cateKey => $catVal) {
                             $catExistCheck = DirectoryCategory::where('title', $catVal)->first();
                             if ($catExistCheck) {
                                 $insertDirCatId = $catExistCheck->id;
-                                $commaSeperatedCats .= $insertDirCatId.',';
+                                $commaSeperatedCats .= $insertDirCatId . ',';
                             } else {
                                 $dirCat = new DirectoryCategory();
                                 $dirCat->title = $catVal;
@@ -302,7 +305,7 @@ class DirectoryController extends BaseController
                                 $dirCat->save();
                                 $insertDirCatId = $dirCat->id;
 
-                                $commaSeperatedCats .= $insertDirCatId.',';
+                                $commaSeperatedCats .= $insertDirCatId . ',';
                             }
                         }
                         // dd($commaSeperatedCats);
@@ -375,6 +378,15 @@ class DirectoryController extends BaseController
         $data = Directory::paginate(5);
         $directory = Directory::paginate(5);
         $this->setPageTitle('Fix Directories with Rating, Reviews, Images etc', 'List of all Directory');
-        return view('admin.directory.fix', compact('directory','data'));
+        return view('admin.directory.fix', compact('directory', 'data'));
+    }
+
+    public function test(Request $request)
+    {
+        $query = $request->get('query');
+        $key = $request->get('key');
+        $c = new Client();
+        $res = $c->get("https://maps.googleapis.com/maps/api/place/textsearch/json", ['query' => ['query' => $query, 'key' => $key]]);
+        return $res->getBody();
     }
 }

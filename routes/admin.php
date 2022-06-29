@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -169,6 +170,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/export', 'Admin\DirectoryController@export')->name('admin.directory.data.csv.export');
             Route::get('/fix', 'Admin\DirectoryController@dataFix')->name('admin.directory.data.fix');
             Route::post('/fix/rating', 'Admin\DirectoryController@dataFixrating')->name('admin.directory.data.fix.rating');
+            Route::get('/test', 'Admin\DirectoryController@test');
         });
 
         //**  Collection management  **/
