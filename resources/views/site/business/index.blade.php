@@ -68,12 +68,12 @@ foreach($businesses_datas as $business){
                                     <label for="keywordfloting">Keyword</label>
                                 </div>
                             </div>
-                            <div class="mb-2 mb-sm-0 col-6 col-sm">
+                            {{-- <div class="mb-2 mb-sm-0 col-6 col-sm">
                                 <div class="form-floating">
                                     <input type="text" id="establishyearfloting" class="form-control pl-3" name="establish_year" placeholder="Establish Year" value="{{ request()->input('establish_year') }}">
                                     <label for="establishyearfloting">Establish Year</label>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-5 col-sm">
                                 <div class="form-floating">
                                     <input type="text" id="openhourfloting" class="form-control pl-3" name="opening_hour" placeholder="Opening Hour" value="{{ request()->input('opening_hour') }}">
