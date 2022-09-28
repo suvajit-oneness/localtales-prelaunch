@@ -13,7 +13,11 @@
         <div class="col-md-8 mx-auto">
             <div class="tile">
                 <h3 class="tile-title">Edit Postcode</h3>
+                @if(!$targetpin->image)
+                <img src="{{ asset('/Directory/placeholder-image.png') }}" height="50%" width="35%">
+                @else
                 <img src="{{ asset('/admin/uploads/pincode/images/' . $targetpin->image) }}" height="50%" width="35%">
+                @endif
                 <form action="{{ route('admin.pin.update') }}" method="post" role="form" enctype="multipart/form-data">
                     @csrf
                     <div class="tile-body">
@@ -34,9 +38,9 @@
                         <div class="form-group">
                             <label class="control-label" for="description">Description <span class="m-l-5 text-danger">
                                     *</span></label>
-                            <input class="form-control @error('description') is-invalid @enderror" type="text"
-                                name="description" id="description"
-                                value="{{ old('description', $targetpin->description) }}" />
+                            <textarea class="form-control @error('description') is-invalid @enderror" type="text"
+                                name="description" id="summernote-description"
+                                value="{{ old('description', $targetpin->description) }}" /></textarea>
                             <input type="hidden" name="id" value="{{ $targetpin->id }}">
                             @error('description')
                                 {{ $message }}
@@ -70,7 +74,7 @@
                             <input type="file" name="image" class="form-control" accept="image/jpeg,image/png">
                         </div>
                     </div>
-                    
+
 
                     <div class="tile-footer">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update
@@ -85,3 +89,12 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#summernote-description').summernote({
+        height: 400
+    });
+</script>
+@endpush

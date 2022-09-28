@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label class="control-label" for="child_description">Description</label>
                             <p class="small text-danger mb-2">Approx. 200 words</p>
-                            <textarea class="form-control" name="child_description" cols="30" rows="10">{{ old('child_description',$targetCategory->child_description) }}</textarea>
+                            <textarea class="form-control" id="summernote" name="child_description" cols="30" rows="10">{{ old('child_description',$targetCategory->child_description) }}</textarea>
                             <input type="hidden" name="id" value="{{ $targetCategory->id }}">
                             @error('child_description') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
@@ -50,7 +50,7 @@
                         <div class="form-group">
                             <label class="control-label" for="child_short_content">Short content</label>
                             <p class="small text-danger mb-2">Approx. 200 words</p>
-                            <textarea class="form-control" name="child_short_content" cols="30" rows="10">{{ old('child_short_content', $targetCategory->child_short_content) }}</textarea>
+                            <textarea class="form-control" id="summernote-short" name="child_short_content" cols="30" rows="10">{{ old('child_short_content', $targetCategory->child_short_content) }}</textarea>
                             <input type="hidden" name="id" value="{{ $targetCategory->id }}">
                             @error('child_short_content') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label class="control-label" for="child_medium_content">Medium content</label>
                             <p class="small text-danger mb-2">Approx. 700 words</p>
-                            <textarea class="form-control" name="child_medium_content" cols="30" rows="10">{{ old('child_medium_content',$targetCategory->child_medium_content) }}</textarea>
+                            <textarea class="form-control" id="summernote-medium" name="child_medium_content" cols="30" rows="10">{{ old('child_medium_content',$targetCategory->child_medium_content) }}</textarea>
                             <input type="hidden" name="id" value="{{ $targetCategory->id }}">
                             @error('child_medium_content') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label class="control-label" for="child_long_content">Long content</label>
                             <p class="small text-danger mb-2">Approx. 1000-1200 words</p>
-                            <textarea class="form-control" name="child_long_content" cols="30" rows="10">{{ old('child_long_content',$targetCategory->child_long_content) }}</textarea>
+                            <textarea class="form-control" id="summernote-long" name="child_long_content" cols="30" rows="10">{{ old('child_long_content',$targetCategory->child_long_content) }}</textarea>
                             <input type="hidden" name="id" value="{{ $targetCategory->id }}">
                             @error('child_long_content') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
@@ -104,6 +104,15 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script type="text/javascript">
     $('#summernote').summernote({
+        height: 400
+    });
+    $('#summernote-short').summernote({
+    height: 400
+    });
+    $('#summernote-medium').summernote({
+        height: 400
+    });
+    $('#summernote-long').summernote({
         height: 400
     });
 </script>

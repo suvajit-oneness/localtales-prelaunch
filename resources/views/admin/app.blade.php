@@ -31,7 +31,7 @@
 </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.5/tinymce.min.js"></script>
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>--}}
-     <script>
+    {{--  <script>
         tinymce.init({
             selector: "textarea:not(.detail_ad)",
             paste_data_images: true,
@@ -61,7 +61,7 @@
               }
             },
           });
-    </script> 
+    </script>--}}
     <script type="text/javascript">
         jQuery( "#page_type" ).on('change',function() {
           if(this.value == 'Categories'){

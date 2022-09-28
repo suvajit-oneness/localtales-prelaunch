@@ -55,7 +55,7 @@
                     <div class="filterSearchBox">
                         <form action="">
                             <div class="row">
-                                <div class="col-6 mb-2 mb-sm-0 col-md fcontrol position-relative filter_selectWrap">
+                                <div class="col-5 col-md fcontrol position-relative filter_selectWrap">
                                     <div class="form-floating">
                                         <input id="postcodefloting" type="text" class="form-control pl-3" name="key_details" placeholder="Postcode/ State" value="{{ request()->input('key_details') }}" autocomplete="off">
                                         <input type="hidden" name="keyword" value="{{ request()->input('keyword') }}">
@@ -72,7 +72,7 @@
                                         </select>
                                     </div>
                                 </div>--}}
-                                <div class="col-6 mb-2 mb-sm-0 col-md fcontrol position-relative filter_selectWrap">
+                                <div class="col-5 col-md fcontrol position-relative filter_selectWrap">
                                     <div class="dropdown">
                                         <div class="form-floating drop-togg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <input id="categoryfloting" type="text" class="form-control pl-3" name="directory_category" placeholder="Category" value="{{ request()->input('directory_category') }}" autocomplete="off">
@@ -83,7 +83,7 @@
                                         <div class="respDrop"></div>
                                     </div>
                                 </div>
-                                <div class="col col-md fcontrol position-relative filter_selectWrap">
+                                <div class="col-5 col-md fcontrol position-relative filter_selectWrap">
                                     <div class="form-floating">
                                         <input type="text" id="keywordfloting" class="form-control pl-3" name="name" placeholder="Keyword" value="{{ request()->input('name') }}">
                                         <label for="keywordfloting">Keyword</label>
@@ -229,7 +229,7 @@
                 <div class="row">
                   <ul class="search_list_items search_list_items-mod v3_list_view">
                       @foreach($directoryList as $key => $business)
-                      <li class="directory_listblock">
+                      <li>
                             <div class="list_content_wrap">
                                 <div class="location_meta">
                                     <figcaption>
@@ -245,8 +245,8 @@
                                             }
                                         @endphp --}}
 
-                                        <div class="d-flex location_details">
-                                            <span><i class="fas fa-phone-alt"></i></span><p class="v3_call mt-0"><a href="tel:{{$business->mobile}}">{{$business->mobile}}</a></p>
+                                        <div class="v3_Listd mb-2">
+                                            <div><p class="v3_call mt-0"><i class="fas fa-phone-alt"></i>{{$business->mobile}}</a></p></div>
                                             <div class="d-flex location_details">
                                                 @php
                                                     // var_dump($business->website);
@@ -302,7 +302,7 @@
                                     <div class="v3readmore">
                                         {{-- <a href="{!! URL::to('directory/'.$business->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $business->name))) !!}">View Details<i class="fa fa-arrow-right"></i></a> --}}
 
-                                        <a href="{{ URL::to('directory/'.$business->slug) }}"><span>View Details</span> <i class="fa fa-arrow-right"></i></a>
+                                        <a href="{{ URL::to('directory/'.$business->slug) }}">View Details <i class="fa fa-arrow-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -464,8 +464,8 @@
             console.log("position", position);
             if (position.coords?.latitude && position.coords?.longitude) {
                 $.ajax({
-                    url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
-                    // url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
+                   url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
+                   //  url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
                     method: 'get',
                     data: {},
                     success: function(result) {
@@ -475,12 +475,16 @@
                         const postcode = address.filter(e => e.types.includes("postal_code"))
                         console.log("postcode", postcode);
                         localStorage.setItem("postcode", postcode[0].long_name)
+                        document.cookie = 'postcode=' + postcode[0].long_name;
                         console.log(localStorage.getItem("postcode")+"here");
+
+
                     }
                 })
             }
         }
-    </script>
+        // function getCookie(postcode)
+        </script>
     <script>
         // state, suburb, postcode data fetch
         $('input[name="key_details"]').on('keyup', function() {
@@ -582,18 +586,11 @@
                                     // content += `<h6 class="dropdown-header">Secondary</h6>`;
 
                                     $.each(value.child, (key1, value1) => {
-                                        var url = "";
-
-                                        if (type2 == 'business') {
-                                            url = `{{url('/')}}/directory/${value1.slug}`;
-                                        } else {
-                                            url = "javascript: void(0)";
-                                        }
-
-                                        content += `<a class="dropdown-item ml-4" href="${url}" onclick="fetchCode('${value1.child_category}', ${value1.id}, '${type2}')">${value1.child_category}</a>`;
+                                        content += `<a class="dropdown-item ml-4" href="javascript: void(0)" onclick="fetchCode('${value1.child_category}', ${value1.id}, '${type2}')">${value1.child_category}</a>`;
                                     })
                                 }
                             })
+
                             content += `</div>`;
 
                         } else {

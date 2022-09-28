@@ -69,15 +69,11 @@ class SubCategoryLevelRepository extends BaseRepository implements SubCategoryLe
             $subcat = new SubCategoryLevel;
             $subcat->title = $collection['title'];
             $subcat->sub_category_id = $collection['sub_category_id'];
-
             $slug = Str::slug($collection['title'], '-');
             $slugExistCount = SubCategoryLevel::where('slug', $slug)->count();
             if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
             $subcat->slug = $slug;
-
-
             $subcat->save();
-
             return $subcat;
 
         } catch (QueryException $exception) {
@@ -96,16 +92,12 @@ class SubCategoryLevelRepository extends BaseRepository implements SubCategoryLe
 
         $subcat->title = $collection['title'];
         $subcat->sub_category_id = $collection['sub_category_id'];
+        if($subcat->title != $collection['title']) {
         $slug = Str::slug($collection['title'], '-');
         $slugExistCount = SubCategoryLevel::where('slug', $slug)->count();
         if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
         $subcat->slug = $slug;
-        // $profile_image = $collection['image'];
-        // $imageName = time().".".$profile_image->getClientOriginalName();
-        // $profile_image->move("categories/",$imageName);
-        // $uploadedImage = $imageName;
-        // $category->image = $uploadedImage;
-
+        }
         $subcat->save();
 
         return $subcat;
@@ -147,7 +139,7 @@ class SubCategoryLevelRepository extends BaseRepository implements SubCategoryLe
     }
 
 public function getSubCategory(){
-    return SubCategory::all();
+    return SubCategory::orderby('title')->get();
 }
 
         // csv upload

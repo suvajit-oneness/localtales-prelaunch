@@ -13,11 +13,11 @@
     <link rel="stylesheet" href="{{ asset('front/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('front/css/select2.min.css') }}"> -->
     {{-- Remove style.css for splash page only --}}
     {{-- @if(\Request::route()->getName() != "index")--}}
-    <link rel="stylesheet" href="{{ asset('site/css/style.css ') }}">
-    <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
+        <link rel="stylesheet" href="{{ asset('site/css/style.css ') }}">
     {{-- @endif--}}
 
     <style type="text/css">

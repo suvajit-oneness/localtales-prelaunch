@@ -37,7 +37,7 @@
                             <input type="text" class="form-control"  name="category" id="category" value="{{ old('category', $targetcollection->category) }}"/>
                             @error('category') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
-                        
+
 
                         <div class="form-group">
                             <label class="control-label" for="short_description"> Collection Description</label>
@@ -47,7 +47,7 @@
                         </div>
 
 
-                       
+
                         <div class="form-group">
                             <label class="control-label" for="pin_code">Postcode</label>
                             <input class="form-control" rows="4" name="pin_code" id="pin_code" value="{{ old('pin_code', $targetcollection->pin_code) }}"/>
@@ -134,3 +134,21 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#description').summernote({
+        height: 400
+    });
+    $('#paragraph1').summernote({
+        height: 400
+    });
+    $('#paragraph2').summernote({
+        height: 400
+    });
+    $('#paragraph3').summernote({
+        height: 400
+    });
+</script>
+@endpush

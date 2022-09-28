@@ -45,9 +45,9 @@ class DirectoryCollectionController extends BaseController
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        $this->setPageTitle('CollectionDirectory', 'Create CollectionDirectory');
+        $this->setPageTitle('Business Under Collection', 'Create CollectionDirectory');
         $col = $this->CollectionDirectoryRepository->getAllCollection();
         // $directory = $this->CollectionDirectoryRepository->getAllDirectory();
         if (isset($request->keyword)) {

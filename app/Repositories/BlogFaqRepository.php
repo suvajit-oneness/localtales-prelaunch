@@ -70,9 +70,6 @@ class BlogFaqRepository extends BaseRepository implements BlogFaqContract
 
             $blog = new ArticleFaq;
             $blog->blog_id = $collection['blog_id'];
-            $blog->blog_slug = $collection['blog_slug'];
-           // $blog->category_id = $collection['category_id'];
-           // $blog->sub_category_id = $collection['sub_category_id'];
             $blog->question = $collection['question'] ?? '';
             $blog->answer = $collection['answer'];
 
@@ -95,11 +92,8 @@ class BlogFaqRepository extends BaseRepository implements BlogFaqContract
         $blog = $this->findOneOrFail($params['id']);
         $collection = collect($params)->except('_token');
         $blog->blog_id = $collection['blog_id'];
-        $blog->blog_slug = $collection['blog_slug'];
-       // $blog->category_id = $collection['category_id'];
-         //   $blog->sub_category_id = $collection['sub_category_id'];
-            $blog->question = $collection['question'] ?? '';
-            $blog->answer = $collection['answer'];
+        $blog->question = $collection['question'] ?? '';
+        $blog->answer = $collection['answer'];
 
         $blog->save();
 

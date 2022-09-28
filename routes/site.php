@@ -78,7 +78,7 @@ Route::get('search','Site\ArticleController@index')->name('site.search');
 Route::post('directory-search','Site\ContentController@search')->name('directory.search');
 Route::get('directory-list-3','Site\BusinessController@index');
 Route::get('directory-list-2','Site\BusinessController@index2');
-Route::get('directory','Site\BusinessController@index3');
+Route::get('directory','Site\BusinessController@index3')->name('directory');
 Route::post('directory/related','Site\BusinessController@relatedDirectory')->name('directory.related');
 Route::get('directory/{id}/{slug}','Site\BusinessController@details');
 Route::get('directory-page/{id}/{slug}','Front\IndexController@page');

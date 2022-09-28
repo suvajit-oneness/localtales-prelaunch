@@ -716,18 +716,14 @@
                                                 <a href="tel:${value.mobile}" class="g_l_icon"><i class="fas fa-phone-alt"></i>${value.mobile}</a>
                                             </div>
                                             <div class="categoryB-list v3_flag">`;
+
                                                 // category show
                                                 $.each(value.category, (catKey, catVal) => {
-                                                    if (catVal.child_category == "" || catVal.child_category == null) {
-                                                        content += `
-                                                        <a class="mb-2" href="{{url('/')}}/${catVal.slug}">${catVal.title}</a>, 
-                                                        `;
-                                                    } else {
-                                                        content += `
-                                                        <a class="mb-2" href="{{url('/')}}/${catVal.child_category_slug}">${catVal.child_category}</a>, 
-                                                        `;
-                                                    }
+                                                    content += `
+                                                    <a class="mb-2" href="">${directoryCategory(catVal.category_id)}</a>
+                                                    `;
                                                 })
+
                                                 // <p>${value.category_id}</p>
                                             content += `
                                             </div>

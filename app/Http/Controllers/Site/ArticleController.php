@@ -52,30 +52,6 @@ class ArticleController extends BaseController
     }
 
     public function index(Request $request) {
-
-       /* $keyword = (isset($request->title) && $request->title!='')?$request->title:'';
-        $categoryId = (isset($request->keyword) && $request->keyword!='')?$request->keyword:'';
-        $secondaryCategoryId = (isset($request->keyword) && $request->keyword!='')?$request->keyword:'';
-        $tertiaryCategoryId = (isset($request->keyword) && $request->keyword!='')?$request->keyword:'';
-        $blogs = $this->blogRepository->searchBlogsData($categoryId,$secondaryCategoryId,$tertiaryCategoryId,$keyword);*/
-
-          /* if (!empty($request->title)) {
-                $blogs = DB::table('blogs')
-                ->whereRaw("blog_category_id LIKE '%".$request->keyword."%' AND (title LIKE '%".$request->title."%') ")
-                ->orWhereRaw("blog_sub_category_id LIKE '%".$request->keyword."%' AND (title LIKE '%".$request->title."%') ")
-                ->orWhereRaw("blog_tertiary_category_id LIKE '%".$request->keyword."%' AND (title LIKE '%".$request->title."%') ")
-                ->orWhereRaw("title LIKE '%".$request->keyword."%' AND (title LIKE '%".$request->title."%') ")
-                ->orderBy('title')
-                ->get();
-            } else {
-                $blogs = DB::table('blogs')
-                ->where('blog_category_id', 'like', '%'.$request->keyword.'%')
-                ->orWhere('blog_sub_category_id', 'like', '%'.$request->keyword.'%')
-                ->orWhere('blog_tertiary_category_id', 'like', '%'.$request->keyword.'%')
-                ->orWhere('title', 'like', '%'.$request->keyword.'%')
-                ->orderBy('title')
-                ->get();
-            }*/
             //dd($blogs);
              if (!empty($request->title)) {
                 $blogs = DB::table('blogs')
@@ -106,9 +82,9 @@ class ArticleController extends BaseController
                     ->orderBy('title')
                     ->get();
                 }
-                
+
              }
-             
+
            /* if (!empty($request->title)) {
                 $blogs = DB::table('blogs')
                 ->whereRaw("blog_category_id LIKE '%".$request->keyword."%' AND (title LIKE '%".$request->title."%') ")
@@ -117,7 +93,7 @@ class ArticleController extends BaseController
                 ->orWhereRaw("title LIKE '%".$request->keyword."%' AND (title LIKE '%".$request->title."%') ")
                 ->orderBy('title')
                 ->get();
-            
+
              else{
                 if($request->type=='cat_level1'){
 
@@ -199,19 +175,19 @@ class ArticleController extends BaseController
     public function articletag(Request $request,$tag){
 
         //dd($tag);
-        $articleTag=DB::table('blog_tags')->where('tag',$tag)->get();
+        $articleTag=DB::table('blog_tags')->where('slug',$tag)->get();
         $id=$tag[0]->id ?? '';
         if ( !empty($request->keyword) ) {
         $keyword = (isset($request->keyword) && $request->keyword!='')?$request->keyword:'';
         $blogs = DB::table('blogs')
                 ->where('title', 'like', '%'.$keyword.'%')
-                ->where('tag', 'like', '%'.$tag.'%')
+                ->where('slug', 'like', '%'.$tag.'%')
                 ->where('status' , 1)
                 ->orderBy('title')
                 ->get();
         }
         else{
-            $blogs= Blog::where('tag', 'like', '%'.$tag.'%')->where('status', 1)->get();
+            $blogs= Blog::where('slug', 'like', '%'.$tag.'%')->where('status', 1)->get();
             //dd($blogs);
 
         }

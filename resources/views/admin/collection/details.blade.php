@@ -109,7 +109,6 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th class="text-center"><i class="fi fi-br-picture"></i> Image</th>
                             <th> Name </th>
                             <th> Email</th>
                             <th> Mobile </th>
@@ -120,14 +119,6 @@
                         @foreach ($blogs as $key => $blog)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>
-                                    @if ($blog->image == 'placeholder-image.png')
-                                        <img style="width: 100px;height: 100px;"
-                                            src="{{ URL::to('/') . '/Directory/' }}{{ $blog->directory->image }}">
-                                    @else
-                                        <img style="width: 100px;height: 100px;" src="{{ $blog->directory->image }}">
-                                    @endif
-                                </td>
                                 <td>{{ $blog->directory->name }}</td>
                                 <td>{{ $blog->directory->email }}</td>
                                 <td>{{ $blog->directory->mobile }}</td>

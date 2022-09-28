@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- ========== Inner Banner ========== -->
-    
+
     <section class="inner_banner"
     @if($cat[0]->image)
             style="background: url({{URL::to('/').'/categories/'}}{{$cat[0]->image}})" class="w-100" height: 350px;object-fit: cover
@@ -16,17 +16,53 @@
     @endphp
             style="background: url({{URL::to('/').'/Demo/' .$demo}})" class="w-100" height: 350px;object-fit: cover
 
-    @endif >
+    @endif>
         <div class="container position-relative">
             <h1>{{$cat[0]->title}}</h1>
             <h4>Resources</h4>
         </div>
     </section>
-    
+    <section class="Categorysearch">
+        <div class="container position-relative">
+            <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                <div class="filterSearchBox">
+                    <form action="" id="checkout-form">
+                        <div class="filterSearchBox">
+                            <div class="row">
+                                <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                                    <div class="select-floating">
+                                        <img src="{{ asset('front/img/grid.svg')}}">
+                                        <label>Category</label>
+                                        <select class="filter_select form-control" name="title" id="searchFilterSelect" onchange="location =  this.options[this.selectedIndex].value;">
+                                            <option value="" hidden selected>Select Category...</option>
+                                            @foreach ($articlecat as $index => $item)
+                                                <option value="{{$item->slug}}" {{ (request()->input('title') == $item->title) ? 'selected' : '' }}><a href="{{ route('article.category',$item->slug) }}">{{ $item->title }}</a></option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pb-4 pb-lg-5 our-process">
+        <div class="container">
+        <ul class="breadcumb_list mb-4 border-bottom pb-2">
+            <li><a href="{!! URL::to('/') !!}">Home</a></li>
+            <li>/</li>
+            <li><a href="{{ route('article.index') }}">Article</a></li>
+            <li>/</li>
+            <li class="active">{{$cat[0]->title}}</li>
+        </ul>
+       </div>
+    </section>
 
     <!-- ========== Description ========== -->
   @if($cat[0]->description!='')
-    <section class="map_section pb-4 pb-lg-5">
+    <section class="map_section pb-4 pb-lg-5 pt-3">
         <div class="container">
             <div class="row m-0 justify-content-center">
                 <div class="col-12">
@@ -40,11 +76,9 @@
 <section class="pb-4 pb-lg-5 our-process">
     <div class="container">
         <div class="page-title best_deal">
-
         </div>
         <div class="row justify-content-center">
             <div class="col-12">
-
                     <h4>
                         {!! $cat[0]->short_content ?? '' !!}
                     </h4>
@@ -106,9 +140,12 @@
                 </div>
             </div>
 
-            <div class="Bestdeals bestdeals-no-slide categoryDeals">
+            <div class="Bestdeals bestdeals-no-slide categoryDeals CategoryarticleTitle">
                 <div class="row w-100">
                     @foreach($latestBlogs as  $key => $content)
+                    @php
+                        if($content->image =='') { continue; }
+                    @endphp
                         <div class="col-lg-3 col-xl-3 col-md-4 col-sm-6 col-6 jQueryEqualHeight">
                             <div class="card innerCatlistCard border-0">
                                 <div class="bst_dimg">
@@ -126,7 +163,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="card-body-top">
-                                    <h5 class="card-title mb-0">{{$content->title}}</h5>
+                                        <h5 class="card-title mb-0"><a href="{!! URL::to('article/'.$content->slug) !!}" class="">{{$content->title}}</a></h5>
                                     <div class="article_badge_wrap mt-3 mb-1">
                                     @php
                                          $category = $content->blog_category_id;
@@ -147,7 +184,7 @@
                                     </p>
                                     </div>
                                     <div class="card-body-bottom">
-                                        <a href="{!! URL::to('article/'. $content->slug) !!}" class="readmore_btn">Read More...</a>
+                                        <a href="{!! URL::to('article/'. $content->slug) !!}" class="readmore_btn">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -253,3 +290,19 @@
 
     <!-- ========== Inner Banner ========== -->
 @endsection
+@push('scripts')
+
+$(document).on("click", "#btnFilter", function() {
+    $('#checkout-form').submit();
+});
+
+$(document).keypress(function(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);  if(keycode == '13'){    $('#checkout-form').submit();
+ }
+});
+$('#searchFilterSelect').change(function() {
+    var ss = $(this).val();
+    alert(ss);
+});
+
+@endpush

@@ -138,6 +138,6 @@ class CategoryRepository extends BaseRepository implements CategoryContract
 
     public function getSearchCategories(string $term)
     {
-        return Category::where([['title', 'LIKE', '%' . $term . '%']])->get();
+        return BlogCategory::where([['title', 'LIKE', '%' . $term . '%']])->paginate(20);
     }
 }

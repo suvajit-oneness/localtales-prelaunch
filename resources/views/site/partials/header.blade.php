@@ -38,7 +38,7 @@
 
               </li>
           </ul>
-          <div class="form-inline my-2 my-lg-0 login-content-holder">
+          <div class="form-inline my-2 my-lg-0">
               @if(Auth::guard('user')->check())
 						<a type="button" class="btn btn-login" href="{!! URL::to('site-edit-profile') !!}">
 							<!-- <span><img src="{{ asset('site/images/login-icon.png ')}}"></span> -->

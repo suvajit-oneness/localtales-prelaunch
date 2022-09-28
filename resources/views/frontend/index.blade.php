@@ -90,7 +90,7 @@
         <div class="container">
             <div class="row align-items-center">
                 @foreach($data as  $key => $blog)
-                <div class="col-7 col-lg-5 page-title order-2 order-lg-1">
+                <div class="col-lg-5 page-title order-2 order-lg-1">
                     <span class="app-tag">Available for all platforms.</span>
 
                     {!! $blog->content2 !!}
@@ -100,7 +100,7 @@
                         <img src="{{  asset('front/img/play_store.png') }}" alt="">
                     </a>
                 </div>
-                <div class="col-5 p-0 col-lg-7 mb-0 mb-sm-4 mb-lg-0 order-1 order-lg-2">
+                <div class="col-lg-7 mb-4 mb-lg-0 order-1 order-lg-2">
                     @if($blog->image2!='')
                     <img class="w-100"  src="{{URL::to('/').'/Splash/'}}{{$blog->image2}}">
                 @endif
@@ -173,8 +173,8 @@
             console.log("position", position);
             if (position.coords?.latitude && position.coords?.longitude) {
                 $.ajax({
-                   url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
-                   //  url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
+                   //url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
+                     url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
                     method: 'get',
                     data: {},
                     success: function(result) {

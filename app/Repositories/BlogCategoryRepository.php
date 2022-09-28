@@ -77,7 +77,7 @@ class BlogCategoryRepository extends BaseRepository implements BlogCategoryContr
             $profile_image = $collection['image'];
 		// $imageName = time().".".$profile_image->getClientOriginalName();
              $ext= $profile_image->getClientOriginalExtension();
-           $imageName = mt_rand().'_'.time().".".$ext;
+            $imageName = mt_rand().'_'.time().".".$ext;
             $profile_image->move("categories/",$imageName);
             $uploadedImage = $imageName;
             $category->image = $uploadedImage;
@@ -157,7 +157,7 @@ class BlogCategoryRepository extends BaseRepository implements BlogCategoryContr
         $category->save();
         return $category;
 
-       
+
     }
 
     /**
@@ -196,6 +196,6 @@ class BlogCategoryRepository extends BaseRepository implements BlogCategoryContr
     }
     public function getSearchCategories(string $term)
     {
-        return BlogCategory::where([['title', 'LIKE', '%' . $term . '%']])->get();
+        return BlogCategory::where([['title', 'LIKE', '%' . $term . '%']])->paginate(20);
     }
 }

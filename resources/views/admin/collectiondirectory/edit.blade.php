@@ -10,7 +10,32 @@
     </div>
     @include('admin.partials.flash')
     <div class="row">
-        <div class="col-md-8 mx-auto">
+        <div class="col-md-6 mx-auto">
+            <table class="table table-hover custom-data-table-style table-striped" id="collectionDirectorydetails">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>SR No</th>
+                        <th> Name </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   {{--   @foreach($directory as $key => $blog)
+                        <tr>
+                        <td>
+                        <input  class="tap-to-delete" type="checkbox"  value="{{$blog->id}}" name="directory_id[]" checked>
+                         </td>
+                            <td>{{ $key+1 }}</td>
+                            <td>{{ $blog->name }}</td>
+                            <td>
+                            {{ $blog->address }}</td>
+                            <td>{{$blog->category_tree ? $blog->category_tree : '' }}</td>
+                        </tr>
+                    @endforeach--}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6 mx-auto">
             <div class="tile">
                 <h3 class="tile-title">
                 </h3>

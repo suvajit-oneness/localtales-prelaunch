@@ -18,7 +18,7 @@
                             <form action="" id="checkout-form">
                                 <div class="filterSearchBox">
                                     <div class="row">
-                                        <div class="col col-sm">
+                                        <div class="col-5 col-sm">
                                             <div class="form-floating">
                                                 <input id="postcodefloting" type="text" class="form-control pl-3" name="key_details" placeholder="Postcode/ State" value="{{ request()->input('key_details') }}" autocomplete="off">
                                                 <input type="hidden" name="keyword" value="{{ request()->input('keyword') }}">
@@ -26,7 +26,7 @@
                                             </div>
                                         </div>
                                         <div class="respDrop"></div>
-                                        <div class="col-auto col-sm-auto">
+                                        <div class="col-2 col-sm-auto">
                                             <a href="javascript:void(0);" id="btnFilter" class="w-100 btn btn-blue text-center ml-auto"><img src="{{ asset('front/img/search.svg') }}"></a>
                                         </div>
                                     </div>

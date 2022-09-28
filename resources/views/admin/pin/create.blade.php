@@ -39,8 +39,8 @@
                         <div class="form-group">
                             <label class="control-label" for="description"> Description <span class="m-l-5 text-danger">
                                     *</span></label>
-                            <input class="form-control @error('description') is-invalid @enderror" type="text"
-                                name="description" id="description" value="{{ old('description') }}" />
+                            <textarea class="form-control @error('description') is-invalid @enderror" type="text"
+                                name="description" id="summernote-description" value="{{ old('description') }}" /></textarea>
                             @error('description')
                                 {{ $message ?? '' }}
                             @enderror
@@ -83,3 +83,12 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#summernote-description').summernote({
+        height: 400
+    });
+</script>
+@endpush

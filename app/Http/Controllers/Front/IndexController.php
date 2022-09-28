@@ -44,13 +44,14 @@ class IndexController extends BaseController
         $this->businessRepository = $businessRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->setPageTitle('Splash ', 'Splash Screen');
         $data = Setting::where('key', '=', 'Splash Screen')->get();
         $directory= Directory::count();
         $postcode=  PinCode::count();
         $collection= Collection::count();
+       
         return view('frontend.index', compact('data','directory','postcode','collection'));
     }
 
@@ -93,7 +94,7 @@ class IndexController extends BaseController
         $moreCollections =  Collection::where('slug', '!=', $slug)->where('status', 1)->paginate(16);
         $directories = $this->DirectoryRepository->directorywisecollection($collectionData->id);
         $allCategoriesForMapView = CollectionDirectory::where('collection_id', $collectionData->id)->with('directory')->get();
-    
+
         return view('frontend.collection', compact('collectionData', 'moreCollections', 'directories', 'allCategoriesForMapView'));
     }
 
@@ -191,7 +192,7 @@ class IndexController extends BaseController
     }
     public function store(Request $request)
     {
-    
+
        $this->validate($request, [
             'council_name'      =>  'required|max:191',
             'primary_contact' => 'required | max:191',
@@ -238,7 +239,7 @@ class IndexController extends BaseController
 
             <p>Alternatively, if you would like a call to discuss this opportunity, please reply and I&rsquo;d be happy to <br>
             set up a call.</p>
-           
+
             <br>
             Thank you for reading. <br>
             Local Tales Founder, <br>
@@ -415,7 +416,7 @@ class IndexController extends BaseController
         ->orderBy('id', 'asc')
         ->paginate(15)
         ->appends(request()->query());
-       
+
 
         // $businesses_datas = $this->DirectoryRepository->searchDirectorybyData($categoryId,$keyword,$name,$establish_year,$opening_hour, $sort);
         } else {

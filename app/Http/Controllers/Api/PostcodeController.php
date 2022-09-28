@@ -99,7 +99,7 @@ class PostcodeController extends BaseController
         if (count($secondaryCat) > 0) {
             foreach($secondaryCat as $value) {
                 // $directories = DB::table('directories')->select('id', 'name')->where('category_id', 'like', $value->id.'%')->where('status', 1)->limit(6)->get();
-                $directories = DB::select("SELECT id, name AS child_category, category_id, slug FROM directories where category_id like '$value->id,%' or category_id like '%,$value->id,%' limit 6");
+                $directories = DB::select("SELECT id, name AS child_category, category_id FROM directories where category_id like '$value->id,%' or category_id like '%,$value->id,%' limit 6");
 
                 $resp[] = [
                     'type' => 'secondary',

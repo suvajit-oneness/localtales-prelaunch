@@ -74,6 +74,8 @@ class SuburbRepository extends BaseRepository implements SuburbContract
              $suburb->region_name = $collection['region_name'];
             $suburb->pin_code = $collection['pin_code'];
             $suburb->description = $collection['description'];
+            $suburb->house = $collection['house'];
+            $suburb->population = $collection['population'];
             if (isset($collection['image'])) {
                 if ($suburb->image != 'placeholder-image.png')
                     File::delete(public_path() . '/admin/uploads/suburb/' . $suburb->image);
@@ -105,6 +107,8 @@ class SuburbRepository extends BaseRepository implements SuburbContract
         $suburb->name = $collection['name'];
         $suburb->pin_code = $collection['pin_code'];
         $suburb->description = $collection['description'];
+        $suburb->house = $collection['house'];
+        $suburb->population = $collection['population'];
 
         if (isset($collection['image'])) {
             if ($suburb->image != 'placeholder-image.png')

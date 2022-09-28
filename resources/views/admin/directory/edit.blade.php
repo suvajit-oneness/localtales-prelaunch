@@ -185,13 +185,13 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="description">Description</label>
-                        <textarea class="form-control" rows="4" name="description" id="description" value="{{ old('description', $targetdirectory->description) }}"></textarea>
+                        <textarea class="form-control" rows="4" name="description" id="summernote-description" value="{{ old('description', $targetdirectory->description) }}"></textarea>
                             <input type="hidden" name="id" value="{{ $targetdirectory->id }}">
 
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="service_description">Service Description</label>
-                        <textarea class="form-control" rows="4" name="service_description" id="service_description" value="{{ $targetdirectory->service_description }}"></textarea>
+                        <textarea class="form-control" rows="4" name="service_description" id="summernote-service_description" value="{{ $targetdirectory->service_description }}"></textarea>
                             <input type="hidden" name="id" value="{{ $targetdirectory->id }}">
 
                     </div>
@@ -260,3 +260,15 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#summernote-description').summernote({
+        height: 400
+    });
+    $('#summernote-service_description').summernote({
+    height: 400
+    });
+</script>
+@endpush

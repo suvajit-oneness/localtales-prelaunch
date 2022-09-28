@@ -12,7 +12,6 @@
             <div class="tile">
                 <h3 class="tile-title">{{ $subTitle }}
                     <span class="top-form-btn">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Sub Category Level</button>
                         <a class="btn btn-secondary" href="{{ route('admin.sub-category-level2.index') }}"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
                     </span>
                 </h3>
@@ -42,7 +41,7 @@
 
                     </div>
                     <div class="tile-footer">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Sub Category2</button>
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update Tertiary Category</button>
                         &nbsp;&nbsp;&nbsp;
                         <a class="btn btn-secondary" href="{{ route('admin.sub-category-level2.index') }}"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
                     </div>

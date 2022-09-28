@@ -79,7 +79,7 @@
                                 echo substr($displayCategoryName, 0, -2);
                             @endphp
                             </a></li>
-                                   
+
                                     <li>
                                         <div class="share-btns ml-0">
                                             <div class="dropdown">
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     <?php */ ?>
-                    <div class="sticky_block">
+                    {{-- <div class="sticky_block">
                         <figure>
                             @if($blog->sticky_image !=null)
                                 <img src="{{URL::to('/').'/Blogs/'.$blog->sticky_image}}">
@@ -170,8 +170,25 @@
                             @else
                             @endif
                         </figcaption>
+                    </div> --}}
+                    <div class="become p-4">
+                        @if($blog->sticky_image !=null)
+                            <div class="p-3" style="background-image: url('{{URL::to('/').'/Blogs/'.$blog->sticky_image}}');">
+                        @else
+                            <div class="p-3" style="background-image: url('{{URL::to('/').'/front/img/aside.png'}}');">
+                        @endif
+                        <div class="become-text">
+                            <h3>
+                               {{$blog->heading}}
+                            </h3>
+                            {!! $blog->sticky_content !!}
+                            @if($blog->btn_text)
+                            <a href=" {{$blog->btn_link}}" class="btn main-btn"> {{$blog->btn_text}}</a>
+                            @else
+                            @endif
+                        </div>
                     </div>
-                     
+
                 </div>
             </div>
         </div>
@@ -220,7 +237,7 @@
                             @endif
                         </figcaption>
                     </div>
-                     
+
                 </div>
             </div>
         </div>
@@ -273,7 +290,7 @@
             <div class="row justify-content-between">
                 <div class="col">
                     <div class="page-title best_deal">
-                        <h2>Relevent Articles</h2>
+                        <h2>Relevant Articles</h2>
                     </div>
                 </div>
 
@@ -288,6 +305,9 @@
                 <div class="swiper Bestdeals Bestdeals2">
                     <div class="swiper-wrapper">
                         @foreach($latestblogs as  $key => $blog)
+                        @php
+                        if($blog->image =='') { continue; }
+                        @endphp
                         <div class="swiper-slide jQueryEqualHeight">
                             <div class="card blogCart border-0">
                                 <div class="bst_dimg">

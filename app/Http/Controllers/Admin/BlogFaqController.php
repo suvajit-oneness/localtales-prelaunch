@@ -109,13 +109,13 @@ class BlogFaqController extends BaseController
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         $targetblog = $this->BlogFaqRepository->findBlogById($id);
         $blogcat = $this->BlogFaqRepository->getBlogcategories();
         $blogsubcat = $this->BlogFaqRepository->getBlogsubcategories();
         $this->setPageTitle('Article Faq', 'Edit Article Faq : ' . $targetblog->title);
-        return view('admin.articlefaq.faq.edit', compact('targetblog', 'blogcat', 'blogsubcat'));
+        return view('admin.articlefaq.faq.edit', compact('targetblog', 'blogcat', 'blogsubcat','request'));
     }
 
     /**

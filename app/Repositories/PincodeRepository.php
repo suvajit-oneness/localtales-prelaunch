@@ -73,12 +73,7 @@ class PincodeRepository extends BaseRepository implements PincodeContract
             $pin->pin = $collection['pin'];
             $pin->description = $collection['description'];
             $pin->state_id = $collection['state_id'];
-            if (isset($collection['image'])) {
-            if ($pin->image != 'placeholder-image.png')
-                File::delete(public_path() . '/admin/uploads/pincode/images/' . $pin->image);
             $pin->image = $collection['image'];
-        }
-
 
             $pin->save();
 
@@ -103,7 +98,7 @@ class PincodeRepository extends BaseRepository implements PincodeContract
 
         if (isset($collection['image'])) {
             if ($pin->image != 'placeholder-image.png')
-                File::delete(public_path() . '/admin/uploads/pincode/images/' . $pin->image);
+                File::delete(public_path() . '/admin/uploads/suburb/' . $pin->image);
             $pin->image = $collection['image'];
         }
 

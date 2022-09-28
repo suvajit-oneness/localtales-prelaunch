@@ -20,8 +20,15 @@
                             <div class="tile">
                                 <h3 class="my-3 tile-title">Details</h3>
                                 <div class="d-flex justify-content-between">
-                                    <img src="{{ asset('/admin/uploads/pincode/images/' . $pin->image) }}" height="50%"
+                                        @if(!$pin->image)
+                                            <img src="{{ asset('/Directory/placeholder-image.png') }}"
+                                            height="50%"
                                         width="35%">
+                                            @else
+                                            <img src="{{ asset('/admin/uploads/pincode/images/' . $pin->image) }}"
+                                            height="50%"
+                                            width="35%">
+                                            @endif
                                     <div class="d-flex align-items-center mx-4">
                                         <div>
                                             <p class="font-weight-bold">Postcode: <span

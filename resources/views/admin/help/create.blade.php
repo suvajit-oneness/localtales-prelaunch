@@ -63,7 +63,7 @@
                                 <p class="small text-danger">{{ $message }}</p>
                             @enderror
                         </div>
-                       
+
                         <div class="form-group">
                             <label class="control-label" for="description">Content</label>
                             <textarea type="text" class="form-control" rows="4" name="description" id="description">{{ old('description') }}</textarea>
@@ -71,7 +71,7 @@
                                 <p class="small text-danger">{{ $message }}</p>
                             @enderror
                         </div>
-                       
+
                     <div class="tile-footer">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save
                             Article</button>
@@ -150,3 +150,14 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#description').summernote({
+        height: 400
+    });
+</script>
+@endpush
+

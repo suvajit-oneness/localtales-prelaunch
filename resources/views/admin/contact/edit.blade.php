@@ -70,10 +70,19 @@
                     <div class="tile-footer">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update Settings</button>
                         &nbsp;&nbsp;&nbsp;
-                        
+
                     </div>
                 </form>
             </div>
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#content').summernote({
+        height: 400
+    });
+</script>
+@endpush

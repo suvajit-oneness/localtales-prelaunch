@@ -78,9 +78,27 @@
         @endif
     </div>
 </section>
-
+<section class="pb-4 pb-lg-5 our-process pt-3">
+    <div class="container">
+    <ul class="breadcumb_list mb-4 border-bottom pb-2">
+        <li><a href="{!! URL::to('/') !!}">Home</a></li>
+        <li>/</li>
+        <li><a href="{{ route('category-home') }}">Category</a></li>
+        <li>/</li>
+        @if($type == "secondary")
+        <li><a href="{!! URL::to('category/' . $data[0]->parent_category_slug) !!}">{{$data[0]->parent_category}}</a></li>
+        <li>/</li>
+        @endif
+        @if($type == "primary")
+        <li class="active">{{$data[0]->parent_category}}</li>
+        @else
+        <li class="active">{{$data[0]->child_category}}</li>
+        @endif
+    </ul>
+   </div>
+</section>
 @if(!empty($data[0]->description))
-    <section class="map_section pb-4 pb-lg-5">
+    <section class="map_section pb-4 pb-lg-5 pt-1">
         <div class="container">
             <div class="row m-0 justify-content-center">
                 <div class="col-12">

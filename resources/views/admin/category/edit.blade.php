@@ -267,4 +267,26 @@
               });
         });
     </script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script type="text/javascript">
+        $('#description').summernote({
+            height: 400
+        });
+        $('#short_content').summernote({
+            height: 400
+        });
+        $('#medium_content').summernote({
+            height: 400
+        });
+        $('#long_content').summernote({
+            height: 400
+        });
+        $('#question').summernote({
+        height: 400
+       });
+       $('#answer').summernote({
+        height: 400
+       });
+    </script>
 @endpush

@@ -5,9 +5,9 @@
 namespace App\Http\Controllers\Site;
 
 
-
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Cookie;
 use App\Contracts\DirectoryContract;
 
 use App\Contracts\BusinessContract;
@@ -17,6 +17,7 @@ use App\Contracts\DirectoryCategoryContract;
 // use App\Models\DirectoryCategory;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
 
 use App\Http\Controllers\BaseController;
 
@@ -133,61 +134,98 @@ class BusinessController extends BaseController
 
 
     public function index3(Request $request)
-
     {
-     
         $this->setPageTitle('Directory', 'List of all Directory');
-         $value = $_COOKIE['postcode'] ?? '';
-         $directory = Directory::where('address','LIKE','%' . $value)->paginate(18);
-         if (isset($request->code) || isset($request->keyword) ||isset($request->name)) {
-            // dd($request->all());
-            $category = $request->directory_category;
-            $code = $request->code;
-            $keyword = $request->keyword;
-            $type = $request->type;
-            $name = $request->name;
+        $value = $_COOKIE['postcode'] ?? '';
+        $directory = Directory::where('address','LIKE','%' . $value)->get();
+        if(isset($request->code) || isset($request->keyword) ||isset($request->name)) {
+        $category = $request->directory_category;
+        $code = $request->code;
+        $keyword = $request->keyword;
+        $type = $request->type;
+        $name = $request->name;
 
-            if (!empty($keyword)) {
-                //$keywordQuery = "AND address like '%$keyword' ";
-                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword'")->paginate(18)->appends(request()->query());
-            } 
-            if (!empty($name)) {
-                
-                $directoryList = DB::table('directories')->whereRaw("name like '%$name%'")->paginate(18)->appends(request()->query());
-            } 
-            if (!empty($code)) {
-            // if primary category
-            if ($type == "primary") {
-                $keywordQuery = "AND name like '%$name%' ";
-                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and 
-                ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
+        if (!empty($keyword)) {
+            //$keywordQuery = "AND address like '%$keyword' ";
+            $directoryList = DB::table('directories')->whereRaw("address like '%$keyword'")->paginate(18)->appends(request()->query());
+        }
+        if (!empty($name)) {
 
-            } elseif ($type == "secondary") {
-                $keywordQuery = "AND name like '%$name%' ";
-                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and 
-                ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
-            }
-          }
-        } 
-             
-             
-            else{
-              // $directoryList = Directory::paginate(18)->appends(request()->query());
-              if(count($directory)>0){
+            $directoryList = DB::table('directories')->whereRaw("name like '%$name%'")->paginate(18)->appends(request()->query());
+        }
+        if (!empty($code)) {
+        // if primary category
+        if ($type == "primary") {
+            $keywordQuery = "AND name like '%$name%' ";
+            $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and
+            ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
+
+        } elseif ($type == "secondary") {
+            $keywordQuery = "AND name like '%$name%' ";
+            $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and
+            ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
+        }
+    }
+       }
+        else {
+            if(count($directory)>0){
              $directoryList = Directory::where('address','LIKE','%' . $value)->paginate(18)->appends(request()->query());
             }
             else{
              $directoryList = Directory::paginate(18)->appends(request()->query());
             }
-               
-            
+        }
+        //dd($directory);
+        /*$categoryId = !empty($request->category_id) ? $request->category_id : '';
+
+        $name = !empty($request->name) ? $request->name : '';
+
+        $keyword = !empty($request->keyword) ? $request->keyword : '';
+
+
+
+        $directoryList = Directory::
+
+        when($categoryId!='', function($query) use ($categoryId){
+
+            $query->where('category_id', 'like',  $categoryId .',%');
+
+        })
+
+        ->when($name, function($query) use ($name){
+
+            $query->where('name', 'like', '%' . $name .'%');
+
+        })
+
+        ->when($keyword, function($query) use ($keyword){
+
+            $query->where('address', 'LIKE', '%' . $keyword);
+
+        })
+
+        ->orderBy('id', 'asc')
+
+        ->paginate(15)
+
+        ->appends(request()->query());*/
+        /*if (isset($request->code) || isset($request->keyword) ||isset($request->name)) {
+            // dd($request->all());
+
+        }
+        else {
+            if($directory){
+                $directoryList = Directory::where('address','LIKE','%' . $value)->paginate(18)->appends(request()->query());
+            }
+            else{
+            $directoryList = Directory::paginate(18)->appends(request()->query());
             }
            // dd($directoryList);
-        
+        }*/
 
         return view('site.business.index3', compact('directoryList'));
-      }
-    
+
+    }
 
 
 

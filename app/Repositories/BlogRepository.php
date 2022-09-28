@@ -150,7 +150,7 @@ class BlogRepository extends BaseRepository implements BlogContract
         $blog = $this->findOneOrFail($params['id']);
         $collection = collect($params)->except('_token');
         $blog->title = $collection['title'];
-        if(!empty($params['blog_category_id'])) {
+        if(!empty($collection['blog_category_id'])) {
         $blog->blog_category_id = implode(',',$collection['blog_category_id']);
         }
         if(!empty($params['blog_sub_category_id'])) {
@@ -322,7 +322,7 @@ class BlogRepository extends BaseRepository implements BlogContract
      * @return mixed
      */
     public function latestBlogs(){
-        $blogs = Blog::where('blog_status',1)->orderby('id','desc')->paginate(8);
+        $blogs = Blog::where('blog_status',1)->where('image','!=','')->orderby('id','desc')->paginate(8);
         //dd($blogs);
         return $blogs;
 

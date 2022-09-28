@@ -275,4 +275,20 @@
             $('#directory_' + x).remove();
         }
     </script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script type="text/javascript">
+        $('#description').summernote({
+            height: 400
+        });
+        $('#paragraph1').summernote({
+            height: 400
+        });
+        $('#paragraph2').summernote({
+            height: 400
+        });
+        $('#paragraph3').summernote({
+            height: 400
+        });
+    </script>
 @endpush

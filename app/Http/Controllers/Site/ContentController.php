@@ -169,12 +169,12 @@ class ContentController extends BaseController
             $address=$request->address;
 
             if (!empty($keyword)) {
-                $directories = DB::table('directories')->whereRaw("name like '%$keyword%' and 
+                $directories = DB::table('directories')->whereRaw("name like '%$keyword%' and
                 ( address like '%$request->address')")->paginate(18)->appends(request()->query());
             } else {
                 $directories = "";
             }
-           
+
 
             // if primary category
             if ($type == "primary") {
@@ -387,9 +387,8 @@ class ContentController extends BaseController
     public function categoryindex(Request $request)
     {
         $this->setPageTitle('Faq', 'Local Tales Category');
-
         // all category for search filter
-        $allCategories = DirectoryCategory::where('status', 1)->where('parent_category', '!=', null)->where('type', 1)->orderBy('parent_category')->paginate(12);
+        $allCategories = DirectoryCategory::where('status', 1)->where('parent_category', '!=', null)->where('type', 1)->orderBy('parent_category')->get();
 
         // categories for displaying
         if (!empty($request->title)) {

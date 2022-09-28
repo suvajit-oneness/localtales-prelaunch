@@ -96,16 +96,12 @@ class SubCategoryRepository extends BaseRepository implements SubCategoryContrac
 
         $category->title = $collection['title'];
         $category->category_id = $collection['category_id'];
+        if($category->title != $collection['title']) {
         $slug = Str::slug($collection['title'], '-');
         $slugExistCount = SubCategory::where('slug', $slug)->count();
         if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
         $category->slug = $slug;
-        // $profile_image = $collection['image'];
-        // $imageName = time().".".$profile_image->getClientOriginalName();
-        // $profile_image->move("categories/",$imageName);
-        // $uploadedImage = $imageName;
-        // $category->image = $uploadedImage;
-
+        }
         $category->save();
 
         return $category;
@@ -156,7 +152,7 @@ class SubCategoryRepository extends BaseRepository implements SubCategoryContrac
     public function getSearchSubcategory(string $term)
     {
         return SubCategory::where([['title', 'LIKE', '%' . $term . '%']])
-        
+
         ->paginate(35);
     }
 }

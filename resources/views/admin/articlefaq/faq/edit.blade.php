@@ -13,7 +13,6 @@
                 <h3 class="tile-title">{{ $subTitle }}</h3>
                 <form action="{{ route('admin.blogfaq.update') }}" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
-                       
                         <!--<div class="tile-body">
                             <div class="form-group">
                                 <label class="control-label" for="blog_category_id"> Category <span class="m-l-5 text-danger"> *</span></label>
@@ -40,23 +39,24 @@
                             </div>
 
                         </div>-->
-                        
-                       
+
+
                         <div class="form-group">
                             <label class="control-label" for="question">Question</label>
-                            <textarea class="form-control" rows="4" name="question" id="question">{{ old('question', $targetblog->question) }}</textarea>
+                            <textarea class="form-control" rows="4" name="question" id="summernote_question">{{ old('question', $targetblog->question) }}</textarea>
                             <input type="hidden" name="id" value="{{ $targetblog->id }}">
+                            <input type="hidden" name="blog_id" value="{{ $request->id }}">
                             @error('question') {{ $message }} @enderror
 
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="answer">Answer</label>
-                            <input class="form-control @error('answer') is-invalid @enderror" type="text" name="answer" id="answer" value="{{ old('answer', $targetblog->answer) }}"/>
+                            <input class="form-control @error('answer') is-invalid @enderror" type="text" name="answer" id="summernote_answer" value="{{ old('answer', $targetblog->answer) }}"/>
                             <input type="hidden" name="id" value="{{ $targetblog->id }}">
                             @error('answer') {{ $message }} @enderror
 
                         </div>
-                        
+
                     <div class="tile-footer">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update Article</button>
                         &nbsp;&nbsp;&nbsp;
@@ -66,7 +66,7 @@
             </div>
         </div>
     </div>
-        
+
 @endsection
 @push('scripts')
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>
@@ -148,4 +148,14 @@
             swal("Success!", "{{ session('csv') }}", "success");
         </script>
     @endif
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script type="text/javascript">
+        $('#summernote_question').summernote({
+            height: 400
+        });
+        $('#summernote_answer').summernote({
+            height: 400
+        });
+    </script>
 @endpush

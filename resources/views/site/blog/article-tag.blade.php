@@ -71,6 +71,9 @@
                     <div class="row">
                         @if(count($blogs)>0)
                     @foreach($blogs as  $key => $blog)
+                    @php
+                        if($blog->image =='') { continue; }
+                    @endphp
                         <div class="col-lg-3 col-xl-3 col-md-4 col-sm-6 col-6 jQueryEqualHeight">
                             <div class="card blogCart articleCard border-0">
                                 <div class="bst_dimg">
@@ -108,7 +111,7 @@
                                         foreach(explode(',', $cat) as $catKey => $catVal) {
                                             $catDetails = DB::table('blog_categories')->where('id', $catVal)->first();
                                            if($catDetails !=''){
-                                            $displayCategoryName .= '<a href="'.route("category", $catDetails->slug).'">'.'<span class="badge p-1" style="font-size: 10px;">'.$catDetails->title.'</span>'.'</a>  ';
+                                            $displayCategoryName .= '<a href="'.route("article.category", $catDetails->slug).'">'.'<span class="badge p-1" style="font-size: 10px;">'.$catDetails->title.'</span>'.'</a>  ';
                                        }
                                         }
                                         echo $displayCategoryName;

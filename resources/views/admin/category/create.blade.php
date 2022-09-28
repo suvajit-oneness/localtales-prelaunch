@@ -25,7 +25,7 @@
                             <input class="form-control @error('title') is-invalid @enderror" type="text" name="title" id="title" value="{{ old('title') }}"/>
                             @error('title') {{ $message ?? '' }} @enderror
                         </div>
-                        
+
                     </div>
                     <div class="form-group">
                             <label class="control-label" for="description">Description</label>
@@ -132,5 +132,21 @@
         console.log('here')
   $("#container").append('<div class="module_holder"><div class="module_item"><img src="images/i-5.png" alt="Sweep Stakes"><br>sendSMS</div></div>');
 });
+</script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#description').summernote({
+        height: 400
+    });
+    $('#short_content').summernote({
+        height: 400
+    });
+    $('#medium_content').summernote({
+        height: 400
+    });
+    $('#long_content').summernote({
+        height: 400
+    });
 </script>
 @endpush

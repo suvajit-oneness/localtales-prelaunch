@@ -36,7 +36,7 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="service_description"> Service Description <span class="m-l-5 text-danger"> *</span></label>
-                            <textarea class="form-control @error('service_description') is-invalid @enderror" type="text" name="service_description" id="name">{{ $targetBusiness->service_description }}</textarea>
+                            <textarea class="form-control @error('service_description') is-invalid @enderror" type="text" name="service_description" id="service_description">{{ $targetBusiness->service_description }}</textarea>
                             @error('service_description') {{ $message ?? '' }} @enderror
                         </div>
                     </div>
@@ -174,3 +174,15 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#service_description').summernote({
+        height: 400
+    });
+    $('#description').summernote({
+        height: 400
+    });
+</script>
+@endpush

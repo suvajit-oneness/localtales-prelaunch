@@ -78,8 +78,14 @@
                                 @foreach ($pin as $key => $category)
                                     <tr>
                                         <td>{{ ($pin->firstItem()) + $key }}</td>
-                                        <td><img src="{{ asset('/admin/uploads/pincode/images/' . $category->image) }}"
+                                        <td>
+                                            @if(!$category->image)
+                                            <img src="{{ asset('/Directory/placeholder-image.png') }}"
+                                            height="100px" width="100px">
+                                            @else
+                                            <img src="{{ asset('/admin/uploads/pincode/images/' . $category->image) }}"
                                                 height="100px" width="100px">
+                                            @endif
                                         </td>
                                         <td>{{ $category->pin }}</td>
                                         <td>{{ $category->state ? $category->state->name : '' }}</td>
@@ -179,7 +185,7 @@
     </script>
     {{-- New Add --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
-   
+
     <script type="text/javascript">
         $('.sa-remove').on("click", function() {
             var id = $(this).data('id');
@@ -235,11 +241,11 @@
             swal("Success!", "{{ session('image_uploaded') }}", "success");
         </script>
     @endif
-    
+
     @if (session('csv'))
         <script>
             swal("Success!", "{{ session('csv') }}", "success");
         </script>
     @endif
-    
+
 @endpush

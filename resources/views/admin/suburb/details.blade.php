@@ -36,6 +36,9 @@
                                             <p class="font-weight-bold">Region: <span
                                                     class="font-weight-light">{{ $suburb->region_name }}</span>
                                             </p>
+                                            <p class="font-weight-bold">House: <span
+                                                class="font-weight-light">{{ $suburb->house }}</span>
+                                            </p>
                                             <p class="font-weight-bold">Est. Population: <span
                                                     class="font-weight-light">{{ $suburb->population }}</span>
                                             </p>

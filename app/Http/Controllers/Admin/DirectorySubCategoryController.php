@@ -101,6 +101,7 @@ class DirectorySubCategoryController extends BaseController
      */
     public function update(Request $request)
     {
+        dd($request->all());
         $this->validate($request, [
             'child_category' => 'required|string|min:1|max:255',
             'child_category_image' => 'nullable|mimes:jpg,jpeg,png,bmp,svg,gif',
@@ -114,15 +115,6 @@ class DirectorySubCategoryController extends BaseController
         $category->type = 0;
         $category->child_category = !empty($request->child_category) ? $request->child_category : '';
         $category->parent_category = !empty($request->parent_category) ? $request->parent_category : '';
-
-        // generate slug
-        /* if ($category->title != $request->title) {
-            $slug = Str::slug($request->title, '-');
-            $slugExistCount = DirectoryCategory::where('parent_category_slug', $slug)->count();
-            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
-            $category->parent_category_slug = $slug;
-        } */
-
         // image
         if (!empty($request->child_category_image)) {
             $image = $request->child_category_image;

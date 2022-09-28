@@ -95,7 +95,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="content">Content</label>
-                            <textarea class="form-control" rows="4" name="content" id="content">{{ old('content', $targetblog->content) }}</textarea>
+                            <textarea class="form-control" rows="4" name="content" id="summernote_content">{{ old('content', $targetblog->content) }}</textarea>
                             <input type="hidden" name="id" value="{{ $targetblog->id }}">
                             @error('content') {{ $message }} @enderror
 
@@ -115,7 +115,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="meta_description">Description</label>
-                            <textarea class="form-control" rows="4" name="meta_description" id="meta_description">{{ old('meta_description', $targetblog->meta_description) }}</textarea>
+                            <textarea class="form-control" rows="4" name="meta_description" id="summernote_meta_description">{{ old('meta_description', $targetblog->meta_description) }}</textarea>
                             <input type="hidden" name="id" value="{{ $targetblog->id }}">
                         </div>
                         <div class="form-group">
@@ -198,7 +198,7 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="sticky_content">Article Sticky Content <span class="m-l-5 text-danger"> *</span></label>
-                             <textarea class="form-control @error('sticky_content') is-invalid @enderror" type="text" name="sticky_content" id="sticky_content">{{ old('sticky_content', $targetblog->sticky_content) }}</textarea>
+                             <textarea class="form-control @error('sticky_content') is-invalid @enderror" type="text" name="sticky_content" id="summernote_sticky_content">{{ old('sticky_content', $targetblog->sticky_content) }}</textarea>
                              <input type="hidden" name="id" value="{{ $targetblog->id }}">
                              @error('sticky_content') {{ $message }} @enderror
                         </div>
@@ -939,6 +939,19 @@
                   swal("Error!", response.message, "error");
                 }
               });
+        });
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script type="text/javascript">
+        $('#summernote_content').summernote({
+            height: 400
+        });
+        $('#summernote_meta_description').summernote({
+            height: 400
+        });
+        $('#summernote_sticky_content').summernote({
+            height: 400
         });
     </script>
 @endpush

@@ -38,12 +38,12 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="question">Question</label>
-                            <textarea name="question" class="form-control">{{old('question')}}</textarea>
+                            <textarea name="question" id="question" class="form-control">{{old('question')}}</textarea>
                             @error('question') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="answer">Answer</label>
-                            <textarea name="answer" class="form-control">{{old('answer')}}</textarea>
+                            <textarea name="answer" id="answer" class="form-control">{{old('answer')}}</textarea>
                             @error('answer') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
 
@@ -126,3 +126,15 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#question').summernote({
+        height: 400
+    });
+    $('#answer').summernote({
+        height: 400
+    });
+</script>
+@endpush

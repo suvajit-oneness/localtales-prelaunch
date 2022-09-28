@@ -39,33 +39,6 @@
                                 </div>
 
                             </div>
-                            {{--  <div id="select_holder2" class="col-5 col-sm fcontrol position-relative filter_selectWrap filter_selectWrap2">
-                                <div class="select-floating">
-                                    <img src="{{ asset('front/img/grid.svg')}}">
-                                    <select id="cat_level2" class="filter_select blogpostcode floating-select form-control" name="blog_sub_category_id" disabled>
-                                        <option value="" selected disabled>Secondary Category</option>
-                                        @foreach ($subcategories as $index => $item)
-                                        <option value="{{app('request')->input('blog_sub_category_id')}}" {{ (request()->input('blog_sub_category_id') == $item->id ) ? 'selected' : ''}}>{{ $item->title }}</option>
-
-                                        @endforeach
-
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div id="select_holder3" class="col-5 col-sm fcontrol position-relative filter_selectWrap filter_selectWrap2">
-
-                                <div class="select-floating">
-
-                                    <img src="{{ asset('front/img/grid.svg')}}">
-                                    <select id="cat_level3" class="filter_select blogpostcode floating-select form-control" name="blog_tertiary_category_id" disabled>
-                                        <option value="" selected disabled>Tertiary Category</option>
-                                        @foreach ($tertiarycategories as $index => $item)
-                                        <option value="{{app('request')->input('blog_tertiary_category_id')}}" {{ (request()->input('blog_tertiary_category_id') == $item->id ) ? 'selected' : ''}}>{{ $item->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>--}}
                             <div class="col-5 col-sm">
                                 <div class="form-floating">
                                     <input id="searchbykeyword" type="search" name="title" class="form-control" placeholder="Search by keyword..." value="{{request()->input('title')}}">
@@ -92,21 +65,9 @@
                         <h2>
                         @if (request()->input('key_details') || request()->input('title'))
                             @if ($blogs->count() > 0)
-                                Result found for "{{request()->input('key_details') ? request()->input('key_details') : ''}}" {!! request()->input('title') ? ' &amp; "'.request()->input('title').'"' : '' !!}
-                                {{-- Result found for {{ ($primaryCat ?? '') ? ' "'.$primaryCat. '"' : '' }}
-                                {{ (!empty($primaryCat ?? '') && !empty($subcatItem[0]->title ?? '') &&
-                                !empty($tercatcatItem[0]->title ?? '')) ? ' & ' : '' }}
-                                {{ ($subcatItem[0]->title ?? '') ? '& "'.$subcatItem[0]->title.'"' : '' }}
-                                {{ ($request->title) ? ' "'.$request->title.'"' : '' }}
-                                {{ ($tercatcatItem[0]->title ?? '') ? '& "'.$tercatcatItem[0]->title.'"' : '' }} --}}
+                                Result found for {{ request()->input('key_details') ? '"'.request()->input('key_details').'"' : '' }} {{ request()->input('title') ? ( !empty(request()->input('key_details')) ? ' and "'.request()->input('title').'"' : '"'.request()->input('title').'"' ) : '' }}
                             @else
-                                No Result found for "{{request()->input('key_details') ? request()->input('key_details') : ''}}" {!! request()->input('title') ? ' &amp; "'.request()->input('title').'"' : '' !!}
-
-                                {{-- No Result found for {{ ($primaryCat ?? '') ? ' "'.$primaryCat.'"' : '' }}
-                                {{ (!empty($primaryCat ?? '') && !empty($request->title) && !empty($subcatItem[0]->title ?? '')) ? ' & ' : '' }}
-                                {{ ($request->title) ? 'keyword "'.$request->title.'"' : '' }}
-                                {{ ($subcatItem[0]->title ?? '') ? '& "'.$subcatItem[0]->title.'"' : '' }}
-                                {{ ($tercatcatItem[0]->title ?? '') ? '& "'.$tercatcatItem[0]->title.'"' : '' }} --}}
+                                No Result found for {{ request()->input('key_details') ? '"'.request()->input('key_details').'"' : '' }} {{ request()->input('title') ? ( !empty(request()->input('key_details')) ? ' and "'.request()->input('title').'"' : '"'.request()->input('title').'"' ) : '' }}
                             @endif
                         @endif
                         </h2>
@@ -114,7 +75,6 @@
                 </div>
                 <div class="col-auto">
                     <div class="articleSliderBtn">
-
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-button-next"></div>
                     </div>
@@ -122,9 +82,11 @@
             </div>
             <div class="swiperSliderWraper">
                 <div class="swiper Bestdeals">
-
                     <div class="swiper-wrapper">
                     @foreach($blogs as $blogCategorykey => $blog)
+                    @php
+                        if($blog->image =='') { continue; }
+                    @endphp
                     {{-- {{ dd($blog) }} --}}
                         <div class="swiper-slide jQueryEqualHeight">
                             <div class="card blogCart border-0">
@@ -148,9 +110,6 @@
                                                     <span class="year">
                                                         {{ date('Y', strtotime($blog->created_at)) }}
                                                     </span>
-                                                        {{-- <span class="date">{{$blog->created_at->format('d')}}</span>
-                                                        <span class="month">{{$blog->created_at->format('M')}}</span>
-                                                        <span class="year">{{$blog->created_at->format('Y')}}</span> --}}
                                         </div>
                                      </div>
                                 <div class="card-body">
@@ -180,7 +139,7 @@
                                         @endif
                                     </div>
                                     <div class="card-body-bottom">
-                                       <a href="{!! URL::to('article/'. $blog->slug) !!}" class="readMoreBtn">Read Article</a>
+                                       <a href="{!! URL::to('article/'. $blog->slug) !!}" class="readMoreBtn">Read More</a>
                                    </div>
                                 </div>
                             </div>
@@ -197,13 +156,10 @@
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col">
-
                     <div class="page-title best_deal">
                         <h2>Featured Articles</h2>
-
                     </div>
                 </div>
-
                 <div class="col-auto">
                     <div class="articleSliderBtn">
                         <div class="featuredArticles-button-prev swiperBtn-prev"><i class="fas fa-angle-left"></i></div>
@@ -213,37 +169,13 @@
             </div>
             <div class="swiperSliderWraper">
                 <div class="swiper Bestdeals featuredArticles">
-
-
-
                     <div class="swiper-wrapper">
-
-
-
                     @foreach($latestblogs as  $key => $blog)
-
-
-
                         <div class="swiper-slide jQueryEqualHeight">
-
-
-
                             <div class="card blogCart border-0">
-
-
-
-                                <div class="bst_dimg">
-
-
-
+                              <div class="bst_dimg">
                                      @if($blog->image)
-
-
-
                                     <a href="{!! URL::to('article/'.$blog->slug) !!}" class="location_btn w-100"><img src="{{URL::to('/').'/Blogs/'}}{{$blog->image}}" class="card-img-top" alt="ltItem"></a>
-
-
-
                                      @else
                                      @php
                                         $demoImage=DB::table('demo_images')->where('title', '=', 'article')->get();
@@ -252,39 +184,17 @@
                                          <a href="{!! URL::to('article/'.$blog->slug) !!}" class="location_btn w-100"><img src="{{URL::to('/').'/Demo/'}}{{$demo}}" class="card-img-top"></a>
                                     @endif
                                     <div class="dateBox">
-
                                         <span class="date">{{$blog->created_at->format('d')}}</span>
-
                                         <span class="month">{{$blog->created_at->format('M')}}</span>
                                         <span class="year">{{$blog->created_at->format('Y')}}</span>
-
                                     </div>
-
-
-
                                 </div>
-
-
-
                                 <div class="card-body">
-
-
-
-                                    <div class="card-body-top">
-
-
-
+                                  <div class="card-body-top">
                                         <h5 class="card-title mb-0">
-
-
-
                                             <a href="{!! URL::to('article/'. $blog->slug) !!}" class="location_btn">{{$blog->title}}</a>
 
-
-
                                         </h5>
-
-
 
                                         @if($blog->blog_category_id)
 
@@ -352,7 +262,7 @@
 
 
 
-                                       <a href="{!! URL::to('article/'. $blog->slug) !!}" class="readMoreBtn">Read Article</a>
+                                       <a href="{!! URL::to('article/'. $blog->slug) !!}" class="readMoreBtn">Read More</a>
 
 
 
@@ -409,7 +319,7 @@
         @php
             // BOLGS UNDER CATEGORIES
 
-            $blogsUnderCategory = \DB::table('blogs')->where('blog_category_id', 'like', '%'.$categoryValue->id.'%')->where('status', 1)->orderby('id','desc')->limit(8)->get();
+            $blogsUnderCategory = \DB::table('blogs')->where('blog_category_id', 'like', '%'.$categoryValue->id.'%')->where('status', 1)->where('image','!=','')->orderby('id','desc')->limit(8)->get();
 
         @endphp
         {{-- SHOW THE CATEGORIES WHICH HAVE BLOGS IN THEM --}}
@@ -664,553 +574,11 @@ if($catDetails == ''){
         @endif
 
 
-
-
-
-
-
-        {{-- @php
-
-
-
-            $latestBlogs = DB::table('blogs')->where('blog_category_id', 'like', '%'.$blog->id.'%')->limit(8)->get();
-
-
-
-            //dd($latestBlogs);
-
-
-
-            // if primary cat is searched
-
-
-
-            if(request()->input('blog_category_id')) continue;
-
-
-
-
-
-
-
-            // if primary cat contains no blogs don't show it
-
-
-
-            if($blog->productDetails->count() == 0) { continue; }
-
-
-
-
-
-
-
-            // Directories
-
-
-
-            dd($latestBlogs);
-
-
-
-        @endphp
-
-
-
-
-
-
-
-        <section class="pb-2 py-sm-4 pb-lg-5 bg-light article_blogs">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col">
-
-                        <div class="page-title best_deal">
-
-
-
-                            <h2>{{ $blog->title }}</h2>
-
-
-
-                        </div>
-
-
-
-                    </div>
-
-
-
-                    <div class="col-auto">
-
-
-
-                        <div class="articleSliderBtn">
-
-
-
-                            <div class="swiper-button-prev swiperBtn-prev"></div>
-
-
-
-                            <div class="swiper-button-next swiperBtn-next"></div>
-
-
-
-                        </div>
-
-
-
-                    </div>
-
-
-
-                </div>
-
-
-
-
-
-
-
-                <div class="swiperSliderWraper swiperSliderWraper__two">
-
-
-
-                    <div class="swiper Bestdeals">
-
-
-
-                        <div class="swiper-wrapper">
-
-
-
-                        @foreach($blog->productDetails as $blogProductkey => $blogProductValue)
-
-
-
-                            @php
-
-
-
-                                $blogsUnderCategory = \DB::table('blogs')->where('blog_category_id', 'like', '%'.$blogProductValue->id.'%')->get();
-
-
-
-                            @endphp
-
-
-
-
-
-
-
-                            @if($blogProductkey == 8) @break; @endif
-
-
-
-                            @if($blogProductValue->status == 0) @continue; @endif
-
-
-
-                            <div class="swiper-slide jQueryEqualHeight">
-
-
-
-                                <div class="card blogCart border-0">
-
-
-
-                                    <div class="bst_dimg">
-
-
-
-                                        @if($blogProductValue->image)
-
-
-
-                                             <a href="{!! URL::to('article/'. $blogProductValue->slug) !!}" class="readMoreBtn"><img src="{{URL::to('/').'/Blogs/'}}{{$blogProductValue->image}}" class="card-img-top" alt="ltItem"></a>
-
-
-
-                                        @else
-
-
-
-                                        @php
-
-
-
-                                            $demoImage=DB::table('demo_images')->where('title', '=', 'article')->get();
-
-
-
-                                            $demo=$demoImage[0]->image;
-
-
-
-
-
-
-
-                                        @endphp
-
-
-
-                                             <a href="{!! URL::to('article/'. $blogProductValue->slug) !!}" class="readMoreBtn"><img src="{{URL::to('/').'/Demo/'}}{{$demo}}" class="card-img-top"></a>
-
-
-
-                                        @endif
-
-
-
-                                        <div class="dateBox">
-
-
-
-                                            <span class="date">{{$blogProductValue->created_at->format('d')}}</span>
-
-
-
-                                            <span class="month">{{$blogProductValue->created_at->format('M')}}</span>
-
-
-
-                                            <span class="year">{{$blogProductValue->created_at->format('Y')}}</span>
-
-
-
-                                        </div>
-
-
-
-                                    </div>
-
-
-
-                                    <div class="card-body">
-
-
-
-                                        <div class="card-body-top">
-
-
-
-                                            <h5 class="card-title">{{ $blogProductValue->title }}</h5>
-
-
-
-
-
-
-
-                                            @if($blogProductValue->blog_category_id)
-
-
-
-                                            <div class="article_badge_wrap mt-3 mb-1">
-
-
-
-                                                @php
-
-
-
-                                                    $cat = $blogProductValue->blog_category_id;
-
-
-
-
-
-
-
-                                                    $displayCategoryName = '';
-
-
-
-                                                    foreach(explode(',', $cat) as $catKey => $catVal) {
-
-
-
-                                                        $catDetails = DB::table('blog_categories')->where('id', $catVal)->first();
-
- if($catDetails !=''){
-
-
-
-
-
-                                                        $displayCategoryName .= '<span class="badge p-1" style="font-size: 10px;">'.$catDetails->title.'</span>';
-
-
-
-                                                    }
-
-
-}
-                                                    echo $displayCategoryName;
-
-
-
-                                                @endphp
-
-
-
-                                            </div>
-
-
-
-                                            @endif
-
-
-
-
-
-
-
-                                        </div>
-
-
-
-                                        <div class="card-body-bottom">
-
-
-
-
-
-
-
-                                            <!--<span class="tag_text">{{ $blogProductValue->tag }}</span>-->
-
-
-
-                                            <a href="{!! URL::to('article/'. $blogProductValue->slug) !!}" class="readMoreBtn">Read More</a>
-
-
-
-                                        </div>
-
-
-
-                                    </div>
-
-
-
-                                </div>
-
-
-
-                            </div>
-
-
-
-                        @endforeach
-
-
-
-                        </div>
-
-
-
-                    </div>
-
-
-
-                </div>
-
-
-
-            </div>
-
-
-
-        </section> --}}
-
-
-
     @endforeach
-
-
-
-
-
-
-
-    {{-- <section class="pb-4 pb-lg-5 bg-light">
-
-
-
-        <div class="container">
-
-
-
-            <div class="row align-items-center mb-3">
-                <div class="col">
-                    <div class="page-title best_deal">
-                        <h2 class="mb-0">Categories</h2>
-                    </div>
-                </div>
-
-                <div class="col-auto">
-                    <div class="row">
-                        <div class="col-auto pr-0">
-                            <a href="{{ route('category-home') }}" class="viewAllBtn">VIEW ALL</a>
-                        </div>
-                        <div class="col-auto rel-cat pl-0">
-                            <div class="articleSliderBtn ml-auto">
-                                <div class="swiper-button-prev-2 swiperBtn-prev"><i class="fas fa-angle-left"></i></div>
-                                <div class="swiper-button-next-2 swiperBtn-next"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!--<div class="row m-0 rel-cat">
-            <div class="articleSliderBtn ml-auto">
-            <div class="swiper-button-prev-2"><i class="fas fa-angle-left"></i></div>
-            <div class="swiper-button-next-2"><i class="fas fa-angle-right"></i></div>
-            </div>
-            </div>-->
-
-            <div class="row m-0 rel-cat">
-                <div class="swiper Bestdeals2 cafe-card">
-
-                    <div class="swiper-wrapper">
-
-
-                    @foreach($categories as  $key => $content)
-
-
-                        <div class="swiper-slide">
-
-
-
-                            <div class="card relatedCard border-0">
-
-
-
-                                @if($content->image)
-
-
-
-                                    <a href="{!! URL::to('category/'.$content->slug) !!}" ><img  src="{{URL::to('/').'/categories/'}}{{$content->image}}" style="height: 350px;object-fit: cover;"></a>
-
-
-
-                                @else
-
-
-
-                                @php
-
-
-
-                                        $demoImage=DB::table('demo_images')->where('title', '=', 'category')->get();
-
-
-
-                                        $demo=$demoImage[0]->image;
-
-
-
-
-
-
-
-                                 @endphp
-
-
-
-                                    <a href="{!! URL::to('category/'.$content->slug) !!}" ><img class="w-100" src="{{URL::to('/').'/Demo/'}}{{$demo}}" class="card-img-top" style="height: 350px;object-fit: cover;"></a>
-
-
-
-
-
-
-
-                                @endif
-
-
-
-                                <div class="card-body">
-
-
-
-                                    <div class="card-body-top">
-
-
-
-                                        <h5><a href="{!! URL::to('category/'.$content->slug) !!}" >{{ $content->title }}</a></h5>
-
-
-
-                                    </div>
-
-
-
-                                    <div class="card-body-bottom">
-
-
-
-                                    </div>
-
-
-
-                                </div>
-
-
-
-                            </div>
-
-
-
-                        </div>
-
-
-
-                        @endforeach
-
-
-
-                    </div>
-
-
-
-
-
-
-                </div>
-
-
-
-            </div>
-
-
-
-        </div>
-
-
-
-    </section> --}}
-
-
 
 @endsection
 
-
-
-
-
-
-
 @push('scripts')
-
-
 
     <script type="text/javascript">
         // category swiper slider js
@@ -1241,104 +609,37 @@ if($catDetails == ''){
         });
         @endforeach
 
-
-
-
-
-
-
-
-
-
-
         $(document).on("click", "#btnFilter", function() {
-
-
-
             $('#checkout-form').submit();
-
-
-
         });
 
-
-
-
-
-
+        $(document).keypress(function(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);  if(keycode == '13'){    $('#checkout-form').submit();
+         }
+        });
 
         $('select[name="pincode"]').on('change', (event) => {
-
-
-
 			var value = $('select[name="pincode"]').val();
 
-
-
-
-
-
-
 			$.ajax({
-
-
-
-				url: '{{url("/")}}/api/postcode-suburb/'+value,
-
-
+            	url: '{{url("/")}}/api/postcode-suburb/'+value,
 
                 method: 'GET',
 
-
-
                 success: function(result) {
-
-
 
 					var content = '';
 
-
-
 					var slectTag = 'select[name="suburb_id"]';
 
-
-
 					var displayCollection = (result.data.postcode == "all") ? "All postcode" : " Select";
-
-
-
-
-
-
-
 					content += '<option value="" selected>'+displayCollection+'</option>';
-
-
-
 					$.each(result.data.suburb, (key, value) => {
-
-
-
 						content += '<option value="'+value.suburb_id+'">'+value.suburb_title+'</option>';
-
-
-
 					});
-
-
-
 					$(slectTag).html(content).attr('disabled', false);
-
-
-
                 }
-
-
-
 			});
-
-
-
 		});
 
 
@@ -1357,42 +658,18 @@ if($catDetails == ''){
 
             var value = $('#cat_level1').val();
 
-
-
-
-
-
-
             $.ajax({
-
-
-
 				url: '{{url("/")}}/api/subcategory/'+value,
-
-
 
                 method: 'GET',
 
-
-
                 success: function(result) {
-
-
 
 					var content = '';
 
-
-
 					var slectTag = 'select[name="blog_sub_category_id"]';
 
-
-
 					var displayCollection = (result.data.cat_name == "all") ? "All Subcategory" : " Select ";
-
-
-
-
-
 
 
 					content += '<option value="" selected>'+displayCollection+'</option>';
@@ -1653,7 +930,13 @@ if($catDetails == ''){
 
         }*/
 
-        $('input[name="key_details"]').on('click', function() {
+        $('body').on('click', function() {
+            //code
+            $('.postcode-dropdown').hide();
+        });
+
+        $('input[name="key_details"]').on('click', function(e) {
+            e.stopPropagation()
             var content = '';
 
             @php

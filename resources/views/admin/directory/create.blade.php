@@ -127,12 +127,12 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="description">Description</label>
-                        <textarea class="form-control" rows="4" name="description" id="description" value="{{ old('description') }}"/>
+                        <textarea class="form-control" rows="4" name="description" id="summernote-description" value="{{ old('description') }}"/>
                             @error('description') {{ $message ?? '' }} @enderror</textarea>
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="service_description">Service Description</label>
-                        <textarea class="form-control" rows="4" name="service_description" id="service_description" value="{{ old('service_description') }}"/>
+                        <textarea class="form-control" rows="4" name="service_description" id="summernote-service_description" value="{{ old('service_description') }}"/>
                             @error('service_description') {{ $message ?? '' }} @enderror</textarea>
                     </div>
                     <div class="form-group">
@@ -201,3 +201,15 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#summernote-description').summernote({
+        height: 400
+    });
+    $('#summernote-service_description').summernote({
+    height: 400
+    });
+</script>
+@endpush

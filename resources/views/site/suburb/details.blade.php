@@ -536,7 +536,10 @@
         $(document).on("click", "#btnFilter", function() {
             $('#checkout-form').submit();
         });
-
+        $(document).keypress(function(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);  if(keycode == '13'){    $('#checkout-form').submit();
+         }
+        });
     </script>
 @endpush
 

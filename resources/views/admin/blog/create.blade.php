@@ -96,7 +96,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="content">Content</label>
-                            <textarea type="text" class="form-control" rows="4" name="content" id="content">{{ old('content') }}</textarea>
+                            <textarea type="text" class="form-control" rows="4" name="content" id="summernote_content">{{ old('content') }}</textarea>
                             @error('content')
                                 <p class="small text-danger">{{ $message }}</p>
                             @enderror
@@ -119,7 +119,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="meta_description">Meta Description</label>
-                            <textarea class="form-control" rows="4" name="meta_description" id="meta_description">{{ old('meta_description') }}</textarea>
+                            <textarea class="form-control" rows="4" name="meta_description" id="summernote_meta_description">{{ old('meta_description') }}</textarea>
                             {{-- <input name="meta_description" type="text" id="upload" onchange="" hidden> --}}
                             @error('meta_description')
                                 <p class="small text-danger">{{ $message }}</p>
@@ -183,7 +183,7 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="sticky_content">Article Sticky Content <span class="m-l-5 text-danger"> *</span></label>
-                             <textarea class="form-control @error('sticky_content') is-invalid @enderror" type="text" name="sticky_content" id="sticky_content">Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris.</textarea>
+                             <textarea class="form-control @error('sticky_content') is-invalid @enderror" type="text" name="sticky_content" id="summernote_sticky_content">Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris.</textarea>
                              @error('sticky_content') {{ $message }} @enderror
                         </div>
                     </div>
@@ -357,5 +357,17 @@
 			});
 		});
     </script>
-
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#summernote_content').summernote({
+        height: 400
+    });
+    $('#summernote_meta_description').summernote({
+        height: 400
+    });
+    $('#summernote_sticky_content').summernote({
+        height: 400
+    });
+</script>
 @endpush

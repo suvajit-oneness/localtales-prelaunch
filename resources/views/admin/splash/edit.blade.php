@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="content2">Content 2</label>
-                            <textarea class="form-control" rows="4" name="content2" id="content">{{ old('content2', $splash->content2) }}</textarea>
+                            <textarea class="form-control" rows="4" name="content2" id="content2">{{ old('content2', $splash->content2) }}</textarea>
                             <input type="hidden" name="id" value="{{ $splash->id }}">
                             @error('content2') {{ $message }} @enderror
 
@@ -125,3 +125,18 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    $('#content').summernote({
+        height: 400
+    });
+    $('#content1').summernote({
+        height: 400
+    });
+    $('#content2').summernote({
+        height: 400
+    });
+</script>
+@endpush
