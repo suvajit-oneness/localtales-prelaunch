@@ -39,7 +39,7 @@ style="background: url({{URL::to('/').'/Demo/' .$demo}})"
     <ul class="breadcumb_list mb-2 mb-sm-4">
                         <li><a href="{!! URL::to('help') !!}">Localtales Help</a></li>
                         <li>/</li>
-                        <li><a href="{!! URL::to('help/subcat-detail/'.$article->category->slug) !!}">{{ $article->category->title }} </a></li>
+                        <li><a href="{!! URL::to('help/category/'.$article->category->slug) !!}">{{ $article->category->title }} </a></li>
                         <li>/</li>
                         <li class="active">{{ $article->title }}</li>
                     </ul>
@@ -51,7 +51,7 @@ style="background: url({{URL::to('/').'/Demo/' .$demo}})"
                     <h6>Articles in this section</h6>
                     <ul class="left_navdet">
                         @foreach($relevantArticle as $key => $category)
-                        <li><a href="{!! URL::to('help/detail/'.$category->slug) !!}" class="active">{{$category->title ?? ''}}.</a></li>
+                        <li><a href="{!! URL::to('help/article/'.$category->slug) !!}" class="active">{{$category->title ?? ''}}.</a></li>
                         @endforeach
                     </ul>
                 </div>

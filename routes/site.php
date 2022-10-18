@@ -105,8 +105,8 @@ Route::post('/add/ajax', 'Front\HelpController@helpAjax')->name('add.help.ajax')
 // help
 Route::name('front.help.')->prefix('help')->group(function() {
 	Route::get('/', 'Front\HelpController@index')->name('index');
-    Route::get('/subcat-detail/{slug}', 'Front\HelpController@subcat')->name('subcat');
-	Route::get('/detail/{slug}', 'Front\HelpController@detail')->name('detail');
+    Route::get('/category/{slug}', 'Front\HelpController@subcat')->name('subcat');
+	Route::get('/article/{slug}', 'Front\HelpController@detail')->name('detail');
 });
 
 // directory categories ajax fetch

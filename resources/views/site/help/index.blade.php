@@ -43,7 +43,7 @@ style="background: url({{URL::to('/').'/Demo/' .$demo}})"
             <ul class="help_list">
                 @foreach($categories as $key => $category)
                 <li>
-                    <a href="{!! URL::to('help/subcat-detail/'.$category->slug) !!}">
+                    <a href="{!! URL::to('help/category/'.$category->slug) !!}">
                         {{ $category->title }}
                         <span>{{ $category->description }}</span>
                     </a>
@@ -59,7 +59,7 @@ style="background: url({{URL::to('/').'/Demo/' .$demo}})"
             <ul class="help_list2">
                 @foreach($subcategories as $key => $subcategory)
                 <li>
-                    <a href="{!! URL::to('help/detail/'.$subcategory->slug) !!}">
+                    <a href="{!! URL::to('help/article/'.$subcategory->slug) !!}">
                         {{ $subcategory->title }}
                     </a>
                 </li>

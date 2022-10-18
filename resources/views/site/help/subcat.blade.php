@@ -50,7 +50,7 @@ style="background: url({{URL::to('/').'/Demo/' .$demo}})"
                  <ul class="left_navdet text-center">
                 @foreach($subcategories as $key => $category)
 
-                <li><a  href="{!! URL::to('help/detail/'.$category->slug) !!}"><span> {{$category->title}}</span></a></li>
+                <li><a  href="{!! URL::to('help/article/'.$category->slug) !!}"><span> {{$category->title}}</span></a></li>
                 @endforeach
                 </ul>
             </div>
