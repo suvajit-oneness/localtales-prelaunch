@@ -69,6 +69,10 @@ class HelpRepository extends BaseRepository implements HelpContract
 
             $blog = new HelpArticle;
             $blog->title = $collection['title'];
+            $slug = Str::slug($collection['title'], '-');
+            $slugExistCount = HelpArticle::where('slug', $slug)->count();
+            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+            $blog->slug = $slug;
             $blog->cat_id = $collection['cat_id'];
             $blog->sub_cat_id = $collection['sub_cat_id'];
             $blog->description = $collection['description'];
@@ -89,6 +93,10 @@ class HelpRepository extends BaseRepository implements HelpContract
         $blog = $this->findOneOrFail($params['id']);
         $collection = collect($params)->except('_token');
         $blog->title = $collection['title'];
+        $slug = Str::slug($collection['title'], '-');
+            $slugExistCount = HelpArticle::where('slug', $slug)->count();
+            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+            $blog->slug = $slug;
         $blog->cat_id = $collection['cat_id'];
         $blog->sub_cat_id = $collection['sub_cat_id'];
         $blog->description = $collection['description'];
@@ -171,7 +179,7 @@ class HelpRepository extends BaseRepository implements HelpContract
         $blogs = HelpArticle::paginate(6);
         //dd($blogs);
         return $blogs;
-        
+
     }
 
     /**
@@ -226,7 +234,7 @@ class HelpRepository extends BaseRepository implements HelpContract
      */
     public function searchBlogsData($categoryId,$secondaryCategoryId,$tertiaryCategoryId,$keyword){
         $blogs = HelpArticle::with('category')->where('status','=',1)->
-       
+
         when($categoryId!='', function($query) use ($categoryId){
             $query->where('blog_category_id', '=', $categoryId);
         })
