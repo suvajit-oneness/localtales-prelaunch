@@ -76,8 +76,11 @@
                                             href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $blog->email }}">{{ $blog->email }}</a>
 
                                     </td>
-
+                                     @if($blog->query_catagory =='other')
+                                     <td>other</td>
+                                     @else
                                     <td>{{ $blog->catagory->name }}</td>
+                                    @endif
 
                                     <td>{{ $blog->query }}</td>
 

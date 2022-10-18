@@ -29,14 +29,28 @@
                         </tr>
                         <tr>
                             <td>Query Catagory</td>
-                            <td>{{ $data->catagory->name }}</td>
+                            @if($data->query_catagory =='other')
+                                     <td>other</td>
+                                     @else
+                                    <td>{{ $data->catagory->name }}</td>
+                                    @endif
                         </tr>
+                        @if($data->query_catagory =='other')
+                        <tr>
+                            <td>Query Catagory</td>
+
+                                    <td>{{ $data->other }}</td>
+
+                        </tr>
+                        @endif
                         <tr>
                             <td>Query</td>
                             <td>{{ $data->query }}<br>
+                                @if($data->related_images)
                                 @foreach (explode(',', $data->related_images) as $item)
                                     <img src="{{ asset($item) }}" height="400px" width="400px" class="m-3" alt="">
                                 @endforeach
+                                @endif
                             </td>
                         </tr>
                     </tbody>
