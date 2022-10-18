@@ -39,9 +39,9 @@ style="background: url({{URL::to('/').'/Demo/' .$demo}})"
     <ul class="breadcumb_list mb-2 mb-sm-4">
                         <li><a href="{!! URL::to('help') !!}">Localtales Help</a></li>
                         <li>/</li>
-                        <li><a href="{!! URL::to('help/subcat-detail/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $subcategories[0]->category->title))) !!}">{{ $subcategories[0]->category->title }} </a></li>
+                        <li><a href="{!! URL::to('help/subcat-detail/'.$article->category->slug) !!}">{{ $article->category->title }} </a></li>
                         <li>/</li>
-                        <li class="active">{{ $subcategories[0]->subcategory->title }}</li>
+                        <li class="active">{{ $article->title }}</li>
                     </ul>
         <div class="row">
 
@@ -50,21 +50,21 @@ style="background: url({{URL::to('/').'/Demo/' .$demo}})"
                 <div class="sticky-top">
                     <h6>Articles in this section</h6>
                     <ul class="left_navdet">
-                        @foreach($subcategories as $key => $category)
-                        <li><a href="{!! URL::to('help/detail/'.$category->subcategory->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $category->subcategory->title))) !!}" class="active">{{$category->subcategory->title ?? ''}}.</a></li>
+                        @foreach($relevantArticle as $key => $category)
+                        <li><a href="{!! URL::to('help/detail/'.$category->slug) !!}" class="active">{{$category->title ?? ''}}.</a></li>
                         @endforeach
                     </ul>
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-md-9 help_right">
                 <h1>
-                    {{$category->subcategory->title}}
+                    {{-- {{$category->subcategory->title}} --}}
                     {{-- <span>{{date('d M Y', strtotime($category->created_at))}}| Updated</span> --}}
                 </h1>
-                 @foreach($subcategories as $key => $category)
-                <h3>{{$category->title}}</h3>
-                <p>{!! $category->description!!}</p>
-                @endforeach
+
+                <h3>{{$article->title}}</h3>
+                <p>{!! $article->description!!}</p>
+
 
                 <a href="{{ route('user.raise.query') }}">Have more questions? Submit a query!</a>
             </div>

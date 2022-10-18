@@ -34,9 +34,7 @@ class HelpController extends BaseController
 
     public function index(Request $request)
     {
-
-
-        $subcategories =HelpSubCategory::all();
+        $subcategories =HelpArticle::paginate(6);
         if (!empty($request->term)) {
         $categories = $this->HelpcategoryRepository->getSearchCategories($request->term);
        } else {
@@ -52,7 +50,7 @@ class HelpController extends BaseController
          if (!empty($request->term)) {
           $subcategories = $this->HelpcategoryRepository->getSearchSubCategories($request->term);
          } else {
-        $subcategories =HelpSubCategory::where('category_id',$id)->get();
+        $subcategories =HelpArticle::where('cat_id',$id)->get();
         }
         //dd($categories);
         $this->setPageTitle('Help', 'Help page');
@@ -60,14 +58,16 @@ class HelpController extends BaseController
     }
     public function detail(Request $request,$slug)
     {
-        $Articleid=HelpSubCategory::where('slug',$slug)->get();
+        $Articleid=HelpArticle::where('slug',$slug)->get();
         $id=$Articleid[0]->id;
        // $subcategories =HelpSubCategory::where('category_id',$id)->get();
        // $categories =HelpArticle::where('cat_id',$id)->get();
-        $subcategories =HelpArticle::where('sub_cat_id',$id)->get();
+        $subcategories =HelpArticle::where('id',$id)->get();
+        $article=$subcategories[0];
+        $relevantArticle=HelpArticle::where('cat_id',$article->cat_id)->where('id','!=',$id)->get();
         //dd($subcategories);
         $this->setPageTitle('Help detail', 'Help page');
-        return view('site.help.detail',compact('subcategories'));
+        return view('site.help.detail',compact('article','relevantArticle'));
     }
 
     /**

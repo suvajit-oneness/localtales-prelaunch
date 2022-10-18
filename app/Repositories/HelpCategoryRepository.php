@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use Illuminate\Support\Str;
 use App\Models\HelpCategory;
+use App\Models\HelpArticle;
 use App\Models\HelpSubCategory;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
@@ -147,10 +148,10 @@ class HelpCategoryRepository extends BaseRepository implements HelpCategoryContr
     {
         return HelpCategory::where([['title', 'LIKE', '%' . $term . '%']])->paginate(25);
     }
-    
-    
+
+
     public function getSearchSubCategories(string $term)
     {
-        return HelpSubCategory::where([['title', 'LIKE', '%' . $term . '%']])->paginate(25);
+        return HelpArticle::where([['title', 'LIKE', '%' . $term . '%']])->paginate(25);
     }
 }
