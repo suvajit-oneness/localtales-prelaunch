@@ -312,7 +312,18 @@ class SuburbManagementController extends BaseController
     {
         foreach ($request->image as $image) {
             $name = $image->getClientOriginalName();
-            $image->move(public_path() . '/admin/uploads/suburb/', $name);
+            $short_name = explode('.', $name)[0];
+            $data=Suburb::where('name', '=', $short_name)->get();
+            //dd($data);
+            $id=$data[0]->id;
+            $suburb=Suburb::findOrFail($id);
+            $images = $image;
+            $ext = $images->getClientOriginalExtension();
+            $imageName = mt_rand().'_'.time().".".$ext;
+           // $image->move(public_path() . '/admin/uploads/suburb/', $name);
+            $images->move("admin/uploads/suburb/",$imageName);
+            $suburb->image = $imageName;
+            $suburb->save();
         }
         Session::flash('image_uploaded', 'All images imported Successfully.');
         return redirect()->back();

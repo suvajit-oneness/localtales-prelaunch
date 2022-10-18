@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title>Local Tales</title>
+  <link rel="icon" type="image/x-icon"  href="{{ asset('favicon.png') }}">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
@@ -31,16 +32,16 @@
                                 Verified successfully
                             </div>
                         @endif
-                       
+
                         @csrf
                         <div class="row px-3">
                             <label class="mb-1">Email Address</label>
-                            <input class="mb-1 mb-sm-3" type="text" name="email" placeholder="Enter a valid email address">
+                            <input class="mb-1 mb-sm-3" type="text" name="email" placeholder="Enter a valid email address" value="{{ old('email') }}">
                             @error('email') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="row px-3">
                             <label class="mb-1">Password</label>
-                            <input class="mb-2 mb-sm-3" type="password" name="password" placeholder="Enter password">
+                            <input class="mb-2 mb-sm-3" type="password" name="password" placeholder="Enter password" value="{{ old('password') }}">
                             @error('password') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="row mb-3 align-items-center">
@@ -75,7 +76,42 @@
 <script type="text/javascript" src="{{ asset('b2b/js/slick.min.js') }}"></script>
 <script src="{{ asset('b2b/js/custom.js') }}"></script>
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        feather.replace()
+    </script>
+
+    <script>
+        // sweetalert fires | type = success, error, warning, info, question
+        function toastFire(type = 'success', title, body = '') {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                showCloseButton: true,
+                timer: 2000,
+                timerProgressBar: false,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: type,
+                title: title,
+                // text: body
+            })
+        }
+
+        // on session toast fires
+        @if (Session::get('success'))
+            toastFire('success', '{{ Session::get('success') }}');
+        @elseif (Session::get('failure'))
+            toastFire('warning', '{{ Session::get('failure') }}');
+        @endif
+    </script>
 
 
 </body>

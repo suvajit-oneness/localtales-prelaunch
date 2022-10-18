@@ -55,7 +55,7 @@
             </div>
             <div class="tile">
                 <div class="tile-body">
-                   
+
                     <table class="table table-hover custom-data-table-style table-striped">
                         <thead>
                             <tr>
@@ -83,7 +83,7 @@
                                     <td>{{ $blog->title }}</td>
                                     <td>{{$blog->suburb  }}</td>
                                     <td>{{ $blog->category }}</td>
-                                    <td><a href="{{route('admin.collection.details', $blog['id'])}}">{{ $item }}</a></td>
+                                    <td><a href="{{route('admin.collectiondir.edit', $blog['id'])}}">{{ $item }}</a></td>
                                     <!--<td>{{ $blog->paragraph1_heading }}</td>-->
                                     <!--<td>{{ $blog->paragraph1 }}</td>-->
                                     <td class="text-center">
@@ -102,7 +102,7 @@
                                         <a href="{{ route('admin.collection.edit', $blog['id']) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-edit"></i></a>
                                         <a href="{{ route('admin.collection.details', $blog['id']) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-eye"></i></a>
                                         <a href="#" data-id="{{$blog['id']}}" class="sa-remove btn btn-sm btn-danger edit-btn"><i class="fa fa-trash"></i></a>
-                                        
+
                                         <a href="{{ route('admin.collection.directory', $blog['id']) }}"  class="btn btn-sm btn-primary edit-btn"><i class="fa fa-arrow-right"></i></a>
                                     </div>
                                 </td>
@@ -198,7 +198,7 @@
             swal("Success!", "{{ session('image_uploaded') }}", "success");
         </script>
     @endif
-    
+
     @if (session('csv'))
         <script>
             swal("Success!", "{{ session('csv') }}", "success");

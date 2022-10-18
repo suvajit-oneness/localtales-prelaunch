@@ -35,7 +35,7 @@ class HelpController extends BaseController
     public function index(Request $request)
     {
 
-       
+
         $subcategories =HelpSubCategory::all();
         if (!empty($request->term)) {
         $categories = $this->HelpcategoryRepository->getSearchCategories($request->term);
@@ -45,9 +45,10 @@ class HelpController extends BaseController
         $this->setPageTitle('Help', 'Help page');
         return view('site.help.index',compact('categories','subcategories'));
     }
-    public function subcat(Request $request,$id)
+    public function subcat(Request $request,$slug)
     {
-         $categories =HelpCategory::where('id',$id)->get();
+         $categories =HelpCategory::where('slug',$slug)->get();
+         $id=$categories[0]->id;
          if (!empty($request->term)) {
           $subcategories = $this->HelpcategoryRepository->getSearchSubCategories($request->term);
          } else {
@@ -57,14 +58,16 @@ class HelpController extends BaseController
         $this->setPageTitle('Help', 'Help page');
         return view('site.help.subcat',compact('categories','subcategories'));
     }
-    public function detail(Request $request,$id)
+    public function detail(Request $request,$slug)
     {
+        $Articleid=HelpSubCategory::where('slug',$slug)->get();
+        $id=$Articleid[0]->id;
        // $subcategories =HelpSubCategory::where('category_id',$id)->get();
-        $categories =HelpArticle::where('cat_id',$id)->get();
+       // $categories =HelpArticle::where('cat_id',$id)->get();
         $subcategories =HelpArticle::where('sub_cat_id',$id)->get();
         //dd($subcategories);
         $this->setPageTitle('Help detail', 'Help page');
-        return view('site.help.detail',compact('categories','subcategories'));
+        return view('site.help.detail',compact('subcategories'));
     }
 
     /**
@@ -78,7 +81,7 @@ class HelpController extends BaseController
             'user_email'      =>  'required|string|min:1',
             'type'      =>  'required|string|min:1',
             'comment'      =>  'nullable|string|min:1',
-           
+
         ]);
 
              $params = $request->except('_token');
@@ -90,8 +93,8 @@ class HelpController extends BaseController
         }
         return $this->responseRedirect('index', 'Comment has been created successfully', 'success', false, false);
     }
-    
-    
+
+
 	public function helpAjax(Request $request)
     {
 
@@ -99,11 +102,11 @@ class HelpController extends BaseController
            'user_name'      =>   'required|string|min:1',
             'user_email'      =>  'required|string|min:1',
             'comment'      =>  'required|string|min:1',
-            
+
         ]);
 
         if (!$validator->fails()) {
-            
+
                 $params = array(
                     'user_id' => Auth::guard('user')->user()->id ?? '',
                     'user_name' => $request->user_name ?? null,
@@ -120,7 +123,7 @@ class HelpController extends BaseController
                 } else {
                     return response()->json(['error' => true, 'message' => 'Something happened']);
                 }
-            
+
         } else {
             return response()->json(['error' => true, 'message' => $validator->errors()->first()]);
         }
@@ -138,14 +141,14 @@ class HelpController extends BaseController
         $this->setPageTitle('Postcode', 'Postcode Details : ' . $pin->pin);
         return view('admin.pin.details', compact('pin'));
     }
-    
-    
+
+
     public function claimbusiness(Request $request){
         $request->validate([
             'user_name'      =>   'required|string|min:1',
             'user_email'      =>  'required|string|min:1',
             'comment'      =>  'nullable|string|min:1',
-           
+
         ]);
 
         $params = $request->except('_token');
@@ -157,27 +160,27 @@ class HelpController extends BaseController
             return $this->responseRedirectBack('Error occurred while creating Comment.', 'error', true, true);
         }
         return redirect()->back()->with('message', 'Comment has been created successfully');
-       
+
     }
-    
+
     public function claimAjax(Request $request){
-        
+
         $validator = Validator::make($request->all(), [
            'user_name'      =>   'required|string|min:1',
             'user_email'      =>  'required|string|min:1',
             'comment'      =>  'required|string|min:1',
-            
+
         ]);
 
         if (!$validator->fails()) {
-            
+
                 $params = array(
                     'user_id' => Auth::guard('user')->user()->id ?? '',
                     'user_name' => $request->user_name ?? null,
                     'user_email' => $request->user_email ?? null,
                     'directory_id' =>$request->directory_id ?? null,
                     'comment' => $request->comment ?? '',
-                    
+
                 );
                 dd($params);
                 $data = $this->BusinessRepository->claim($params);
@@ -187,10 +190,10 @@ class HelpController extends BaseController
                 } else {
                     return response()->json(['error' => true, 'message' => 'Something happened']);
                 }
-            
+
                } else {
             return response()->json(['error' => true, 'message' => $validator->errors()->first()]);
             }
-    
+
          }
 }

@@ -58,7 +58,7 @@
                         </div>
 
                     </div>
-                    <div class="tile-body">
+                    {{--  <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="name"> Postcode <span class="m-l-5 text-danger">
                                     *</span></label>
@@ -72,6 +72,24 @@
                                 <p class="small text-danger">{{ $message }}</p>
                             @enderror
                         </div>
+                    </div>--}}
+                    <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                            <div class="filterSearchBox">
+                                <div class="row">
+                                    <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                                        <div class="select-floating-admin">
+                                            <label>Postcode<span class="m-l-5 text-danger">
+                                                *</span></label>
+                                            <select class="filter_select form-control" name="pin_code">
+                                                <option value="" hidden selected>Select Postcode...</option>
+                                                @foreach ($pin as $index => $item)
+                                                <option value="{{ $item->pin }}">{{ $item->pin }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <div class="tile-body">
                         <div class="form-group">

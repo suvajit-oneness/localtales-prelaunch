@@ -279,8 +279,11 @@ class StateManagementController extends BaseController
     public function upload_bulk_images(Request $request)
     {
         foreach ($request->image as $image) {
+            $state = State::findOrFail($request->id);
             $name = $image->getClientOriginalName();
             $image->move(public_path() . '/admin/uploads/state/images/', $name);
+            $state->image = $image;
+            $state->save();
         }
         FacadesSession::flash('image_uploaded', 'All images imported Successfully.');
         return redirect()->back();

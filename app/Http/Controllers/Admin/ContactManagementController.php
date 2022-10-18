@@ -63,8 +63,8 @@ class ContactManagementController extends BaseController
         $this->validate($request, [
             'pretty_name'      =>  'required|string|min:1',
             'content'      =>  'required|string|min:1',
-            'image'      =>  'required|mimes:jpg,jpeg,png|max:1000',
-            'banner_image'      => 'required|mimes:jpg,jpeg,png|max:1000',
+           // 'image'      =>  'required|mimes:jpg,jpeg,png|max:1000',
+//'banner_image'      => 'required|mimes:jpg,jpeg,png|max:1000',
 
         ]);
 

@@ -92,14 +92,13 @@ class LoginController extends BaseController
             $noti->description ='Dear User,If You have not completed your profile elements,Please update';
             $noti->read_flag = 0;
             $noti->save();
-             } 
-            
+             }
+
             return redirect()->intended(route('site.dashboard'));
-            
         }
-        
         else{
-            return $this->responseRedirectBack('Error occurred while login into account.', 'error', true, true);
+           // return $this->responseRedirectBack('Error occurred while login into account.', 'error', true, true);
+            return redirect()->back()->with('failure', 'Email or Password does not match');
         }
     }
 
@@ -127,15 +126,16 @@ class LoginController extends BaseController
      * @return \Illuminate\Http\JsonResponse
      */
     public function userCreate(Request $request){
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'mobile' => 'required|digits:10',
             'password' => 'required|string|min:6',
         ]);
 
-        if($validator->fails()){
+       /* if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
-        }
+        }*/
 
         $params = $request->except('_token');
 

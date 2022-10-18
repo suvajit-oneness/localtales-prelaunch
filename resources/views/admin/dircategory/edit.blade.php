@@ -75,6 +75,14 @@
                             @error('long_content') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
                     </div>
+                    <div class="tile-body">
+                        <div class="form-group">
+                            <label class="control-label" for="parent_category_email_template">Email Template</label>
+                            <p class="small text-danger mb-2">Approx. 1000-1200 words</p>
+                            <textarea class="form-control @error('parent_category_email_template') is-invalid @enderror" name="parent_category_email_template" id="summernote-parent_category_email_template" cols="30" rows="10">{{ old('parent_category_email_template') ? old('parent_category_email_template') : $category->parent_category_email_template }}</textarea>
+                            @error('parent_category_email_template') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
+                        </div>
+                    </div>
                     <div class="tile-footer">
                         <input type="hidden" name="id" value="{{$category->id}}">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Category</button>
@@ -99,6 +107,9 @@
         height: 400
     });
     $('#summernote-long').summernote({
+        height: 400
+    });
+    $('#summernote-parent_category_email_template').summernote({
         height: 400
     });
 </script>

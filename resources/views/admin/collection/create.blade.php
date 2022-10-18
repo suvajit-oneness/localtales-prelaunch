@@ -14,8 +14,6 @@
             <div class="tile">
                 <h3 class="tile-title">{{ $subTitle }}
                     <span class="top-form-btn">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save
-                            Collection</button>
                         <a class="btn btn-secondary" href="{{ route('admin.collection.index') }}"><i
                                 class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
                     </span>
@@ -43,7 +41,7 @@
                                 <p class="small text-danger">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="tile-body">
+                        {{--  <div class="tile-body">
                             <div class="form-group">
                                 <label class="control-label" for="pin"> Suburb <span class="m-l-5 text-danger">
                                         *</span></label>
@@ -57,7 +55,24 @@
                                     <p class="small text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-
+                        </div>--}}
+                        <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                            <div class="filterSearchBox">
+                                <div class="row">
+                                    <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                                        <div class="select-floating-admin">
+                                            <label>Suburb<span class="m-l-5 text-danger">
+                                                *</span></label>
+                                            <select class="filter_select form-control" name="suburb">
+                                                <option value="" hidden selected>Select Suburb...</option>
+                                                @foreach ($suburb as $index => $item)
+                                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="category">Category</label>

@@ -45,7 +45,7 @@ class DirectorySubCategoryController extends BaseController
 
             $categories = $this->DirectorySubCategoryRepository->getSearchSubcategory($request->term);
         } else {
-            $categories = DirectoryCategory::where('child_category','!=','NULL')->orderby('child_category')->latest('id')->paginate(25);
+            $categories = DirectoryCategory::where('child_category','!=','NULL')->orderby('child_category')->latest('id')->groupby('child_category')->paginate(25);
         }
 
         $this->setPageTitle('Sub Category', 'List of all Subcategories');
@@ -101,7 +101,7 @@ class DirectorySubCategoryController extends BaseController
      */
     public function update(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $this->validate($request, [
             'child_category' => 'required|string|min:1|max:255',
             'child_category_image' => 'nullable|mimes:jpg,jpeg,png,bmp,svg,gif',

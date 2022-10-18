@@ -213,56 +213,61 @@ class ApiController extends BaseController
 
     public function index(Request $request)
     {
-        $keyword = $request->data;
-        //dd($keyword);
-        $cat_level1 = DB::table('blog_categories')->where('title', 'like', '%'.$keyword.'%')->where('status',1)->limit(10)->get();
-        $cat_level2 = DB::table('sub_categories')->where('title', 'like', '%'.$keyword.'%')->where('status',1)->limit(10)->get();
-        $cat_level3 = DB::table('sub_category_levels')->where('title', 'like', '%'.$keyword.'%')->where('status',1)->limit(10)->get();
+    
+		    $keyword = $request->data;
+			//dd($keyword);
+			$cat_level1 = DB::table('blog_categories')->where('title', 'like', '%'.$keyword.'%')->limit(10)->get();
+			$cat_level2 = DB::table('sub_categories')->where('title', 'like', '%'.$keyword.'%')->limit(10)->get();
+			$cat_level3 = DB::table('sub_category_levels')->where('title', 'like', '%'.$keyword.'%')->limit(10)->get();
 
-        $resp =  [];
-        if (count($cat_level1) > 0) {
-            foreach($cat_level1 as $value) {
-                $secondaryCategoriesGrouped = DB::table('sub_categories')->select('id', 'title')->where('category_id', $value->id)->groupBy('title')->limit(25)->get();
+			$resp =  [];
+			if (count($cat_level1) > 0) {
+			    foreach($cat_level1 as $value) {
+				$secondaryCategoriesGrouped = DB::table('sub_categories')->select('id', 'title')->where('category_id', $value->id)->groupBy('title')->limit(25)->get();
 
-                $resp[] = [
-                    'type' => 'primary',
-                    'id' => $value->id,
-                    'title' => $value->title,
-                    'child' => $secondaryCategoriesGrouped
-                ];
-            }
-        }
+				$resp[] = [
+				    'type' => 'primary',
+				    'id' => $value->id,
+				    'title' => $value->title,
+				    'child' => $secondaryCategoriesGrouped
+				];
+			    }
+			}
 
-        if (count($cat_level2) > 0) {
-            foreach($cat_level2 as $value) {
-                // $directories = DB::table('directories')->select('id', 'name')->where('category_id', 'like', $value->id.'%')->where('status', 1)->limit(6)->get();
-                $tertiaryCategoriesGrouped = DB::table('sub_category_levels')->select('id', 'title')->where('sub_category_id', $value->id)->groupBy('title')->limit(25)->get();
+			if (count($cat_level2) > 0) {
+			    foreach($cat_level2 as $value) {
+				$tertiaryCategoriesGrouped = DB::table('sub_category_levels')->select('id', 'title')->where('sub_category_id', $value->id)->groupBy('title')->limit(25)->get();
 
-                $resp[] = [
-                    'type' => 'secondary',
-                    'id' => $value->id,
-                    'tertiary_category_id' =>$value->id,
-                    'title' => $value->title,
-                    'child' => $tertiaryCategoriesGrouped
-                ];
-            }
-        }
-        if (count($cat_level3) > 0) {
-            foreach($cat_level3 as $value) {
-                // $directories = DB::table('directories')->select('id', 'name')->where('category_id', 'like', $value->id.'%')->where('status', 1)->limit(6)->get();
-                //$tertiaryCategories = DB::table('sub_category_levels')->where('title', 'like', '%'.$keyword.'%')->limit(10)->get();
+				$resp[] = [
+				    'type' => 'secondary',
+				    'id' => $value->id,
+				    'tertiary_category_id' =>$value->id,
+				    'title' => $value->title,
+				    'child' => $tertiaryCategoriesGrouped
+				];
+			    }
+			}
+			if (count($cat_level3) > 0) {
+			    foreach($cat_level3 as $value) {
+				$resp[] = [
+				    'type' => 'tertiary',
+				    'id' => $value->id,
+				    'tertiary_category_id' =>$value->id,
+				    'title' => $value->title,
+				    'child' => ''
+				];
+			    }
+			}
 
-                $resp[] = [
-                    'type' => 'tertiary',
-                    'id' => $value->id,
-                    'tertiary_category_id' =>$value->id,
-                    'title' => $value->title,
-                    'child' => ''
-                ];
-            }
-        }
+        /*$keyword = $request->code;
 
-        /*if ($cat_level1->count() > 0 || $cat_level2->count() > 0 || $cat_level3->count() > 0) {
+        $cat_level1 = DB::table('blog_categories')->where('title', 'like', '%'.$keyword.'%')->limit(6)->get();
+        $cat_level2 = DB::table('sub_categories')->where('title', 'like', '%'.$keyword.'%')->limit(6)->get();
+        $cat_level3 = DB::table('sub_category_levels')->where('title', 'like', '%'.$keyword.'%')->limit(6)->get();
+
+        $resp = $resp1 = $resp2 = $resp3 = [];
+
+        if ($cat_level1->count() > 0 || $cat_level2->count() > 0 || $cat_level3->count() > 0) {
             foreach($cat_level1 as $value) {
                 $resp1[] = [
                     'id' => $value->id,
@@ -384,7 +389,7 @@ class ApiController extends BaseController
         $keyword = $request->code;
 
         $cat_level1 = DB::table('directory_categories')->where('title', 'like', $keyword.'%')->limit(6)->get();
-
+       
         $resp = [];
 
         if ($cat_level1->count() > 0) {
@@ -392,14 +397,14 @@ class ApiController extends BaseController
                 $resp[] = [
                     'id' => $value->id,
                     'title' => $value->title,
-
+                    
                 ];
             }
 
-
-
+            
+          
         }
-
+        
 
         if (count($resp) > 0) {
             return response()->json(['error' => false, 'message' => 'Details found', 'data' => $resp]);
@@ -407,7 +412,7 @@ class ApiController extends BaseController
             return response()->json(['error' => true, 'message' => 'No details found. Try again!']);
         }
 
-
+       
     }
 
 

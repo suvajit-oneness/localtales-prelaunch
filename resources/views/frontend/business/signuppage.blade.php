@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Local Tales</title>
-
+        <link rel="icon" type="image/x-icon"  href="{{ asset('favicon.png') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/bootstrap.css')}}">
         <link rel="stylesheet" type="text/css" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?ver=5.9.3' />
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/swiper-bundle.min.css')}}" />
@@ -55,7 +55,7 @@
 
         <section class="inner_banner articles_inbanner">
             <div class="container">
-                <div class="row m-0 justify-content-center">
+                <div class="row m-0 mb-4 justify-content-center">
                     <div class="col-12">
                         <h1>Business Application</h1>
                     </div>
@@ -79,20 +79,20 @@
                 </div>
                 <div class="row justify-content-center py-4 py-lg-5">
                     <div class="col-lg-8">
-                        <form action="{{ route('business.signuppage.store') }}" method="POST"   enctype="multipart/form-data">
+                        <form action="{{ route('business.form.update',$directory->slug) }}" method="POST"   enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="longitude" id="selectedLongitude" value="">
                                 <input type="hidden" name="latitude" id="selectedLatitude" value="">
-        
+
                                 <div class="div1" id="st1">
                                     <h6><span>1</span>Business Contact Details:</h6>
                                     <div class="did-floating-label-content">
-                                    <input type="text" name="name" value="{{$directory->name}}" id="inputSearchTextFilter" class="did-floating-input" autofocus required>
+                                    <input type="text" name="name" value=" {{ $directory->name}}" id="inputSearchTextFilter" class="did-floating-input" autofocus required>
                                         <label class="did-floating-label">Business Name</label>
                                         <p class="small text-danger" id="businessNameErr"></p>
                                     </div>
                                     <div class="did-floating-label-content">
-                                    <input class="did-floating-input @error('trading_name') is-invalid @enderror" type="text" name="trading_name" id="trading_name" onkeypress="return validateNumber(event)" onblur="validateInput(this.value)" value="{{$directory->trading_name}}" >
+                                    <input class="did-floating-input @error('trading_name') is-invalid @enderror" type="text" name="trading_name" id="trading_name" onkeypress="return validateNumber(event)" onblur="validateInput(this.value)" value="{{$directory->trading_name}}">
                                         <label class="did-floating-label">Trading Name</label>
                                         <p class="small text-danger" id="tradingNameErr"></p>
                                     </div>
@@ -148,33 +148,33 @@
                                     <select class="did-floating-input" name="category_id">
                                             <option value="" hidden selected>Select Category...</option>
                                             @foreach ($dircategory as $index => $item)
-                                                <option value="{{$item->id}}">{{ $item->title }}</option>
+                                                <option value="{{$item->id}}" {{ ($item->id == $directory->category_id) ? 'selected' : '' }}>{{ $item->parent_category }}</option>
                                             @endforeach
                                         </select>
                                         @error('category_id') <p class="small text-danger">{{ $message }}</p> @enderror
                                         <label class="did-floating-label">Categories</label>
                                     </div>
                                     <div class="did-floating-label-content">
-                                    <textarea class="did-floating-input" rows="4" name="description" id="description" onblur="validateDes(this.value)" value="{{$directory->description}}"/></textarea>
+                                    <textarea class="did-floating-input" rows="4" name="description" id="description" onblur="validateDes(this.value)" value="{{ old('description',$directory->description) }}"/>@error('description') {{ $message ?? '' }} @enderror</textarea>
                                     <label class="did-floating-label">Description</label>
                                     <p class="small text-danger" id="DescServiceErr"></p>
                                     </div>
                                     <div class="did-floating-label-content">
-                                    <textarea class="did-floating-input" rows="4" name="service_description" id="service_description" onblur="validateSer(this.value)" value="{{$directory->service_description}}"/></textarea>
+                                    <textarea class="did-floating-input" rows="4" name="service_description" id="service_description" onblur="validateSer(this.value)" value="{{ old('service_description',$directory->service_description) }}"/>@error('service_description') {{ $message ?? '' }} @enderror</textarea>
                                     <label class="did-floating-label">Service Description</label>
                                     <p class="small text-danger" id="ServiceErr"></p>
                                     </div>
                                     <div class="did-floating-label-content did-error-input">
                                         <select class="did-floating-select" name="opening_hour">
-        
+
                                           <option value="">9 am - 6 pm</option>
                                           <option value="" selected>11 am - 8 pm</option>
-        
+
                                         </select>
                                         <label class="did-floating-label">Opening Hours</label>
                                     </div>
                                     <div class="did-floating-label-content">
-                                    <input class="did-floating-input" type="text" name="twitter_link" value="{{$directory->twitter_link}} onblur="validateSoc(this.value)">
+                                    <input class="did-floating-input" type="text" name="twitter_link" value="{{$directory->twitter_link}}" onblur="validateSoc(this.value)">
                                         <label class="did-floating-label">Social Media</label>
                                     </div>
                                     <div class="d-flex justify-content-end mt-4 mb-4">
@@ -295,7 +295,7 @@
 
                 }
 
-                function validatePhone(val) {
+               /* function validatePhone(val) {
                     console.log(val);
                     if (val.length < 10) {
                         $("#businessPhoneErr").html('Value must be at least 10 digits');
@@ -308,7 +308,7 @@
                         $("#mobile").removeClass('mobile-novalide');
                     }
 
-                }
+                }*/
 
 
 
@@ -389,7 +389,7 @@
                 }
 
 
-                function validatePersonPhone(val) {
+               /* function validatePersonPhone(val) {
                     console.log(val);
                     if (val.length < 10) {
                         $("#PhoneErr").html('Value must be at least ten digit');
@@ -401,7 +401,7 @@
                         $("#primary_phone").removeClass('mobile-novalide');
                     }
 
-                }
+                }*/
 
 
 
@@ -847,10 +847,10 @@
             $('#businessEmailErr').text('Please enter Business email');
         } else if (!validateEmail($('#email').val())) {
             $('#businessEmailErr').text('Please enter a valid email address');
-        } else if($('#mobile').val() == "") {
+       /* } else if($('#mobile').val() == "") {
             $('#businessPhoneErr').text('Please enter Business Phone');
         } else if($('#mobile').val() == "") {
-            $('#businessPhoneErr').text('Please enter Business Phone');
+            $('#businessPhoneErr').text('Please enter Business Phone');*/
         } else if($('#address').val() == "") {
             $('#businessAddressErr').text('Please enter Business Address');
         } else if($('#website').val() == "") {
@@ -873,8 +873,8 @@
             $('#EmailErr').text('Please enter Email address');
         } else if (!validateEmail($('#primary_email').val())) {
             $('#EmailErr').text('Please enter a valid email address');
-        } else if($('#primary_phone').val() == "") {
-            $('#PhoneErr').text('Please enter Phone number');
+      /*  } else if($('#primary_phone').val() == "") {
+            $('#PhoneErr').text('Please enter Phone number');*/
         // } else if($('#description').val() == "") {
         //     $('#DescServiceErr').text('Please enter Business Description');
         // } else if($('#service_description').val() == "") {

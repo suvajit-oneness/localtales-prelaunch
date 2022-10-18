@@ -10,7 +10,7 @@
         $address = $business->address;
 
         if ($directoryLattitude == null || $directoryLongitude == null ) {
-            $url = "https://maps.google.com/maps/api/geocode/json?address=".urlencode($address)."&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4";
+            $url = "https://maps.google.com/maps/api/geocode/json?address=".urlencode($address)."&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -55,7 +55,7 @@
                     <div class="filterSearchBox">
                         <form action="">
                             <div class="row">
-                                <div class="col-5 col-md fcontrol position-relative filter_selectWrap">
+                                <div class="col-6 mb-2 mb-sm-0 col-md fcontrol position-relative filter_selectWrap">
                                     <div class="form-floating">
                                         <input id="postcodefloting" type="text" class="form-control pl-3" name="key_details" placeholder="Postcode/ State" value="{{ request()->input('key_details') }}" autocomplete="off">
                                         <input type="hidden" name="keyword" value="{{ request()->input('keyword') }}">
@@ -72,7 +72,7 @@
                                         </select>
                                     </div>
                                 </div>--}}
-                                <div class="col-5 col-md fcontrol position-relative filter_selectWrap">
+                                <div class="col-6 mb-2 mb-sm-0 col-md fcontrol position-relative filter_selectWrap">
                                     <div class="dropdown">
                                         <div class="form-floating drop-togg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <input id="categoryfloting" type="text" class="form-control pl-3" name="directory_category" placeholder="Category" value="{{ request()->input('directory_category') }}" autocomplete="off">
@@ -83,7 +83,7 @@
                                         <div class="respDrop"></div>
                                     </div>
                                 </div>
-                                <div class="col-5 col-md fcontrol position-relative filter_selectWrap">
+                                <div class="col col-md fcontrol position-relative filter_selectWrap">
                                     <div class="form-floating">
                                         <input type="text" id="keywordfloting" class="form-control pl-3" name="name" placeholder="Keyword" value="{{ request()->input('name') }}">
                                         <label for="keywordfloting">Keyword</label>
@@ -229,14 +229,14 @@
                 <div class="row">
                   <ul class="search_list_items search_list_items-mod v3_list_view">
                       @foreach($directoryList as $key => $business)
-                      <li>
+                      <li class="directory_listblock">
                             <div class="list_content_wrap">
                                 <div class="location_meta">
                                     <figcaption>
                                         <h4 class="place_title bebasnew">{{$business->name}}</h4>
 
-                                        {!! directoryRatingHtml($business->rating) !!}
-
+                                        <div class="mb-3">{!! directoryRatingHtml($business->rating) !!}
+                                        </div>
                                         {{-- @php
                                             if ($business->rating == "0" || $business->rating == "" || $business->rating == null) {
                                                 echo '';
@@ -245,9 +245,21 @@
                                             }
                                         @endphp --}}
 
-                                        <div class="v3_Listd mb-2">
-                                            <div><p class="v3_call mt-0"><i class="fas fa-phone-alt"></i>{{$business->mobile}}</a></p></div>
-                                            <div class="d-flex location_details">
+                                        <div class="d-flex location_details">
+                                            <div>        @php
+                                                $only_numbers = (int)filter_var($business->mobile, FILTER_SANITIZE_NUMBER_INT);
+                                                if(strlen((string)$only_numbers) == 9) {
+                                                    $only_number_to_array = str_split((string)$only_numbers);
+                                                    $mobile_number = '(0'.$only_number_to_array[0].') '.$only_number_to_array[1].$only_number_to_array[2].$only_number_to_array[3].$only_number_to_array[4].$only_number_to_array[5].$only_number_to_array[6].$only_number_to_array[7].$only_number_to_array[8];
+                                                } elseif(strlen((string)$only_numbers) == 10) {
+                                                    $only_number_to_array = str_split((string)$only_numbers);
+                                                    $mobile_number = '('.$only_number_to_array[0].$only_number_to_array[1].$only_number_to_array[2].$only_number_to_array[3].') '.$only_number_to_array[4].$only_number_to_array[5].$only_number_to_array[6].$only_number_to_array[7].$only_number_to_array[8].$only_number_to_array[9];
+                                                } else {
+                                                    $mobile_number = $business->mobile;
+                                                }
+                                            @endphp
+                                            <a href="tel:{{$mobile_number}}" class="g_l_icon"><i class="fas fa-phone-alt"></i>{{$mobile_number}}</a></div>
+                                            <div class="d-flex location_details mb-2 mb-md-0 ml-0 ml-md-2 mt-1 mt-md-0">
                                                 @php
                                                     // var_dump($business->website);
                                                     if (($business->website == "NA" || $business->website == "")) {
@@ -261,11 +273,11 @@
                                             </div>
                                         </div>
                                     </figcaption>
-                                    {{-- <p class="history_details">{!!strip_tags(substr($business->description,0,300))!!}</p> --}}
-                                    <div class="d-flex location_details">
+                                    {{-- <p class="history_details">{!!strip_tags(substr($business->description,0,300))!!}</p>
+                                     <div class="d-flex location_details">
                                         <span><i class="fas fa-tag"></i></span>
                                         <p class="location mb-0">{{$business->category_tree}}</p>
-                                    </div>
+                                    </div> --}}
                                     <div class="d-flex location_details">
                                         <span><i class="fas fa-map-marker-alt"></i></span>
                                         <p class="location mb-0">{{$business->address}}</p>
@@ -302,7 +314,7 @@
                                     <div class="v3readmore">
                                         {{-- <a href="{!! URL::to('directory/'.$business->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $business->name))) !!}">View Details<i class="fa fa-arrow-right"></i></a> --}}
 
-                                        <a href="{{ URL::to('directory/'.$business->slug) }}">View Details <i class="fa fa-arrow-right"></i></a>
+                                        <a href="{{ URL::to('directory/'.$business->slug) }}"><span>View Details</span> <i class="fa fa-arrow-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -336,7 +348,7 @@
 
 @endsection
 @push('scripts')
-    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4" type="text/javascript"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM" type="text/javascript"></script>
 
     <script>
         @php
@@ -345,7 +357,7 @@
            // $img = "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=".$business->latitude.",".$business->longitude."&fov=120&heading=0&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4";
 
             // $page_link = URL::to('directory/'.$business->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $business->name)));
-            $page_link = URL::to('directory/'.$business->slug);
+            $page_link = URL::to('directory/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $business->name)));
 
            // $data = array($business->name,floatval($business->latitude),floatval($business->longitude),$business->address,$img,$page_link);
            $data = array($business->name,floatval($business->latitude),floatval($business->longitude),$business->address,$page_link);
@@ -427,9 +439,9 @@
             '<div id="siteNotice">' +
             "</div>" +
             //'<img src="'+locations[i][4]+'" width="">' +
-            '<div class="mapPopContent"><div id="bodyContent"><a href="'+locations[i][5]+'" target="_blank"><h6 id="firstHeading" class="firstHeading mb-2">'+locations[i][0]+'</h6></a>' +
+            '<div class="mapPopContent"><div id="bodyContent"><a href="'+locations[i][4]+'"><h6 id="firstHeading" class="firstHeading mb-2">'+locations[i][0]+'</h6></a>' +
             '<p>' +locations[i][3]+'</p></div>' +
-            '<a href="'+locations[i][5]+'" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
+            '<a href="'+locations[i][4]+'" class="directionBtn"><i class="fas fa-link"></i></a>' +
             '</div></div>';
 
             const infowindow = new google.maps.InfoWindow({
@@ -464,8 +476,8 @@
             console.log("position", position);
             if (position.coords?.latitude && position.coords?.longitude) {
                 $.ajax({
-                   url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
-                   //  url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
+                    url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM`,
+                    // url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
                     method: 'get',
                     data: {},
                     success: function(result) {
@@ -475,17 +487,18 @@
                         const postcode = address.filter(e => e.types.includes("postal_code"))
                         console.log("postcode", postcode);
                         localStorage.setItem("postcode", postcode[0].long_name)
-                        document.cookie = 'postcode=' + postcode[0].long_name;
                         console.log(localStorage.getItem("postcode")+"here");
-
-
                     }
                 })
             }
         }
-        // function getCookie(postcode)
-        </script>
+    </script>
     <script>
+        $('body').on('click', function() {
+            //code
+            $('.postcode-dropdown').hide();
+        });
+
         // state, suburb, postcode data fetch
         $('input[name="key_details"]').on('keyup', function() {
             var $this = 'input[name="key_details"]'
@@ -515,9 +528,9 @@
                                 }
                             })
 
-                            if(result.data.length == 1) {
+                           /* if(result.data.length == 1) {
                                 content = '';
-                            }
+                            }*/
 
                             content += `</div>`;
                         } else {
@@ -536,6 +549,11 @@
             $('input[name="keyword"]').val(keyword)
             $('input[name="key_details"]').val(details)
         }
+        $('body').on('click', function() {
+            //code
+            $('.category-dropdown').hide();
+        });
+
 
         $('input[name="directory_category"]').on('click', function() {
             var content = '';
@@ -586,11 +604,18 @@
                                     // content += `<h6 class="dropdown-header">Secondary</h6>`;
 
                                     $.each(value.child, (key1, value1) => {
-                                        content += `<a class="dropdown-item ml-4" href="javascript: void(0)" onclick="fetchCode('${value1.child_category}', ${value1.id}, '${type2}')">${value1.child_category}</a>`;
+                                        var url = "";
+
+                                        if (type2 == 'business') {
+                                            url = `{{url('/')}}/directory/${value1.slug}`;
+                                        } else {
+                                            url = "javascript: void(0)";
+                                        }
+
+                                        content += `<a class="dropdown-item ml-4" href="${url}" onclick="fetchCode('${value1.child_category}', ${value1.id}, '${type2}')">${value1.child_category}</a>`;
                                     })
                                 }
                             })
-
                             content += `</div>`;
 
                         } else {

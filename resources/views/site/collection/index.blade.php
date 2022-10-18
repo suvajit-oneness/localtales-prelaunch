@@ -191,6 +191,11 @@
 
 @push('scripts')
     <script>
+        $('body').on('click', function() {
+            //code
+            $('.postcode-dropdown').hide();
+        });
+
        // state, suburb, postcode data fetch
        $('input[name="key_details"]').on('keyup', function() {
             var $this = 'input[name="key_details"]'

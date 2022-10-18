@@ -29,19 +29,32 @@
                         </div>
                         <div class="tile-body">
                             <div class="form-group">
-                                <label class="control-label" for="blog_category_id"> Category <span class="m-l-5 text-danger"> *</span></label>
+                                <label class="control-label" for="blog_category_id"> Category<span class="m-l-5 text-danger"> *</span></label>
+                                @if(strpos($targetblog->blog_category_id, ','))
                                 <select class="form-control" name="blog_category_id[]" multiple>
                                     <option hidden selected></option>
-
                                     @foreach ($blogcat as $index => $item)
                                     @php
-                                     $cat = explode(",", $targetblog->blog_category_id);
-                                            $isSelected = in_array($item->id,$cat) ? "selected='selected'" : "";
+                                        $cat = explode(",", $targetblog->blog_category_id);
+                                        $isSelected = in_array($item->id,$cat) ? "selected='selected'" : "";
                                     @endphp
                                     @endphp
                                     <option  value="{{$item->id}}" {{ (in_array($item->id, $cat)) ? 'selected' : '' }} >{{ $item->title }}</option>
                                     @endforeach
                                 </select>
+                                @else
+                                <select class="form-control" name="blog_category_id[]" multiple>
+                                    <option hidden selected></option>
+                                    @foreach ($blogcat as $index => $item)
+                                    @php
+                                        $isSelected = ($item->id == $targetblog->blog_category_id) ? "selected='selected'" : "";
+                                    @endphp
+                                    @endphp
+                                    <option  value="{{$item->id}}" {{($item->id == $targetblog->blog_category_id) ? 'selected' : '' }}>{{ $item->title }}</option>
+                                    @endforeach
+                                </select>
+                                @endif
+
                                 @error('blog_category_id') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
 
@@ -49,7 +62,7 @@
                         <div class="tile-body">
                             <div class="form-group">
                                 <label class="control-label" for="blog_sub_category_id"> Sub Category </label>
-                                <select class="form-control form-control-sm" name="blog_sub_category_id" disabled>
+                                <select class="form-control" name="blog_sub_category_id" disabled>
                                         <option value="">None</option>
                                         <option value="" {{ ($targetblog->blog_sub_category_id) ? 'selected' : '' }}>{{$targetblog->subcategory->title ?? ''}}</option>
                                 </select>
@@ -60,7 +73,7 @@
                         <div class="tile-body">
                             <div class="form-group">
                                 <label class="control-label" for="blog_tertiary_category_id"> Tertiary Category </label>
-                                <select class="form-control form-control-sm" name="blog_tertiary_category_id" disabled>
+                                <select class="form-control" name="blog_tertiary_category_id" disabled>
                                 <option value="">None</option>
                                 <option value="" {{ ($targetblog->blog_tertiary_category_id) ? 'selected' : '' }}>{{$targetblog->subcategorylevel->title ?? ''}}</option>
                                 </select>
@@ -68,23 +81,30 @@
                             </div>
 
                         </div>
-                        <div class="tile-body">
-                            <div class="form-group">
-                                <label class="control-label" for="pincode">Select Postcode</label>
-                                <select class="form-control" name="pincode">
-                                    <option hidden selected>Select Postcode ...</option>
-                                    @foreach ($pin as $index => $item)
-                                    <option value="{{$item->pin}}" {{ ($item->pin == $targetblog->pincode) ? 'selected' : '' }}>{{ $item->pin }}</option>
-                                    @endforeach
-                                </select>
-                                @error('pincode') <p class="small text-danger">{{ $message }}</p> @enderror
-                            </div>
-
+                        <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                            <div class="filterSearchBox">
+                                <div class="row">
+                                    <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                        <div class="select-floating-admin">
+                            <label class="control-label" for="pincode"> Select Postcode</label>
+                            <select class="filter_select form-control" name="pincode">
+                                <option value="" hidden selected>Select Postcode...</option>
+                                @foreach ($pin as $index => $item)
+                                <option value="{{$item->pin}}" {{ ($item->pin == $targetblog->pincode) ? 'selected' : '' }}>{{ $item->pin }}</option>
+                                @endforeach
+                            </select>
+                            @error('pincode')
+                                <p class="small text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
                         <div class="tile-body">
                             <div class="form-group">
                                 <label class="control-label" for="suburb_id"> Suburb</label>
-                                <select class="form-control form-control-sm" name="suburb_id" disabled>
+                                <select class="form-control" name="suburb_id" disabled>
                                 <option value="">None</option>
                                 <option value="" {{ ($targetblog->suburb_id) ? 'selected' : '' }}>{{$targetblog->suburb->name ?? ''}}</option>
 
@@ -371,7 +391,7 @@
                                         <div class="toggle-button-cover margin-auto">
                                             <div class="button-cover">
                                                 <div class="button-togglr b2" id="button-11">
-                                                    <input id="toggle-block" type="checkbox" name="status" class="checkbox" data-blog_id="{{ $blog['id'] }}" {{ $blog['status'] == 1 ? 'checked' : '' }}>
+                                                    <input id="toggle-block" type="checkbox" name="status" class="checkbox" data-blogfaq_id="{{ $blog['id'] }}" {{ $blog['status'] == 1 ? 'checked' : '' }}>
                                                     <div class="knobs"><span>Inactive</span></div>
                                                     <div class="layer"></div>
                                                 </div>
@@ -778,6 +798,7 @@
     });
     </script>
     <script type="text/javascript">
+    /*
         $('input[id="toggle-block"]').change(function() {
             var blog_id = $(this).data('blog_id');
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -803,6 +824,7 @@
                 }
               });
         });
+    */
     </script>
     <script type="text/javascript">
     $('.sa-remove').on("click",function(){
@@ -916,7 +938,7 @@
     </script>
     <script type="text/javascript">
         $('input[id="toggle-block"]').change(function() {
-            var blog_id = $(this).data('blog_id');
+            var blogfaq_id = $(this).data('blogfaq_id');
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var check_status = 0;
           if($(this).is(":checked")){
@@ -928,7 +950,7 @@
                 type:'POST',
                 dataType:'JSON',
                 url:"{{route('admin.blogfaq.updateStatus')}}",
-                data:{ _token: CSRF_TOKEN, id:blog_id, check_status:check_status},
+                data:{ _token: CSRF_TOKEN, id:blogfaq_id, check_status:check_status},
                 success:function(response)
                 {
                   swal("Success!", response.message, "success");
@@ -951,6 +973,12 @@
             height: 400
         });
         $('#summernote_sticky_content').summernote({
+            height: 400
+        });
+        $('#question').summernote({
+            height: 400
+        });
+        $('#answer').summernote({
             height: 400
         });
     </script>

@@ -642,22 +642,8 @@ if($catDetails == ''){
 			});
 		});
 
-
-
-
-
-
-
-
-
-
-
         $(document).on('change', '#cat_level1', () => {
-
-
-
-            var value = $('#cat_level1').val();
-
+           var value = $('#cat_level1').val();
             $.ajax({
 				url: '{{url("/")}}/api/subcategory/'+value,
 
@@ -940,13 +926,53 @@ if($catDetails == ''){
             var content = '';
 
             @php
-                $primaryCat = \DB::table('blog_categories')->where('status', 1)->orderby('title')->limit(5)->get();
+                $primaryCat = \DB::table('blog_categories')->where('status', 1)->orderby('title')->get();
+                // $primarySubCat = \DB::table('sub_categories')->where('status', 1)->orderby('title')->get();
+                // $tertiaryCat = \DB::table('sub_category_levels')->where('status', 1)->orderby('title')->get();
+
+                $resp = [];
+
+                foreach($primaryCat as $cat1Key => $cat1Value) {
+                    // $cat2 = \DB::table('sub_categories')->select('id', 'title')->where('status', 1)->where('category_id', $cat1Value->id)->orderby('title')->get()->toArray();
+
+                    $resp[] = [
+                        'cat_level_1_id' => $cat1Value->id,
+                        'cat_level_1' => $cat1Value->title,
+                        'cat_level_2' => resources_cat2($cat1Value->id)
+                    ];
+                }
+
+                // dd($resp);
             @endphp
 
-            content += `<div class="dropdown-menu show w-100 postcode-dropdown">`;
+            content += `<div class="dropdown-menu show articleOnclickDrop postcode-dropdown">`;
 
-            @foreach($primaryCat as $category)
-                content += `<a class="dropdown-item" href="javascript: void(0)" onclick="fetchCode('{{$category->title}}', 'primary',{{$category->id}})">{{$category->title}}</a>`;
+            @foreach($resp as $cat_lvl1Key => $cat_lvl1Value)
+            content += `<div class="row mb-2 w-100">`;
+                content += `<div class="col-2">`;
+                content += `<a class="dropdown-item text-dark font-weight-bold" href="javascript: void(0)" onclick="fetchCode('{{$cat_lvl1Value['cat_level_1']}}', 'primary', {{$cat_lvl1Value['cat_level_1_id']}})">{{$cat_lvl1Value['cat_level_1']}}</a>`;
+                content += `</div>`;
+
+                content += `<div class="col-8">`;
+                @foreach($cat_lvl1Value['cat_level_2'] as $cat_lvl2Key => $cat_lvl2Value)
+                    content += `<div class="row">`;
+                        content += `<div class="col-5">`;
+                        content += `<a class="dropdown-item text-dark" href="javascript: void(0)" onclick="fetchCode('{{$cat_lvl2Value['title']}}', 'secondary', {{$cat_lvl2Value['id']}})">{{$cat_lvl2Value['title']}}</a>`;
+                        content += `</div>`;
+
+                        content += `<div class="col-5">`;
+                            content += `<div class="row">`;
+                                @foreach($cat_lvl2Value['cat_level_3'] as $cat_lvl3Key => $cat_lvl3Value)
+                                    content += `<div class="col-12">`;
+                                    content += `<a class="dropdown-item text-muted" href="javascript: void(0)" onclick="fetchCode('{{$cat_lvl3Value['title']}}', 'tertiary', {{$cat_lvl3Value['id']}})">{{$cat_lvl3Value['title']}}</a>`;
+                                    content += `</div>`;
+                                @endforeach
+                            content += `</div>`;
+                        content += `</div>`;
+                    content += `</div>`;
+                @endforeach
+                content += `</div>`; // col-8 end
+            content += `</div>`; // main row end
             @endforeach
 
             content += `</div>`;

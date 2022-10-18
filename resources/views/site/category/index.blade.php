@@ -6,13 +6,14 @@
     $directories = array();
     foreach ($data as $subcategory)
     // $directoryList = \App\Models\Directory::where('category_id', 'like', $subcategory->id.',%')->paginate(3)->appends(request()->query());
+    if($directoryList != ''){
     foreach($directoryList as $business){
-        $directoryLattitude = $business->lat;
-        $directoryLongitude = $business->lon;
-        $address = $business->address;
+        $directoryLattitude = $business->lat ?? '';
+        $directoryLongitude = $business->lon ?? '';
+        $address = $business->address ?? '';
 
         if ($directoryLattitude == null || $directoryLongitude == null ) {
-            $url = "https://maps.google.com/maps/api/geocode/json?address=".urlencode($address)."&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4";
+            $url = "https://maps.google.com/maps/api/geocode/json?address=".urlencode($address)."&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -23,16 +24,16 @@
             $response = json_decode($responseJson);
 
             if (count($response->results)>0) {
-                $latitude = $response->results[0]->geometry->location->lat;
-                $longitude = $response->results[0]->geometry->location->lng;
-
-                $business->latitude = $latitude;
-                $business->longitude = $longitude;
-
+                if($response->results[0]->geometry->location->lat != null || $response->results[0]->geometry->location->lng != null){
+                $latitude = $response->results[0]->geometry->location->lat ?? '';
+                $longitude = $response->results[0]->geometry->location->lng ?? '';
+                $business->latitude = $latitude ?? '';
+                $business->longitude = $longitude ?? '';
+               }
                 // insert lat & lon into directories
-                \DB::table('directories')->where('id', $business->id)->update([
-                    'lat' => $latitude,
-                    'lon' => $longitude
+               \DB::table('directories')->where('id', $business->id)->update([
+                    'lat' => $latitude ?? '',
+                    'lon' => $longitude ?? ''
                 ]);
             }
         } else {
@@ -42,6 +43,7 @@
 
         array_push($directories, $business);
     }
+}
 @endphp
 @endif
 
@@ -78,31 +80,33 @@
         @endif
     </div>
 </section>
-<section class="pb-4 pb-lg-5 our-process pt-3">
+
+<section class="pb-2 our-process pt-3">
     <div class="container">
-    <ul class="breadcumb_list mb-4 border-bottom pb-2">
-        <li><a href="{!! URL::to('/') !!}">Home</a></li>
-        <li>/</li>
-        <li><a href="{{ route('category-home') }}">Category</a></li>
-        <li>/</li>
-        @if($type == "secondary")
-        <li><a href="{!! URL::to('category/' . $data[0]->parent_category_slug) !!}">{{$data[0]->parent_category}}</a></li>
-        <li>/</li>
-        @endif
-        @if($type == "primary")
-        <li class="active">{{$data[0]->parent_category}}</li>
-        @else
-        <li class="active">{{$data[0]->child_category}}</li>
-        @endif
-    </ul>
-   </div>
+		<ul class="breadcumb_list mb-4 border-bottom pb-2">
+			<li><a href="{!! URL::to('/') !!}">Home</a></li>
+			<li>/</li>
+			<li><a href="{{ route('category-home') }}">Category</a></li>
+			<li>/</li>
+			@if($type == "secondary")
+				<li><a href="{!! URL::to('category/' . $data[0]->parent_category_slug) !!}">{{$data[0]->parent_category}}</a></li>
+				<li>/</li>
+			@endif
+			@if($type == "primary")
+				<li class="active">{{$data[0]->parent_category}}</li>
+			@else
+				<li class="active">{{$data[0]->child_category}}</li>
+			@endif
+		</ul>
+   	</div>
 </section>
+
 @if(!empty($data[0]->description))
-    <section class="map_section pb-4 pb-lg-5 pt-1">
+    <section class="pb-4 pb-lg-2 our-process">
         <div class="container">
             <div class="row m-0 justify-content-center">
                 <div class="col-12">
-                <p>{!! $data[0]->description ?? '' !!}</p>
+                    {!! $data[0]->description ?? '' !!}
                 </div>
             </div>
         </div>
@@ -110,58 +114,54 @@
 @endif
 
 @if(!empty($data[0]->short_content))
-<section class="pb-4 pb-lg-5 our-process">
-    <div class="container">
-        {{-- <div class="page-title best_deal"></div> --}}
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h4>
-                    {!! $data[0]->short_content ?? '' !!}
-                </h4>
-            </div>
-        </div>
-    </div>
-</section>
+	<section class="pb-4 pb-lg-2 our-process">
+		<div class="container">
+			{{-- <div class="page-title best_deal"></div> --}}
+			<div class="row justify-content-center">
+				<div class="col-12">
+					{!! $data[0]->short_content ?? '' !!}
+				</div>
+			</div>
+		</div>
+	</section>
 @endif
 
 @if(!empty($data[0]->medium_content))
-<section class="pb-4 pb-lg-5 top-deals">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 best_deal order-2 order-lg-1">
-                <p>{!! $data[0]->medium_content ?? '' !!}</p>
-            </div>
-            @if($blog->medium_content_image)
-                <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
-                <img class="w-100" src="{{URL::to('/').'/categories/'}}{{$blog->medium_content_image}}" alt="">
-            </div>
-            @endif
-        </div>
-    </div>
-</section>
+	<section class="pb-4 pb-lg-2 our-process">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12">
+					{!! $data[0]->medium_content ?? '' !!}
+				</div>
+				@if($data[0]->medium_content_image)
+					<div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
+					<img class="w-100" src="{{URL::to('/').'/categories/'}}{{$data[0]->medium_content_image}}" alt="">
+				</div>
+				@endif
+			</div>
+		</div>
+	</section>
 @endif
 
 @if(!empty($data[0]->long_content))
-<section class="pb-4 pb-lg-5 our-process">
-    <div class="container">
-        {{-- <div class="page-title best_deal"></div> --}}
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h4>{!! $data[0]->long_content ?? '' !!}</h4>
-                <div class="col-lg-6 order-1">
-                    <img class="w-100" src="{{ URL::to('/').'/categories/'}}{{$data[0]->long_content_image}}" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+	<section class="pb-4 pb-lg-2 our-process">
+		<div class="container">
+			{{-- <div class="page-title best_deal"></div> --}}
+			<div class="row justify-content-center">
+				<div class="col-12">
+					{!! $data[0]->long_content ?? '' !!}
+					<div class="col-lg-6 order-1">
+						<img class="w-100" src="{{ URL::to('/').'/categories/'}}{{$data[0]->long_content_image}}" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 @endif
 
-
-{{-- showing sub-categories --}}
 @if($type == "primary")
     @if(count($childCategories) > 0)
-    <section class="pt-4 pb-4 pb-lg-5 our-process">
+    <section class="pt-4 pb-4 pb-lg-2 our-process">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -190,68 +190,77 @@
             </div>
         </div>
     </section>
+    <div class="d-flex justify-content-center mt-4 pb-4">
+       {{ $childCategoriesGrouped->appends($_GET)->links() }}
+    </div>
     @endif
 @endif
 
-
-{{-- showing directories --}}
 @if($type == "secondary")
-    @if(count($data) > 0)
-    @if(!empty($data[0]->child_description))
-  <section class="pb-4 pb-lg-2 our-process pt-lg-5">
-    <div class="container">
-        {{-- <div class="page-title best_deal"></div> --}}
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h4>
-                    {!! $data[0]->child_description ?? '' !!}
-                </h4>
-            </div>
-        </div>
-    </div>
-  </section>
-@endif
+{{-- {{dd($data)}} --}}
+    {{-- @if(count($data) > 0) --}}
+	@if(!empty($data[0]->child_description))
+		<section class="pb-4 pb-lg-2 our-process pt-lg-2">
+			<div class="container">
+				{{-- <div class="page-title best_deal"></div> --}}
+				<div class="row justify-content-center">
+					<div class="col-12">
+                        <div class="category_content_wrap">
+						    {!! $data[0]->child_description ?? '' !!}
+                        </div>
+					</div>
+				</div>
+			</div>
+		</section>
+	@endif
+	{{-- @endif --}}
 
-    @if(!empty($data[0]->child_short_content))
-  <section class="pb-4 pb-lg-2 our-process pt-lg-5">
-    <div class="container">
-        {{-- <div class="page-title best_deal"></div> --}}
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h4>
-                    {!! $data[0]->child_short_content ?? '' !!}
-                </h4>
-            </div>
-        </div>
-    </div>
-  </section>
-@endif
+	@if(!empty($data[0]->child_short_content))
+		<section class="pb-4 pb-lg-2 our-process pt-lg-2">
+			<div class="container">
+				{{-- <div class="page-title best_deal"></div> --}}
+				<div class="row justify-content-center">
+					<div class="col-12">
+                        <div class="category_content_wrap">
+						    {!! $data[0]->child_short_content ?? '' !!}
+                        </div>
+					</div>
+				</div>
+			</div>
+		</section>
+	@endif
 
-@if(!empty($data[0]->child_medium_content))
-<section class="pb-4 pb-lg-2 top-deals pt-lg-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 best_deal order-2 order-lg-1">
-                <p>{!! $data[0]->child_medium_content ?? '' !!}</p>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
+	@if(!empty($data[0]->child_medium_content))
+		<section class="pb-4 pb-lg-2 top-deals pt-lg-2">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 best_deal order-2 order-lg-1">
+                        <div class="category_content_wrap">
+						    {!! $data[0]->child_medium_content ?? '' !!}
+                        </div>
+					</div>
+				</div>
+			</div>
+		</section>
+	@endif
 
-@if(!empty($data[0]->child_long_content))
-<section class="pb-4 pb-lg-2 our-process pt-lg-5">
-    <div class="container">
-        {{-- <div class="page-title best_deal"></div> --}}
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h4>{!! $data[0]->child_long_content ?? '' !!}</h4>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
+	@if(!empty($data[0]->child_long_content))
+		<section class="pb-4 pb-lg-2 our-process pt-lg-2">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12">
+                        <div class="category_content_wrap">
+						    {!! $data[0]->child_long_content ?? '' !!}
+                        </div>
+					</div>
+				</div>
+			</div>
+		</section>
+	@endif
 
+	<hr>
+
+	@if (count($directoryList) > 0)
     <section class="pt-4 pb-4 pb-lg-5 searchpadding bg-light smallGapGrid">
         <div class="container">
             <div class="row justify-content-between">
@@ -362,7 +371,8 @@
                                     <figcaption>
                                         <h4 class="place_title bebasnew">{{$business->name}}</h4>
 
-                                        {!! directoryRatingHtml($business->rating) !!}
+                                        <div class="mb-3">{!! directoryRatingHtml($business->rating) !!}
+                                        </div>
 
                                         {{-- @php
                                             if ($business->rating == "0" || $business->rating == "" || $business->rating == null) {
@@ -373,7 +383,19 @@
                                         @endphp --}}
 
                                         <div class="v3_Listd mb-2">
-                                            <div><p class="v3_call mt-0"><i class="fas fa-phone-alt"></i>{{$business->mobile}}</a></p></div>
+                                            <div>        @php
+                                                $only_numbers = (int)filter_var($business->mobile, FILTER_SANITIZE_NUMBER_INT);
+                                                if(strlen((string)$only_numbers) == 9) {
+                                                    $only_number_to_array = str_split((string)$only_numbers);
+                                                    $mobile_number = '(0'.$only_number_to_array[0].') '.$only_number_to_array[1].$only_number_to_array[2].$only_number_to_array[3].$only_number_to_array[4].$only_number_to_array[5].$only_number_to_array[6].$only_number_to_array[7].$only_number_to_array[8];
+                                                } elseif(strlen((string)$only_numbers) == 10) {
+                                                    $only_number_to_array = str_split((string)$only_numbers);
+                                                    $mobile_number = '('.$only_number_to_array[0].$only_number_to_array[1].$only_number_to_array[2].$only_number_to_array[3].') '.$only_number_to_array[4].$only_number_to_array[5].$only_number_to_array[6].$only_number_to_array[7].$only_number_to_array[8].$only_number_to_array[9];
+                                                } else {
+                                                    $mobile_number = $business->mobile;
+                                                }
+                                            @endphp
+                                            <a href="tel:{{$mobile_number}}" class="g_l_icon"><i class="fas fa-phone-alt"></i>{{$mobile_number}}</a></div>
                                             <div class="d-flex location_details">
                                                 @php
                                                     // var_dump($business->website);
@@ -389,10 +411,10 @@
                                         </div>
                                     </figcaption>
                                     {{-- <p class="history_details">{!!strip_tags(substr($business->description,0,300))!!}</p> --}}
-                                    <div class="d-flex location_details">
+                                    {{-- <div class="d-flex location_details">
                                         <span><i class="fas fa-tag"></i></span>
                                         <p class="location mb-0">{{$business->category_tree}}</p>
-                                    </div>
+                                    </div>--}}
                                     <div class="d-flex location_details">
                                         <span><i class="fas fa-map-marker-alt"></i></span>
                                         <p class="location mb-0">{{$business->address}}</p>
@@ -460,7 +482,7 @@
             </div>
         </div>
     </section>
-    @endif
+	@endif
 @endif
 
 {{-- <section class="pb-4 pb-lg-5 bg-light">
@@ -507,14 +529,14 @@
 @endsection
 
 @push('scripts')
-    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4" type="text/javascript"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM" type="text/javascript"></script>
 
     <script>
         @if($type != "primary")
         @php
         $locations = array();
         foreach($directories as $business) {
-            $img = "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=".$business->latitude.",".$business->longitude."&fov=120&heading=0&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4";
+            $img = "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=".$business->latitude.",".$business->longitude."&fov=120&heading=0&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM";
 
             // $page_link = URL::to('directory/'.$business->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $business->name)));
             $page_link = URL::to('directory/'.$business->slug);
@@ -600,9 +622,9 @@
             '<div id="siteNotice">' +
             "</div>" +
             //'<img src="'+locations[i][4]+'" width="">' +
-            '<div class="mapPopContent"><div id="bodyContent"><a href="'+locations[i][5]+'" target="_blank"><h6 id="firstHeading" class="firstHeading mb-2">'+locations[i][0]+'</h6></a>' +
+            '<div class="mapPopContent"><div id="bodyContent"><a href="'+locations[i][4]+'" target="_blank"><h6 id="firstHeading" class="firstHeading mb-2">'+locations[i][0]+'</h6></a>' +
             '<p>' +locations[i][3]+'</p></div>' +
-            '<a href="'+locations[i][5]+'" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
+            '<a href="'+locations[i][4]+'" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
             '</div></div>';
 
             const infowindow = new google.maps.InfoWindow({

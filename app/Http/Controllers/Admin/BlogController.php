@@ -112,6 +112,9 @@ class BlogController extends BaseController
     {
         $targetblog = $this->BlogRepository->findBlogById($id);
         $blogcat = $this->BlogRepository->getBlogcategories();
+        
+        // dd($targetblog);
+        
         $tag=BlogTag::where('blog_id',$id)->get();
         //dd($tag);
         $blogsubcat = $this->BlogRepository->getBlogsubcategories();

@@ -94,6 +94,8 @@ use App\Contracts\BlogFaqSubCatContract;
 use App\Repositories\BlogFaqSubCatRepository;
 use App\Contracts\DirectorySubCategoryContract;
 use App\Repositories\DirectorySubCategoryRepository;
+use App\Contracts\AdvocateRegistrationContract;
+use App\Repositories\AdvocateRegistrationRepository;
 class RepositoryServiceProvider extends ServiceProvider
 {
     protected $repositories = [
@@ -139,6 +141,7 @@ class RepositoryServiceProvider extends ServiceProvider
         DemoImageContract::class => DemoImageRepository::class,
          CategoryFaqContract::class => CategoryFaqRepository::class,
          DirectorySubCategoryContract::class => DirectorySubCategoryRepository::class,
+         AdvocateRegistrationContract::class => AdvocateRegistrationRepository::class,
     ];
 
     /**

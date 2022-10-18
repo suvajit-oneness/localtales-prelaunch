@@ -2,7 +2,7 @@
 @section('title') Dashboard @endsection
 @section('content')
 <div class="row">
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-md-7 " style="padding-left:30px">
         <div class="card">
         	<div class="card-header">Update Profile</div>
             <div class="card-body">

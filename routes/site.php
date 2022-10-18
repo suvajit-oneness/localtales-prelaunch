@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth:user']], function () {
 Route::get('/search', 'Site\HomeController@search')->name('site.search');
 Route::get('about-us','Site\ContentController@about')->name('about-us');
 Route::get('contact-us','Site\ContentController@contact')->name('contact-us');
+Route::post('/contact/form/submit', 'Site\ContentController@contactFormstore')->name('contactForm.store');
+//email subscription
+Route::post('/email/subscription/submit', 'Site\ContentController@emailSubscriptionstore')->name('emailSubscription.store');
 Route::get('terms','Site\ContentController@terms')->name('terms-of-use');
 Route::get('privacy','Site\ContentController@privacy')->name('privacy-policy');
 Route::get('faq','Site\ContentController@faq')->name('faq');
@@ -60,7 +63,8 @@ Route::get('/collection/{id}/{slug}', 'Front\IndexController@collection')->name(
 Route::get('/collection/{slug}', 'Front\IndexController@collectionUpdated')->name('collection');
 
 Route::get('/business-signup', 'Front\IndexController@businesssignup')->name('business.signup');
-Route::get('/business-signup-page/{id}', 'Front\IndexController@businesssignuppage')->name('business.signup.page');
+Route::get('/business-signup/{slug}', 'Front\IndexController@businessform')->name('business.form');
+//Route::get('/business-signup-page/{id}', 'Front\IndexController@businesssignuppage')->name('business.signup.page');
 Route::get('/business-registration', 'Front\IndexController@registrationform')->name('business.details');
 //Route::get('/thankyou', 'Front\IndexController@thankyou')->name('thankyou');
 Route::post('/business/create', 'Front\IndexController@businessstore')->name('business.store');
@@ -68,6 +72,7 @@ Route::post('/business/registration/form', 'Front\IndexController@store')->name(
 Route::post('/business-signup-page/create', 'Front\IndexController@pagestore')->name('business.signuppage.store');
 Route::get('/thank-you', 'Front\IndexController@createStepThree')->name('products.create.step.three');
 Route::post('directory/create-step-three', 'Front\IndexController@postCreateStepThree')->name('products.create.step.three.post');
+Route::post('business/form/{slug}', 'Front\IndexController@businessformUpdate')->name('business.form.update');
 Route::get('/article', 'Site\ArticleController@index')->name('article.index');
 //article category
 Route::get('/article/category/{slug}', 'Site\ArticleCategoryController@index')->name('article.category');
@@ -78,7 +83,7 @@ Route::get('search','Site\ArticleController@index')->name('site.search');
 Route::post('directory-search','Site\ContentController@search')->name('directory.search');
 Route::get('directory-list-3','Site\BusinessController@index');
 Route::get('directory-list-2','Site\BusinessController@index2');
-Route::get('directory','Site\BusinessController@index3')->name('directory');
+Route::get('directory','Site\BusinessController@index3');
 Route::post('directory/related','Site\BusinessController@relatedDirectory')->name('directory.related');
 Route::get('directory/{id}/{slug}','Site\BusinessController@details');
 Route::get('directory-page/{id}/{slug}','Front\IndexController@page');
@@ -100,10 +105,15 @@ Route::post('/add/ajax', 'Front\HelpController@helpAjax')->name('add.help.ajax')
 // help
 Route::name('front.help.')->prefix('help')->group(function() {
 	Route::get('/', 'Front\HelpController@index')->name('index');
-    Route::get('/subcat-detail/{id}/{slug}', 'Front\HelpController@subcat')->name('subcat');
-	Route::get('/detail/{id}/{slug}', 'Front\HelpController@detail')->name('detail');
+    Route::get('/subcat-detail/{slug}', 'Front\HelpController@subcat')->name('subcat');
+	Route::get('/detail/{slug}', 'Front\HelpController@detail')->name('detail');
 });
 
 // directory categories ajax fetch
 Route::post('/directory/category/ajax', 'Api\PostcodeController@category')->name('directory.category.ajax');
+
+//advocate registration
+
+Route::get('/advocate/registration', 'Site\AdvocateRegistrationController@index')->name('advocate.registration');
+Route::post('/advocate/registration/create', 'Site\AdvocateRegistrationController@store')->name('advocate.registration.store');
 ?>

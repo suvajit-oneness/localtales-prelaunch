@@ -13,7 +13,7 @@ class UserCollection extends Model
 	];
 
 	//hasOne relation with Event Model
-	public function collectionDetails(){
-	      return $this->hasOne(Collection::class, 'id', 'collection_id');
+	public function collection(){
+        return $this->belongsTo('App\Models\Collection', 'collection_id', 'id');
 	}
 }

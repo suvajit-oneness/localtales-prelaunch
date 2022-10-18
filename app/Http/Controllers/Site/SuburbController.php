@@ -132,7 +132,8 @@ class SuburbController extends BaseController
             $code = $request->code;
             $keyword = $request->keyword;
             $type = $request->type;
-            
+            $address=$request->address;
+
              if (!empty($keyword)) {
                 $directories = DB::table('directories')->whereRaw("name like '%$keyword%'")->paginate(18)->appends(request()->query());
             } else {
@@ -141,12 +142,17 @@ class SuburbController extends BaseController
             // if primary category
             if ($type == "primary") {
 
-                $directories = DB::table('directories')->whereRaw("address like '%$data->name' and name like '%$keyword%' and
+                $directories = DB::table('directories')->whereRaw("address like '%$address%' and name like '%$keyword%' and
                 ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
 
             } elseif ($type == "secondary") {
-                $directories = DB::table('directories')->whereRaw("address like '%$data->name'  and name like '%$keyword%' and
+                $directories = DB::table('directories')->whereRaw("address like '%$address%' and name like '%$keyword%' and
                 ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
+            }
+             // if no directory found
+             if(count($directories) == 0) {
+                $directories = DB::table('directories')->whereRaw("address like '%$address%' and
+                ( category_tree like '%$category%' )")->paginate(18)->appends(request()->query());
             }
             /*$directories = Directory::where('address', 'LIKE', '%'.$data->name.'%')
             ->where('address', 'LIKE', '%'.$data->short_state.'%')

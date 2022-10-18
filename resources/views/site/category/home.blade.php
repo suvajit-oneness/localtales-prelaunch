@@ -24,8 +24,6 @@
                                     <select class="filter_select form-control" name="title">
                                         <option value="" hidden selected>Select Category...</option>
                                         @foreach ($allCategories as $index => $item)
-                                            @if($item->parent_category_slug == "adult") @continue  @endif
-
                                             <option value="{{$item->parent_category}}" {{ (request()->input('parent_category') == $item->parent_category) ? 'selected' : '' }}>{{ $item->parent_category }}</option>
                                         @endforeach
                                     </select>
@@ -65,12 +63,10 @@
 
             <div class="row justify-content-center">
                 @foreach ($data as $key => $category)
-                    @if($category->parent_category_slug == "adult") @continue  @endif
-
                     <div class="col-6 col-md-4 mb-4">
                         <div class="smplace_card text-center">
                             @if (!empty($category->parent_category_image))
-                                <img  src="{{URL::to('/').'/categories/'}}{{$category->parent_category_image}}"> 
+                                <img  src="{{URL::to('/').'/categories/'}}{{$category->parent_category_image}}">
                             @else
                                 @php
                                     $demoImage = DB::table('demo_images')->where('title', '=', 'category')->get();

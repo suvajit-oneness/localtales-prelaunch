@@ -44,6 +44,7 @@
                         <div class="form-group">
                             <label class="control-label" for="image"> Select Image <span class="m-l-5 text-danger">
                                     *</span></label>
+                                    <p class="small text-danger mb-2">Size must be less than 200kb</p>
                             <input class="form-control" type="file" name="image" id="image" />
                         </div>
                     </div>

@@ -182,13 +182,8 @@ class SuburbRepository extends BaseRepository implements SuburbContract
      */
     public function getSearchSuburb(string $term)
     {
-        return Suburb::where([['name', 'LIKE', '%' . $term . '%']])
-
-            ->paginate(5);
+        return Suburb::where([['name', 'LIKE', '%' . $term . '%']])->orWhere('pin_code', 'LIKE', '%' . $term . '%')->orWhere('population', 'LIKE', '%' . $term . '%')->orWhere('state', 'LIKE', '%' . $term . '%')->orWhere('short_state', 'LIKE', '%' . $term . '%')->orWhere('region_name', 'LIKE', '%' . $term . '%')->orWhere('house', 'LIKE', '%' . $term . '%')->orWhere('suburbnumber', 'LIKE', '%' . $term . '%')->paginate(25);
     }
-
-
-
 
     public function searchSuburb($pinCode)
     {

@@ -38,7 +38,9 @@ class QueryRepository implements QueryContract
         $query->email = $collection['email'];
 
         $query->query_catagory = $collection['query_catagory'];
-
+        if(!empty($collection['other'])){
+        $query->other = $collection['other'] ?? '';
+        }
         $query->query = $collection['query'];
 
         $c = 1;

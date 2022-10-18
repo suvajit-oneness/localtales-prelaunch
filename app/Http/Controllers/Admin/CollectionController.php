@@ -93,7 +93,7 @@ class CollectionController extends BaseController
 
         // dd($params);
         $collection = $this->CollectionRepository->createCollection($params);
-       
+
         if (!$collection) {
             return $this->responseRedirectBack('Error occurred while creating collection.', 'error', true, true);
         }
@@ -108,6 +108,7 @@ class CollectionController extends BaseController
     {
         $targetcollection = $this->CollectionRepository->findCollectionById($id);
         $suburb = $this->CollectionRepository->getAllSuburb();
+        //dd($suburb);
         $this->setPageTitle('collection', 'Edit collection : ' . $targetcollection->title);
         return view('admin.collection.edit', compact('targetcollection', 'suburb'));
     }
@@ -200,8 +201,8 @@ class CollectionController extends BaseController
         $this->setPageTitle('Collection', 'collection Details : ' . $collection->name);
         return view('admin.collection.directory', compact('collection','directory'));
     }
-    
-    
+
+
     public function directorystore(Request $request)
     {
          //dd($request->all());
@@ -221,7 +222,7 @@ class CollectionController extends BaseController
         }
         return $this->responseRedirect('admin.collection.index', 'CollectionDirectory has been created successfully', 'success', false, false);
     }
- 
+
     public function csvStore(Request $request)
     {
         if (!empty($request->file)) {
@@ -274,9 +275,9 @@ class CollectionController extends BaseController
                         $successArr = $failureArr = [];
                     // Insert into database
                     foreach ($importData_arr as $importData) {
-                    
+
                         $commaSeperatedCats = '';
-                        
+
                         $storeData = 0;
                         if (isset($importData[14]) == "Carry In") $storeData = 1;
                         $titleArr = explode(',', $importData[1]);
@@ -369,7 +370,7 @@ class CollectionController extends BaseController
     {
         return Excel::download(new CollectionExport, 'collection.xlsx');
     }
-    
+
      public function upload_bulk_images(Request $request)
     {
         foreach ($request->image as $image) {

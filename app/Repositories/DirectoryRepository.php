@@ -103,7 +103,7 @@ class DirectoryRepository extends BaseRepository implements DirectoryContract
                 $slugExistCount = Directory::where('slug', $slug)->count();
                 if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
                 $dir->slug = $slug;
-            
+
 
             $profile_image = $collection['image'];
             $imageName = time().".".$profile_image->getClientOriginalName();
@@ -209,7 +209,7 @@ class DirectoryRepository extends BaseRepository implements DirectoryContract
      */
     public function getDirectorycategories(){
         // $categories = DB::table('business_categories')->orderBy('title')->get();
-        $categories = DirectoryCategory::orderBy('title')->get();
+        $categories = DirectoryCategory::where('type',1)->orderBy('parent_category')->get();
         // dd($categories[1]);
 
         return $categories;
@@ -282,7 +282,7 @@ class DirectoryRepository extends BaseRepository implements DirectoryContract
         ->when($keyword, function($query) use ($keyword){
             $query->where('address', 'LIKE', '%' . $keyword);
         })
-       
+
         ->when($establish_year, function($query) use ($establish_year){
             $query->where('establish_year', 'LIKE', '%' . $establish_year .'%');
         })

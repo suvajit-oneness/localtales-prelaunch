@@ -9,6 +9,8 @@ use App\Models\State;
 use App\Models\SubCategory;
 use App\Models\Suburb;
 use App\Models\User;
+use App\Models\MailLog;
+use Illuminate\Support\Facades\Mail;
 
 if (!function_exists('sidebar_open')) {
     function sidebar_open($routes = []) {
@@ -36,7 +38,7 @@ if (!function_exists('imageResizeAndSave')) {
     function imageResizeAndSave($imageUrl, $type = 'categories', $filename)
     {
         if (!empty($imageUrl)) {
-                                                    
+
             //save 60x60 image
             \Storage::disk('public')->makeDirectory($type.'/60x60');
             $path60X60     = storage_path('app/public/'.$type.'/60x60/'.$filename);
@@ -46,12 +48,12 @@ if (!function_exists('imageResizeAndSave')) {
                         $constraint->aspectRatio();
                     });
             $canvas->insert($image, 'center');
-            $canvas->save($path60X60, 70); 
-            
+            $canvas->save($path60X60, 70);
+
             //save 350X350 image
             \Storage::disk('public')->makeDirectory($type.'/350x350');
             $path350X350     = storage_path('app/public/'.$type.'/350x350/'.$filename);
-            $canvas = \Image::canvas(350, 350);        
+            $canvas = \Image::canvas(350, 350);
             $image = \Image::make($imageUrl)->resize(350, 350,
                     function($constraint) {
                         $constraint->aspectRatio();
@@ -242,7 +244,55 @@ if(!function_exists('in_array_r')) {
     }
 }
 
+if(!function_exists('resources_cat2')) {
+    function resources_cat2($cat1_id) {
+        $resp = [];
+        $cat2 = \DB::table('sub_categories')->select('id', 'title')->where('status', 1)->where('category_id', $cat1_id)->orderby('title')->get()->toArray();
 
+        foreach($cat2 as $cat2Key => $cat2Value) {
+            $resp[] = [
+                'id' => $cat2Value->id,
+                'title' => $cat2Value->title,
+                'cat_level_3' => resources_cat3($cat2Value->id)
+            ];
+        }
+
+        return $resp;
+    }
+}
+
+if(!function_exists('resources_cat3')) {
+    function resources_cat3($cat2_id) {
+        $resp = [];
+        $cat3 = \DB::table('sub_category_levels')->select('id', 'title')->where('status', 1)->where('sub_category_id', $cat2_id)->orderby('title')->get()->toArray();
+
+        foreach($cat3 as $cat3Key => $cat3Value) {
+            $resp[] = [
+                'id' => $cat3Value->id,
+                'title' => $cat3Value->title
+            ];
+        }
+
+        return $resp;
+    }
+    // send mail helper
+    function SendMail($data)
+    {
+        // mail log
+        $newMail = new MailLog();
+        $newMail->from = 'onenesstechsolution@gmail.com';
+        $newMail->to = $data['email'];
+        $newMail->subject = $data['subject'];
+        $newMail->blade_file = $data['blade_file'];
+        $newMail->payload = json_encode($data);
+        $newMail->save();
+
+        // send mail
+        Mail::send($data['blade_file'], $data, function ($message) use ($data) {
+            $message->to($data['email'])->subject($data['subject'])->from('onenesstechsolution@gmail.com', env('APP_NAME'));
+        });
+    }
+}
 
 
 

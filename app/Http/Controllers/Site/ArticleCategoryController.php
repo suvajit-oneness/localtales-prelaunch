@@ -21,7 +21,7 @@ class ArticleCategoryController extends BaseController
        $faq = DB::table('category_faqs')->where('category_id', 'like', '%'.$id.'%')->where('status',1)->get();
        $latestBlogs = DB::table('blogs')->where('blog_category_id', 'like', '%'.$id.'%')->where('status',1)->where('image','!=','')->paginate(16);
       // dd($latestBlogs);
-       $articlecat=BlogCategory::where('status',1)->orderby('title')->get();
+       $articlecat=BlogCategory::where('status',1)->get();
        return view('site.blog.category.index', compact('cat','latestBlogs', 'faq','articlecat'));
 
     }

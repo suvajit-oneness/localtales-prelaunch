@@ -14,8 +14,12 @@
                             <p class="text-dark small">{{strtoupper($contact->key)}}</p>
                             <p class="text-muted small mb-1">Name</p>
                             <p class="text-dark small">{{strtoupper($contact->pretty_name)}}</p>
-                            <p class="text-muted small mb-1">Content</p>
+                            <p class="text-muted small mb-1">Contact No</p>
                             <p class="text-dark small">{!! $contact->content !!}</p>
+                             <p class="text-muted small mb-1">Address</p>
+                            <p class="text-dark small">{!! $contact->content1 !!}</p>
+                             <p class="text-muted small mb-1">Url</p>
+                            <p class="text-dark small">{!! $contact->content2 !!}</p>
                             <p class="text-muted small mb-1">Banner Image</p>
                             <p class="text-dark small">@if($contact->banner_image!='')
                                 <img style="width: 100px;height: 100px;" src="{{URL::to('/').'/ContactusBanner/'}}{{$contact->banner_image}}">

@@ -280,16 +280,3 @@
         </div>
     </div>
 @endsection
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script type="text/javascript">
-    $('#summernote_content').summernote({
-        height: 400
-    });
-    $('#summernote_meta_description').summernote({
-        height: 400
-    });
-    $('#summernote_sticky_content').summernote({
-        height: 400
-    });
-</script>

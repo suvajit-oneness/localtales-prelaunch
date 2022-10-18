@@ -54,7 +54,7 @@
 
                         <div class="form-group">
                             <label class="control-label" for="pin"> Sub Category </label>
-                            <select class="form-control form-control-sm" name="blog_sub_category_id" disabled>
+                            <select class="form-control" name="blog_sub_category_id" disabled>
                                         <option value="" hidden selected>None</option>
                                         <option value="" selected disabled>Select Category first</option>
                             </select>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="pin"> Tertiary Category </label>
-                            <select class="form-control form-control-sm" name="blog_tertiary_category_id" disabled>
+                            <select class="form-control" name="blog_tertiary_category_id" disabled>
                                          <option value="" hidden selected>None</option>
                                         <option value="" selected disabled>Select SubCategory first</option>
                             </select>
@@ -72,10 +72,13 @@
                                 <p class="small text-danger">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div id="select_holder1" class="col-5 col-sm fcontrol position-relative filter_selectWrap filter_selectWrap2">
-                        <div class="select-floating">
+                        <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                            <div class="filterSearchBox">
+                                <div class="row">
+                                    <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                        <div class="select-floating-admin">
                             <label class="control-label" for="pincode"> Select Postcode</label>
-                            <select class="filter_select blogcategory floating-select form-control" name="pincode">
+                            <select class="filter_select form-control" name="pincode">
                                 <option value="" hidden selected>Select Postcode...</option>
                                 @foreach ($pin as $index => $item)
                                     <option value="{{ $item->pin }}">{{ $item->pin }}</option>
@@ -85,9 +88,13 @@
                                 <p class="small text-danger">{{ $message }}</p>
                             @enderror
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
                         <div class="form-group">
                             <label class="control-label" for="suburb_id"> Suburb </label>
-                            <select class="form-control form-control-sm" name="suburb_id" disabled>
+                            <select class="form-control" name="suburb_id" disabled>
                                         <option value="" selected disabled>Select Postcode first</option>
                             </select>
                             @error('suburb_id')

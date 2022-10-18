@@ -31,6 +31,7 @@ $collection = App\Models\UserCollection::where('user_id',Auth::guard('user')->us
         </div>
         </div>
         <div class="col-md-6 col-lg-3">
+            <div class="card-body event-body">
             <div class="widget-small info coloured-icon">
                 <i class="icon fa fa-briefcase fa-3x"></i>
                 <div class="info">
@@ -39,5 +40,6 @@ $collection = App\Models\UserCollection::where('user_id',Auth::guard('user')->us
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

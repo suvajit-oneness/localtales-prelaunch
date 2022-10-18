@@ -67,17 +67,22 @@ class ContactRepository extends BaseRepository implements ContactContract
 
         $contact->pretty_name = $collection['pretty_name'];
         $contact->content = $collection['content'];
+        $contact->content1 = $collection['content1'];
+        $contact->content2 = $collection['content2'];
+        if(!empty($params['image'])) {
         $image = $collection['image'];
         $imageName = time().".".$image->getClientOriginalName();
         $image->move("Contactus/",$imageName);
         $uploadedImage = $imageName;
         $contact->image = $uploadedImage;
-
+        }
+        if(!empty($params['banner_image'])) {
         $banner_image = $collection['banner_image'];
         $imageName = time().".".$banner_image->getClientOriginalName();
         $banner_image->move("ContactusBanner/",$imageName);
         $uploadedImage = $imageName;
         $contact->banner_image = $uploadedImage;
+    }
         $contact->save();
 
         return $contact;

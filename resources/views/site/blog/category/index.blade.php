@@ -291,7 +291,7 @@
     <!-- ========== Inner Banner ========== -->
 @endsection
 @push('scripts')
-
+<script>
 $(document).on("click", "#btnFilter", function() {
     $('#checkout-form').submit();
 });
@@ -302,7 +302,7 @@ $(document).keypress(function(event) {
 });
 $('#searchFilterSelect').change(function() {
     var ss = $(this).val();
-    alert(ss);
-});
 
+});
+</script>
 @endpush

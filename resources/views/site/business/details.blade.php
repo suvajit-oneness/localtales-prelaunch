@@ -41,7 +41,7 @@
     $orgCat = $business->category_id;
 
     if ($directoryLattitude == null || $directoryLongitude == null ) {
-        $url = "https://maps.google.com/maps/api/geocode/json?address=".urlencode($address)."&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4";
+        $url = "https://maps.google.com/maps/api/geocode/json?address=".urlencode($address)."&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -192,7 +192,16 @@
                     </figure>
                     <figcaption>
                         <h5>Website</h5>
-                        <p>{{ ($business->website == "NA" || $business->website == "" || $business->website == null) ? 'N/A' : $business->website }}</p>
+                        {{--  <p>{{ ($business->website == "NA" || $business->website == "" || $business->website == null) ? 'N/A' : $business->website }}</p>--}}
+                        <p style="text-transform:none;"> @php
+                            // var_dump($business->website);
+                            if (($business->website == "NA" || $business->website == "")) {
+                                echo '';
+                            } else {
+                                echo '
+                                <a href="'.$business->website.'" target="_blank" class="">'.$business->website.'</a>';
+                            }
+                        @endphp</p>
                     </figcaption>
                 </div>
             </div>
@@ -553,7 +562,7 @@
 @endsection
 
 @push('scripts')
-    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4" type="text/javascript"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM" type="text/javascript"></script>
     <script async src="https://static.addtoany.com/menu/page.js"></script>
 
     <script>
@@ -716,14 +725,18 @@
                                                 <a href="tel:${value.mobile}" class="g_l_icon"><i class="fas fa-phone-alt"></i>${value.mobile}</a>
                                             </div>
                                             <div class="categoryB-list v3_flag">`;
-
                                                 // category show
                                                 $.each(value.category, (catKey, catVal) => {
-                                                    content += `
-                                                    <a class="mb-2" href="">${directoryCategory(catVal.category_id)}</a>
-                                                    `;
+                                                    if (catVal.child_category == "" || catVal.child_category == null) {
+                                                        content += `
+                                                        <a class="mb-2" href="{{url('/')}}/${catVal.slug}">${catVal.title}</a>,
+                                                        `;
+                                                    } else {
+                                                        content += `
+                                                        <a class="mb-2" href="{{url('/')}}/${catVal.child_category_slug}">${catVal.child_category}</a>,
+                                                        `;
+                                                    }
                                                 })
-
                                                 // <p>${value.category_id}</p>
                                             content += `
                                             </div>

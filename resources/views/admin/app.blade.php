@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
     <title>@yield('title')</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/main.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/font-awesome/4.7.0/css/font-awesome.min.css') }}"/>
+     {{--<script type="text/javascript" src="{{ asset('backend/js/select2.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/select2.min.css') }}">--}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="{{ asset('backend/js/jquery-3.2.1.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     @yield('styles')
     @stack('styles')
 </head>
@@ -17,7 +23,6 @@
     <main class="app-content" id="app">
         @yield('content')
     </main>
-    <script src="{{ asset('backend/js/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('backend/js/popper.min.js') }}"></script>
     <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('backend/js/main.js') }}"></script>
@@ -81,6 +86,35 @@
             $('#country select').attr('disabled', 'disabled');
             $('#country').hide();
           }
+        });
+    </script>
+    <script>
+        $('.filter_select').select2({
+          width:"100%",
+        });
+
+
+        $('.filter_select').select2().on('select2:select', function (e) {
+          var data = e.params.data;
+
+      });
+
+
+            $('.filter_select').select2().on('select2:open', (elm) => {
+        const targetLabel = $(elm.target).prev('label');
+        targetLabel.addClass('filled active');
+    }).on('select2:close', (elm) => {
+        const target = $(elm.target);
+        const targetLabel = target.prev('label');
+        const targetOptions = $(elm.target.selectedOptions);
+        if (targetOptions.length === 0) {
+            targetLabel.removeClass('filled active');
+        }
+    });
+
+
+        $(document).on('.filter_selectWrap select2:open', () => {
+          document.querySelector('.select2-search__field').focus();
         });
     </script>
     @stack('scripts')

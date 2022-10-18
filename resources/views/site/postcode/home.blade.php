@@ -88,7 +88,7 @@
                                         <img src="{{ asset('/admin/uploads/pincode/images/' . $blog->image) }}" class="card-img-top">
                                     @else
                                         <img src="{{URL::to('/').'/Demo/'}}{{$demo}}" class="card-img-top">
-                                   @endif   
+                                   @endif
                                 @endif
                             <h4><a href="{!! URL::to('postcode/' . $blog->pin) !!}" class="location_btn">{{ $blog->pin }} </a></h4>
                             <p>{{ $blog->description }}</p>
@@ -105,6 +105,10 @@
     <script type="text/javascript">
         $(document).on("click", "#btnFilter", function() {
             $('#checkout-form').submit();
+        });
+        $('body').on('click', function() {
+            //code
+            $('.postcode-dropdown').hide();
         });
 
         // state, suburb, postcode data fetch
@@ -128,7 +132,7 @@
 
                             $.each(result.data, (key, value) => {
                             	if(value.type == 'pin') {
-                                    
+
                                         content += `<a class="dropdown-item" href="javascript: void(0)" onclick="fetchCode(${value.pin}, '${value.pin}', '${value.type}')"><strong>${value.pin}</strong></a>`;
 
                                	    // content += `<a class="dropdown-item" href="javascript: void(0)" onclick="fetchCode(${value.pin}, '${value.state}', '${value.type}')">${value.suburb}, ${value.short_state} <strong>${value.pin}</strong></a>`;

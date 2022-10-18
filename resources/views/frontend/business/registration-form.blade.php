@@ -5,9 +5,12 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Local Tales</title>
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/bootstrap.css')}}">
         <link rel="stylesheet" type="text/css" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?ver=5.9.3' />
+        <link rel="icon" type="image/x-icon"  href="{{ asset('favicon.png') }}">
+
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/swiper-bundle.min.css')}}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/main.css')}}">
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css')}}">
@@ -15,7 +18,6 @@
     </head>
 
     <body>
-
 
         <!-- ========== Header ========== -->
         <!-- <header class="header">
@@ -78,7 +80,7 @@
                                 @csrf
                                 <input type="hidden" name="longitude" id="selectedLongitude" value="">
                                 <input type="hidden" name="latitude" id="selectedLatitude" value="">
-        
+
                                 <div class="div1" id="st1">
                                     <h6> Information:</h6>
                                     <div class="did-floating-label-content">

@@ -29,7 +29,7 @@
                             @error('child_category') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
                     </div>
-                    <div class="tile-body">
+                    {{--  <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="parent_category"> Category <span class="m-l-5 text-danger"> *</span></label>
                             <select class="form-control" name="parent_category">
@@ -39,6 +39,25 @@
                             @endforeach
                             </select>
                             @error('parent_category') <p class="small text-danger">{{ $message }}</p> @enderror
+                        </div>
+                    </div>--}}
+                    <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                        <div class="filterSearchBox">
+                            <div class="row">
+                                <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                                    <div class="select-floating-admin">
+                                        <label>Category<span class="m-l-5 text-danger">
+                                            *</span></label>
+                                        <select class="filter_select form-control" name="parent_category">
+                                            <option hidden selected>Select Category...</option>
+                                            @foreach ($categories as $index => $item)
+                                            <option value="{{$item->parent_category}}">{{ $item->parent_category }}</option>
+                                        @endforeach
+                                        </select>
+                                        @error('parent_category') <p class="small text-danger">{{ $message }}</p> @enderror
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="tile-body">

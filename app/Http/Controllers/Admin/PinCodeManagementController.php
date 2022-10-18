@@ -68,15 +68,15 @@ class PinCodeManagementController extends BaseController
         $this->validate($request, [
             'pin'      =>  'required|max:191',
             "state_id" => "required|integer",
-            "image" => "required|mimes:jpeg,png"
+           // "image" => "required|mimes:jpeg,png"
         ]);
 
         $params = $request->except('_token');
 
-        $name = uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
+        /*$name = uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
         $request->file('image')->move(public_path() . '/admin/uploads/pincode/images/', $name);
 
-        $params['image'] = $name;
+        $params['image'] = $name;*/
 
         $state = $this->PincodeRepository->createPincode($params);
 
@@ -112,11 +112,6 @@ class PinCodeManagementController extends BaseController
         ]);
 
         $params = $request->except('_token');
-
-        if ($request->image) {
-            $params['image'] = uniqid() . '.' . $request->image->getClientOriginalExtension();
-            $request->image->move(public_path() . '/admin/uploads/pincode/images/', $params['image']);
-        }
 
         $targetpin = $this->PincodeRepository->updatePincode($params);
 
@@ -289,9 +284,25 @@ class PinCodeManagementController extends BaseController
 
     public function upload_bulk_images(Request $request)
     {
+        $this->validate($request, [
+            'image'      =>  'required',
+
+        ]);
         foreach ($request->image as $image) {
             $name = $image->getClientOriginalName();
-            $image->move(public_path() . '/admin/uploads/pincode/images/', $name);
+            $short_name = explode('.', $name)[0];
+            $data=PinCode::where('pin', '=', $short_name)->get();
+            //dd($data);
+            $id=$data[0]->id;
+            $pin=PinCode::findOrFail($id);
+            $images = $image;
+            $ext = $images->getClientOriginalExtension();
+            $imageName = mt_rand().'_'.time().".".$ext;
+            $images->move("admin/uploads/pincode/images/",$imageName);
+            $pin->image = $imageName;
+           // $image->move(public_path() . '/admin/uploads/pincode/images/', $name);
+            //$pin->image=$image;
+            $pin->save();
         }
         FacadesSession::flash('image_uploaded', 'All images imported Successfully.');
         return redirect()->back();

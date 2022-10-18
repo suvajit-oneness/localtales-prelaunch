@@ -24,13 +24,32 @@
                             <input class="form-control @error('title') is-invalid @enderror" type="text" name="title" id="title" value="{{ old('title', $targetcollection->title) }}"/>
                             @error('title') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
-                         <div class="tile-body">
+                         {{--  <div class="tile-body">
                             <div class="form-group">
                                 <label class="control-label" for="suburb"> Suburb <span class="m-l-5 text-danger"> *</span></label>
                                 <input class="form-control @error('suburb') is-invalid @enderror" type="text" name="suburb" suburb="suburb" value="{{ old('suburb', $targetcollection->suburb) }}"/>
                                 @error('suburb') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
-
+                        </div>--}}
+                        <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                            <div class="filterSearchBox">
+                                <div class="row">
+                                    <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                                        <div class="select-floating-admin">
+                                            <label>Suburb<span class="m-l-5 text-danger">
+                                                *</span></label>
+                                            <select class="filter_select form-control" name="suburb">
+                                                <option value="" hidden selected>Select Suburb...</option>
+                                                @foreach ($suburb as $index => $item)
+                                                <option value="{{ $item->name }}"
+                                                    {{ $item->name == $targetcollection->suburb ? 'selected' : '' }}>{{ $item->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                          <div class="form-group">
                             <label class="control-label" for="category">Category</label>

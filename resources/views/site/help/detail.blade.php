@@ -2,7 +2,13 @@
 @section('title') {{ $pageTitle }} @endsection
 
 @section('content')
-<section class="inner_banner">
+@php
+$demoImage = DB::table('demo_images')->where('title', '=', 'help')->get();
+$demo = $demoImage[0]->image;
+@endphp
+<section class="inner_banner"
+style="background: url({{URL::to('/').'/Demo/' .$demo}})"
+                    >
     <div class="container position-relative">
         <h1><span>Help Details</span></h1>
         {{-- <div class="page-search-block filterSearchBoxWraper">
@@ -33,10 +39,12 @@
     <ul class="breadcumb_list mb-2 mb-sm-4">
                         <li><a href="{!! URL::to('help') !!}">Localtales Help</a></li>
                         <li>/</li>
-                        <li><a href="{!! URL::to('directory-list') !!}"> </a></li>
+                        <li><a href="{!! URL::to('help/subcat-detail/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $subcategories[0]->category->title))) !!}">{{ $subcategories[0]->category->title }} </a></li>
+                        <li>/</li>
+                        <li class="active">{{ $subcategories[0]->subcategory->title }}</li>
                     </ul>
         <div class="row">
-                
+
         <div class="row">
             <div class="col-12 col-lg-3 col-md-3 help_left">
                 <div class="sticky-top">

@@ -12,7 +12,7 @@
         $address = $business->address;
 
         if ($directoryLattitude == null || $directoryLongitude == null ) {
-            $url = 'https://maps.google.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4';
+            $url = 'https://maps.google.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -72,6 +72,7 @@
                                        <input id="postcodefloting" type="text" class="form-control pl-3" name="directory_category" placeholder="Category" value="{{ request()->input('directory_category') }}" autocomplete="off">
                                         <input type="hidden" name="code" value="{{ request()->input('code') }}">
                                         <input type="hidden" name="type" value="{{ request()->input('type') }}">
+                                        <input type="hidden" name="address" class="form-control" placeholder="Search by keyword..." value="{{ $data->name}}">
                                         <label for="postcodefloting">Category</label>
                                     </div>
                                     <div class="respDrop"></div>
@@ -99,8 +100,18 @@
             </div>
         </div>
     </section>
-
-    <section class="map_section">
+    <section class="pb-4 pb-lg-5 our-process pt-5 mt-3">
+        <div class="container">
+        <ul class="breadcumb_list mb-4 pb-2">
+            <li><a href="{!! URL::to('/') !!}">Home</a></li>
+            <li>/</li>
+            <li><a href="{{ route('suburb-index') }}">Suburb</a></li>
+            <li>/</li>
+            <li class="active">{{ $data->name }}</li>
+        </ul>
+       </div>
+    </section>
+    <section class="map_section pt-1">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12">
@@ -239,7 +250,7 @@
 @endsection
 
 @push('scripts')
-    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4" type="text/javascript"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM" type="text/javascript"></script>
 
     <script>
         @php
@@ -249,7 +260,7 @@
             if($business->image = ''){
 	        $img = "https://demo91.co.in/localtales-prelaunch/public/Directory/placeholder-image.png";
             }else{
-                $img = "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=".$business->latitude.",".$business->longitude."&fov=120&heading=0&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4";
+                $img = "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=".$business->latitude.",".$business->longitude."&fov=120&heading=0&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM";
             }
 
             $page_link = URL::to('directory/' . $business->slug );
@@ -345,10 +356,10 @@
             const contentString =
             '<div class="googleMapView content">' +
            // '<img src="' + locations[i][4] + '" class="w-100">' +
-            '<div class="mapPopContent"><div id="bodyContent"><a href="' + locations[i][5] +
+            '<div class="mapPopContent"><div id="bodyContent"><a href="' + locations[i][4] +
             '" target="_blank"><h6 id="firstHeading" class="firstHeading mb-2">' + locations[i][0] + '</h6></a>' +
             '<p>' + locations[i][3] + '</p></div>' +
-            '<a href="' + locations[i][5] + '" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
+            '<a href="' + locations[i][4] + '" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
             '</div></div>';
 
             const infowindow = new google.maps.InfoWindow({
@@ -451,6 +462,11 @@
             $('input[name="code"]').val(code)
 
         }
+        $('body').on('click', function() {
+            //code
+            $('.postcode-dropdown').hide();
+        });
+
         $('input[name="directory_category"]').on('click', function() {
             var content = '';
 
@@ -540,6 +556,8 @@
             var keycode = (event.keyCode ? event.keyCode : event.which);  if(keycode == '13'){    $('#checkout-form').submit();
          }
         });
+
+
     </script>
 @endpush
 

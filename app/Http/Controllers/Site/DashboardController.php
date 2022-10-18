@@ -64,7 +64,7 @@ class DashboardController extends BaseController
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
 	public function index(){
-		 
+
             return view('site.dashboard.index');
 }
     /**
@@ -147,7 +147,7 @@ class DashboardController extends BaseController
     public function savedCollection(){
         $userId = Auth::user()->id;
         $collection = $this->businessRepository->UserCollection($userId);
-
+        //dd($collection->collectionDetails);
         $this->setPageTitle('Saved collection', 'Saved collection');
         return view('site.dashboard.saved_events' , compact('collection'));
     }

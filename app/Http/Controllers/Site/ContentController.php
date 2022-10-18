@@ -25,6 +25,8 @@ use App\Models\DirectoryCategory;
 use App\Models\BlogCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\BaseController;
+use App\Models\ContactForm;
+use App\Models\Subscription;
 use Auth;
 use Symfony\Component\Console\Input\Input;
 
@@ -82,6 +84,51 @@ class ContentController extends BaseController
         $content = $this->ContactRepository->listcontactus();
         return view('site.contact.index', compact('content'));
     }
+    public function contactFormstore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'mobile' => 'required',
+        ]);
+        $contact = new ContactForm();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->mobile = $request->mobile;
+        $contact->description = $request->description;
+        $saved = $contact->save();
+        if ($saved) {
+           // return $this->responseRedirect('contact-us', 'Form has been submitted successfully', 'success', false, false);
+            return redirect()->route('contact-us')->with('success', 'Thank you for contacting us');
+        }
+        else{
+           // return $this->responseRedirectBack('Error occurred while form submitting.', 'error', true, true);
+            return redirect()->route('contact-us')->with('failure', 'Error occurred while form submitting');
+        }
+
+    }
+    ////email subscription
+    public function emailSubscriptionstore(Request $request)
+    {
+        //dd($request->all());
+        $request->validate([
+            'email' => 'required|string|email|max:255',
+
+        ]);
+        $contact = new Subscription();
+        $contact->email = $request->email;
+        $saved = $contact->save();
+        if ($saved) {
+           // return $this->responseRedirectBack( 'Form has been submitted successfully', 'success', false, false);
+           return redirect()->back()->with('success', 'Email subscribed successfully');
+        }
+        else{
+           // return $this->responseRedirectBack('Error occurred while form submitting.', 'error', true, true);
+           return redirect()->back()->with('failure', 'Error occurred while adding');
+        }
+
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -178,14 +225,20 @@ class ContentController extends BaseController
 
             // if primary category
             if ($type == "primary") {
-
                 $directories = DB::table('directories')->whereRaw("address like '%$address' and name like '%$keyword%' and
                 ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
-
             } elseif ($type == "secondary") {
                 $directories = DB::table('directories')->whereRaw("address like '%$address' and name like '%$keyword%' and
                 ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
             }
+
+
+            // if no directory found
+            if(count($directories) == 0) {
+                $directories = DB::table('directories')->whereRaw("address like '%$address' and
+                ( category_tree like '%$category%' )")->paginate(18)->appends(request()->query());
+            }
+
 
             // $directories = DB::select("SELECT id, name AS child_category, category_id FROM directories where category_id like '$value->id,%' or category_id like '%,$value->id,%' limit 6");
 
@@ -312,8 +365,8 @@ class ContentController extends BaseController
             $relatedCategories = DirectoryCategory::where('parent_category_slug', '!=', $slug)->where('type', 1)->where('status', 1)->orderby('parent_category')->get();
 
             // sub categories
-            $childCategories = DirectoryCategory::where('parent_category', $data[0]->parent_category)->where('type', 0)->get();
-            $childCategoriesGrouped = DirectoryCategory::where('parent_category', $data[0]->parent_category)->where('type', 0)->groupBy('child_category')->get();
+            $childCategories = DirectoryCategory::where('parent_category', $data[0]->parent_category)->where('type', 0)->paginate(16);
+            $childCategoriesGrouped = DirectoryCategory::where('parent_category', $data[0]->parent_category)->where('type', 0)->groupBy('child_category')->paginate(16);
 
             // directories
             $directoryList = '';
@@ -392,7 +445,7 @@ class ContentController extends BaseController
 
         // categories for displaying
         if (!empty($request->title)) {
-            $data = DirectoryCategory::where('type', 1)->where('status', 1)->where('parent_category', 'like', '%'.$request->title.'%')->orderBy('parent_category')->paginate(12);
+            $data = DirectoryCategory::where('type', 1)->where('status', 1)->where('parent_category', 'like', '%'.$request->title.'%')->where('parent_category','!=','adult')->orderBy('parent_category')->paginate(12);
         } else {
             $data = DirectoryCategory::where('type', 1)->where('status', 1)->orderBy('parent_category')->paginate(12);
         }

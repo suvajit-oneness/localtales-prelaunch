@@ -2,9 +2,16 @@
 @section('title') {{ $pageTitle }} @endsection
 
 @section('content')
-<section class="inner_banner">
+@php
+$demoImage = DB::table('demo_images')->where('title', '=', 'help')->get();
+$demo = $demoImage[0]->image;
+@endphp
+<section class="inner_banner"
+style="background: url({{URL::to('/').'/Demo/' .$demo}})"
+                    >
     <div class="container position-relative">
-        <h1><span>Help</span></h1>
+
+        <h1 class="mb-4">Help</h1>
         <div class="page-search-block filterSearchBoxWraper">
             <form action="" id="checkout-form">
                 <div class="filterSearchBox">
@@ -29,12 +36,14 @@
 
 <section class="help_body">
     <div class="container">
-        
+        <div class="row mb-4">
+        <a type="button" class="btn btn-login ml-auto" href="{{ route('user.raise.query') }}">Submit a query!</a>
+        </div>
         <div class="row">
             <ul class="help_list">
                 @foreach($categories as $key => $category)
                 <li>
-                    <a href="{!! URL::to('help/subcat-detail/'.$category->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $category->title))) !!}">
+                    <a href="{!! URL::to('help/subcat-detail/'.$category->slug) !!}">
                         {{ $category->title }}
                         <span>{{ $category->description }}</span>
                     </a>
@@ -42,7 +51,7 @@
                 @endforeach
             </ul>
         </div>
-        
+
         <div class="row">
             <div class="page-title best_deal mt-4">
                 <h2>Promoted articles</h2>
@@ -50,7 +59,7 @@
             <ul class="help_list2">
                 @foreach($subcategories as $key => $subcategory)
                 <li>
-                    <a href="{!! URL::to('help/detail/'.$subcategory->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $subcategory->title))) !!}">
+                    <a href="{!! URL::to('help/detail/'.$subcategory->slug) !!}">
                         {{ $subcategory->title }}
                     </a>
                 </li>

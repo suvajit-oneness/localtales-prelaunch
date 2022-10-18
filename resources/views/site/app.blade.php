@@ -7,17 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Tales</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('front/css/bootstrap.css') }}">
     <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?ver=5.9.3' />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('front/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('front/css/select2.min.css') }}"> -->
     {{-- Remove style.css for splash page only --}}
     {{-- @if(\Request::route()->getName() != "index")--}}
-        <link rel="stylesheet" href="{{ asset('site/css/style.css ') }}">
+    <link rel="stylesheet" href="{{ asset('site/css/style.css ') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
     {{-- @endif--}}
 
     <style type="text/css">
@@ -49,7 +50,42 @@
     <script src="{{ asset('front/js/custom.js') }}"></script>
     @stack('scripts')
     <script src="{{ asset('site/js/slick.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        feather.replace()
+    </script>
+
+    <script>
+        // sweetalert fires | type = success, error, warning, info, question
+        function toastFire(type = 'success', title, body = '') {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                showCloseButton: true,
+                timer: 2000,
+                timerProgressBar: false,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: type,
+                title: title,
+                // text: body
+            })
+        }
+
+        // on session toast fires
+        @if (Session::get('success'))
+            toastFire('success', '{{ Session::get('success') }}');
+        @elseif (Session::get('failure'))
+            toastFire('warning', '{{ Session::get('failure') }}');
+        @endif
+    </script>
 
     <script type="text/javascript">
         // $('.home-directory--slider').on('afterChange', function(event, slick, currentSlide) {

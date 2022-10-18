@@ -16,6 +16,7 @@ use Auth;
 use Session;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DirectoryExport;
+use Illuminate\Support\Facades\DB;
 
 class DirectoryCollectionController extends BaseController
 {
@@ -47,8 +48,10 @@ class DirectoryCollectionController extends BaseController
      */
     public function create(Request $request)
     {
-        $this->setPageTitle('Business Under Collection', 'Create CollectionDirectory');
+        $cid = request()->input('collection');
+        $this->setPageTitle('CollectionDirectory', 'Create CollectionDirectory');
         $col = $this->CollectionDirectoryRepository->getAllCollection();
+        $collection=Collection::where('id',$cid)->get();
         // $directory = $this->CollectionDirectoryRepository->getAllDirectory();
         if (isset($request->keyword)) {
 
@@ -57,8 +60,46 @@ class DirectoryCollectionController extends BaseController
         } else {
             $directory = Directory::paginate(8);
         }
+        if(isset($request->code) || isset($request->keyword) ||isset($request->name)||isset($request->rating)) {
+            $category = $request->directory_category;
+            $code = $request->code;
+            $keyword = $request->keyword;
+            $type = $request->type;
+            $name = $request->name;
+            $rating = $request->rating;
 
-        return view('admin.collectiondirectory.create', compact('col', 'directory'));
+            if (!empty($keyword)) {
+                //$keywordQuery = "AND address like '%$keyword' ";
+                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword'")->paginate(18)->appends(request()->query());
+            }
+            if (!empty($rating)) {
+                //$keywordQuery = "AND address like '%$keyword' ";
+                $directoryList = DB::table('directories')->whereRaw("rating like '%$rating'")->paginate(18)->appends(request()->query());
+            }
+            if (!empty($name)) {
+
+                $directoryList = DB::table('directories')->whereRaw("name like '%$name%'")->paginate(18)->appends(request()->query());
+            }
+            if (!empty($code)) {
+            // if primary category
+            if ($type == "primary") {
+                $keywordQuery = "AND name like '%$name%' ";
+                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and
+                ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
+
+            } elseif ($type == "secondary") {
+                $keywordQuery = "AND name like '%$name%' ";
+                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and
+                ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(18)->appends(request()->query());
+            }
+        }
+       }
+        else{
+            $directoryList = CollectionDirectory::where('collection_id', $cid)
+            ->with('directory')->paginate(18)->appends(request()->query());
+           }
+
+        return view('admin.collectiondirectory.create', compact('col', 'directory','directoryList','collection'));
     }
 
     /**
@@ -68,6 +109,7 @@ class DirectoryCollectionController extends BaseController
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $this->validate($request, [
             'collection_id'      =>  'required|max:191',
             'directory_id'      =>  'required',
@@ -81,31 +123,64 @@ class DirectoryCollectionController extends BaseController
         if (!$state) {
             return $this->responseRedirectBack('Error occurred while creating CollectionDirectory.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.collectiondir.index', 'State has been created successfully', 'success', false, false);
+        return $this->responseRedirect('admin.collection.index', 'State has been created successfully', 'success', false, false);
     }
 
     /**
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        $targetdirectory = $this->CollectionDirectoryRepository->findCollectionDirectoryById($id);
+        //$targetdirectory = $this->CollectionDirectoryRepository->findCollectionDirectoryById($id);
 
-        $col = $this->CollectionDirectoryRepository->getAllCollection();
+        $col = Collection::findOrfail($id);
+        //dd($col->title);
         // $directory = $this->CollectionDirectoryRepository->getAllDirectory();
-        if (isset($request->keyword)) {
 
-            $keyword = (isset($request->keyword) && $request->keyword != '') ? $request->keyword : '';
-            $directory = $this->CollectionDirectoryRepository->getSearchDirectory($keyword);
+        // $directory = $this->CollectionDirectoryRepository->getAllDirectory();
+        if(isset($request->code) || isset($request->keyword) ||isset($request->name)||isset($request->rating)) {
+            $category = $request->directory_category;
+            $code = $request->code;
+            $keyword = $request->keyword;
+            $type = $request->type;
+            $name = $request->name;
+            $rating = $request->rating;
 
-            //dd($col);
-        } else {
-            $directory = Directory::paginate(8);
+            if (!empty($keyword)) {
+                //$keywordQuery = "AND address like '%$keyword' ";
+                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword'")->paginate(10)->appends(request()->query());
+            }
+            if (!empty($rating)) {
+                //$keywordQuery = "AND address like '%$keyword' ";
+                $directoryList = DB::table('directories')->whereRaw("rating like '$rating%'")->paginate(10)->appends(request()->query());
+            }
+            if (!empty($name)) {
+
+                $directoryList = DB::table('directories')->whereRaw("name like '%$name%'")->paginate(10)->appends(request()->query());
+            }
+            if (!empty($code)) {
+            // if primary category
+            if ($type == "primary") {
+                $keywordQuery = "AND name like '%$name%' ";
+                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and
+                ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(10)->appends(request()->query());
+
+            } elseif ($type == "secondary") {
+                $keywordQuery = "AND name like '%$name%' ";
+                $directoryList = DB::table('directories')->whereRaw("address like '%$keyword' $keywordQuery and
+                ( category_id like '$request->code,%' or category_id like '%,$request->code,%')")->paginate(10)->appends(request()->query());
+            }
         }
-
+       }
+        else{
+           // $directoryList = CollectionDirectory::where('collection_id', $id)
+            //->with('directory')->paginate(18)->appends(request()->query());
+            $directoryList= Directory::paginate(10)->appends(request()->query());
+           }
+          // dd( $directoryList);
         $this->setPageTitle('Directory', 'Edit Directory');
-        return view('admin.collectiondirectory.edit', compact('targetdirectory', 'col', 'directory'));
+        return view('admin.collectiondirectory.edit', compact('col','directoryList'));
     }
 
     /**
@@ -139,9 +214,9 @@ class DirectoryCollectionController extends BaseController
         $targetdirectory = $this->CollectionDirectoryRepository->deleteCollectionDirectory($id);
 
         if (!$targetdirectory) {
-            return $this->responseRedirectBack('Error occurred while deleting CollectionDirectory.', 'error', true, true);
+            return $this->responseRedirectBack('Error occurred while deleting Directory.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.collectiondir.index', 'CollectionDirectory has been deleted successfully', 'success', false, false);
+        return $this->responseRedirect('admin.collection.index', 'Directory has been deleted successfully', 'success', false, false);
     }
 
     /**

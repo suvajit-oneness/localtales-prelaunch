@@ -14,8 +14,6 @@
             <div class="tile">
                 <h3 class="tile-title">{{ $subTitle }}
                     <span class="top-form-btn">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save
-                            Postcode</button>
                         <a class="btn btn-secondary" href="{{ route('admin.pin.index') }}"><i
                                 class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
                     </span>
@@ -46,22 +44,26 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="tile-body">
-                        <div class="form-group">
-                            <label class="control-label" for="pin"> State <span class="m-l-5 text-danger">
-                                    *</span></label>
-                            <select class="form-control" name="state_id">
-                                <option hidden selected>Select State...</option>
-                                @foreach ($states as $index => $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('state_id')
-                                <p class="small text-danger">{{ $message }}</p>
-                            @enderror
+                    <div class="page-search-block filterSearchBoxWraper" style="bottom: -83px;">
+                        <div class="filterSearchBox">
+                            <div class="row">
+                                <div class="mb-sm-0 col col-lg fcontrol position-relative filter_selectWrap filter_selectWrap2">
+                    <div class="select-floating-admin">
+                        <label class="control-label" for="pincode"> State</label>
+                        <select class="filter_select form-control" name="state_id">
+                            <option hidden selected>Select State...</option>
+                            @foreach ($states as $index => $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('state_id')
+                            <p class="small text-danger">{{ $message }}</p>
+                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                     <div class="title-body">
                         <div class="form-group">
                             <label for="image" class="form-label">Select image<span class="m-l-5 text-danger">

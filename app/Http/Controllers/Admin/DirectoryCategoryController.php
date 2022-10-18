@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Contracts\DirectoryCategoryContract;
 use Illuminate\Http\Request;
+use App\Models\Directory;
 use App\Models\DirectoryCategory;
 use App\Models\ActivityLogCsv;
 use App\Http\Controllers\BaseController;
@@ -13,8 +14,10 @@ use Session;
 use Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DirectoryCategoryExport;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Session as FacadesSession;
 
 class DirectoryCategoryController extends BaseController
@@ -91,6 +94,7 @@ class DirectoryCategoryController extends BaseController
         $category->short_content = !empty($request->short_content) ? $request->short_content : '';
         $category->medium_content = !empty($request->medium_content) ? $request->medium_content : '';
         $category->long_content = !empty($request->long_content) ? $request->long_content : '';
+        $category->parent_category_email_template = !empty($request->parent_category_email_template) ? $request->parent_category_email_template : '';
         $category->save();
 
         return $this->responseRedirect('admin.dircategory.index', 'Primary Category created successfully', 'success', false, false);
@@ -227,11 +231,12 @@ class DirectoryCategoryController extends BaseController
         $category->short_content = !empty($request->short_content) ? $request->short_content : '';
         $category->medium_content = !empty($request->medium_content) ? $request->medium_content : '';
         $category->long_content = !empty($request->long_content) ? $request->long_content : '';
+        $category->parent_category_email_template = !empty($request->parent_category_email_template) ? $request->parent_category_email_template : '';
         $category->save();
 
         return $this->responseRedirect('admin.dircategory.index', 'Primary Category edited successfully', 'success', false, false);
 
-        /* 
+        /*
         $this->validate($request, [
             'title'      =>  'required|string|min:1',
 
@@ -298,6 +303,94 @@ class DirectoryCategoryController extends BaseController
 
         $this->setPageTitle('DirectoryCategory', 'Category Details : ' . $category->title);
         return view('admin.dircategory.details', compact('category')); */
+    }
+    public function emaildetails($id)
+    {
+        $category = DirectoryCategory::findOrFail($id);
+        $this->setPageTitle('Category Email Template Details: ' . $category->parent_category, 'Category Email Template Details : ' . $category->parent_category);
+
+        return view('admin.dircategory.email-details', compact('category'));
+
+        /* $categories = $this->DirectoryCategoryRepository->detailsdirectoryCategory($id);
+        $category = $categories[0];
+
+        $this->setPageTitle('DirectoryCategory', 'Category Details : ' . $category->title);
+        return view('admin.dircategory.details', compact('category')); */
+    }
+    public function directorydetails($id)
+    {
+        $category = DirectoryCategory::findOrFail($id);
+        $directoryList = DB::select("SELECT d.* FROM `directories` AS d
+        INNER JOIN directory_categories AS dc
+        ON dc.id LIKE (d.category_id+',%')
+        WHERE dc.parent_category_slug = '".$category->parent_category_slug."'");
+        $this->setPageTitle('Category wise directory details: ' . $category->parent_category, 'Category wise directory details : ' . $category->parent_category);
+
+        return view('admin.dircategory.directory-details', compact('category','directoryList'));
+
+        /* $categories = $this->DirectoryCategoryRepository->detailsdirectoryCategory($id);
+        $category = $categories[0];
+
+        $this->setPageTitle('DirectoryCategory', 'Category Details : ' . $category->title);
+        return view('admin.dircategory.details', compact('category')); */
+    }
+    public function sendemail(Request $request)
+    {
+        // dd($request->all());
+        if(!empty($request->email) && !empty($request->directory_id)){
+        foreach($request['email'] as $emailIndex => $emailVal) {
+            $to = $emailVal;
+            $subject = $request->subject;
+            $link = '<a href="'.URL::to('/').'/'.'business-signup/'.$request['slug'][$emailIndex].'">REGISTER HERE</a>';
+            $body = str_replace("REGISTRATION LINK", $link, $request->body);
+            $message = $body;
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            mail($to, $subject, $message, $headers);
+        }
+
+        foreach($request['directory_id'] as $directoryIndex => $directoryVal) {
+        $directory = Directory::findOrFail($directoryVal);
+        $directory->business_mail_sent = 1;
+        $directory->save();
+        }
+
+        return $this->responseRedirect('admin.dircategory.index', 'Mail Send successfully', 'success', false, false);
+    }else{
+        return $this->responseRedirect('admin.dircategory.index', 'No email selected', 'failure', false, false);
+    }
+
+        /*
+        foreach ($request['email'] as $value) {
+            foreach ($request['slug'] as $row) {
+            $to =      $value;
+            $subject = $request->subject;
+            $link= URL::to('/').'/'.'business-signup/'.$row;
+            $body= str_replace("REGISTRATION LINK", $link, $request->body);
+            $message = $body;
+           // dd($message);
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            mail($to, $subject, $message, $headers);
+          }
+        }
+        return $this->responseRedirect('admin.dircategory.index', 'Mail Send successfully', 'success', false, false);
+        */
+         // 3 send product details mail
+        /* if(!empty($request->email) && !empty($request->directory_id)){
+            foreach($request['email'] as $emailIndex => $emailVal) {
+                $link = '<a href="'.URL::to('/').'/'.'business-signup/'.$request['slug'][$emailIndex].'">REGISTER HERE</a>';
+         $email_data = [
+            'subject' => $request->subject,
+            'email' => $emailVal,
+            'body' => str_replace("REGISTRATION LINK", $link, $request->body),
+            'blade_file' => 'admin/mail/business-register',
+        ];
+        //dd($email_data);
+
+        SendMail($email_data);
+    }
+    }*/
     }
 
     public function csvStore(Request $request)
@@ -373,7 +466,7 @@ class DirectoryCategoryController extends BaseController
                             }
                         }
 
-                        
+
                     }
                    // Session::flash('message', 'Import Successful.');
                        $store = new ActivityLogCsv;

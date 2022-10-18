@@ -44,14 +44,13 @@ class IndexController extends BaseController
         $this->businessRepository = $businessRepository;
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $this->setPageTitle('Splash ', 'Splash Screen');
         $data = Setting::where('key', '=', 'Splash Screen')->get();
         $directory= Directory::count();
         $postcode=  PinCode::count();
         $collection= Collection::count();
-       
         return view('frontend.index', compact('data','directory','postcode','collection'));
     }
 
@@ -166,6 +165,15 @@ class IndexController extends BaseController
         $this->setPageTitle('Business ', 'Business Signup');
         $dircategory = $this->DirectoryRepository->getDirectorycategories();
         return view('frontend.business.registration-form', compact('dircategory',));
+    }
+    public function businessform(Request $request,$slug)
+    {
+        $this->setPageTitle('Business ', 'Business Signup');
+        $dir=Directory::where('slug',$slug)->get();
+        $directory=$dir[0];
+        //dd($directory);
+        $dircategory = $this->DirectoryRepository->getDirectorycategories();
+        return view('frontend.business.signuppage', compact('dircategory','directory'));
     }
     public function businessstore(Request $request)
     {
@@ -375,6 +383,32 @@ class IndexController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
+    public function businessformUpdate(Request $request,$slug)
+    {
+        $dirId=Directory::where('slug',$slug)->get();
+        $id=$dirId[0]->id;
+        //dd($id->id);
+        $business = Directory::findOrFail($id);
+        $business->name = $request->name;
+        $business->trading_name = $request->trading_name;
+        $business->email = $request->email;
+        $business->address = $request->address;
+        $business->mobile = $request->mobile;
+        // $business->pin = $request->pin;
+        $business->description = $request->description;
+        $business->service_description = $request->service_description;
+        $business->category_id = $request->category_id;
+        $business->opening_hour = $request->opening_hour;
+        $business->primary_name = $request->primary_name;
+        $business->primary_email = $request->primary_email;
+        $business->primary_phone = $request->primary_phone;
+        $business->website = $request->website;
+        $business->twitter_link = $request->twitter_link;
+        $business->mail_redirect_update = 1;
+        $business->save();
+
+        return redirect()->route('products.create.step.three');
+    }
     public function postCreateStepThree(Request $request)
     {
         $directory = $request->session()->get('directory');

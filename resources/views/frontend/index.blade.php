@@ -61,7 +61,8 @@
             <div class="col-lg-6 mb-4">
                 <figure>
                     @if($blog->image!='')
-                    <img src="{{URL::to('/').'/Extra/'}}{{$blog->image}}">
+                        <video width="100%" height="100%" autoplay muted>
+                        <source src="{{URL::to('/').'/Extra/'}}{{$blog->image}}" type="video/mp4"></video>
                     @endif
 
                     <div class="browse_box">
@@ -79,7 +80,7 @@
                 <!--<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam nobis id voluptatem reprehenderit, minima sit, nulla maxime a fuga, ut perferendis et..</p>-->
 
                 {{-- <a href="{{url('/')}}/business-signup" class="btn main-btn">Sign up</a> --}}
-                <a href="{{url('/')}}/collection" class="btn main-btn">Collection</a>
+                <a href="{{url('/')}}/postcode" class="btn main-btn">Postcode</a>
             </div>
             @endforeach
         </div>
@@ -90,17 +91,17 @@
         <div class="container">
             <div class="row align-items-center">
                 @foreach($data as  $key => $blog)
-                <div class="col-lg-5 page-title order-2 order-lg-1">
+                <div class="col-7 col-lg-5 page-title order-2 order-lg-1">
                     <span class="app-tag">Available for all platforms.</span>
 
                     {!! $blog->content2 !!}
 
-                    <a href="#" class="playstore-btn">
-                        <span>Download the app</span>
-                        <img src="{{  asset('front/img/play_store.png') }}" alt="">
+                    <a href="javascript:void(0)" class="mt-3" style="font-size:30px;color:#ff6355;">
+                        <span>Coming Soon</span>
+                        {{-- <img src="{{  asset('front/img/play_store.png') }}" alt=""> --}}
                     </a>
                 </div>
-                <div class="col-lg-7 mb-4 mb-lg-0 order-1 order-lg-2">
+                <div class="col-5 p-0 col-lg-7 mb-0 mb-sm-4 mb-lg-0 order-1 order-lg-2">
                     @if($blog->image2!='')
                     <img class="w-100"  src="{{URL::to('/').'/Splash/'}}{{$blog->image2}}">
                 @endif
@@ -173,8 +174,8 @@
             console.log("position", position);
             if (position.coords?.latitude && position.coords?.longitude) {
                 $.ajax({
-                   //url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
-                     url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
+                   url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords?.latitude},${position.coords?.longitude}&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
+                   //  url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=-33.878844,151.210072&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4`,
                     method: 'get',
                     data: {},
                     success: function(result) {

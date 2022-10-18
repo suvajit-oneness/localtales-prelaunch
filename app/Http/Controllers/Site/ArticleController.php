@@ -151,7 +151,7 @@ class ArticleController extends BaseController
         $categories = $this->blogRepository->getBlogcategories();
         $widget =ArticleWidget::all();
         $feature = ArticleFeature::all();
-        $faq=ArticleFaq::where('blog_slug',$slug)->get();
+        $faq=ArticleFaq::where('blog_id',$blog->id)->where('status',1)->get();
         $faqCat=ArtcileFaqCategory::orderby('title')->get();
         $tag=DB::table('blog_tags')->where('blog_id',$blog->id)->get();
         $this->setPageTitle($blog->title, 'Blog Details : '.$blog->title);

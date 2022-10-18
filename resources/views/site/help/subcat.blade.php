@@ -2,7 +2,13 @@
 @section('title') {{ $pageTitle }} @endsection
 
 @section('content')
-<section class="inner_banner">
+@php
+$demoImage = DB::table('demo_images')->where('title', '=', 'help')->get();
+$demo = $demoImage[0]->image;
+@endphp
+<section class="inner_banner"
+style="background: url({{URL::to('/').'/Demo/' .$demo}})"
+                    >
     <div class="container position-relative">
         <h1><span>Help Details</span></h1>
        <div class="page-search-block filterSearchBoxWraper">
@@ -23,7 +29,7 @@
                     </div>
                 </div>
             </form>
-        </div> 
+        </div>
     </div>
 </section>
 
@@ -32,19 +38,19 @@
     <ul class="breadcumb_list mb-2 mb-sm-4">
                         <li><a href="{!! URL::to('help') !!}">Localtales Help</a></li>
                         <li>/</li>
-                        <li><a href="{!! URL::to('directory-list') !!}"> {{$categories[0]->title}}</a></li>
+                        <li class="active"><a href=""> {{$categories[0]->title}}</a></li>
                     </ul>
         <div class="row">
             <div class="col-12 col-lg-9 col-md-9 help_right">
-                
+
                 <h1>
                    {{$categories[0]->title ?? ''}}
                     <span> {{$categories[0]->description ?? ''}}</span>
                 </h1>
                  <ul class="left_navdet text-center">
                 @foreach($subcategories as $key => $category)
-               
-                <li><a  href="{!! URL::to('help/detail/'.$category->id.'/'.strtolower(preg_replace("/[^a-zA-Z0-9]+/", "-", $category->title))) !!}"><span> {{$category->title}}</span></a></li>
+
+                <li><a  href="{!! URL::to('help/detail/'.$category->slug) !!}"><span> {{$category->title}}</span></a></li>
                 @endforeach
                 </ul>
             </div>

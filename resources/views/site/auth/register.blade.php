@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title>Local Tales</title>
+  <link rel="icon" type="image/x-icon"  href="{{ asset('favicon.png') }}">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
@@ -39,12 +40,13 @@
                         @csrf
                         <div class="row px-3">
                             <label class="mb-1">Name</label>
-                            <input class="mb-3" type="text" name="name" placeholder="Enter a valid name" required="required">
+                            <input class="mb-3" type="text" name="name" placeholder="Enter a valid name" required="required" value="{{ old('name') }}">
+                             @error('name') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
                         <!--<div class="row px-3">-->
                         <!--    <label class="mb-1">User Type</label>-->
                         <!--    <select id="user_type" name="user_type" class="form-control">-->
-                               
+
 
                         <!--            <option value="1">User</option>-->
                         <!--            <option value="2">Advocate</option>-->
@@ -55,15 +57,18 @@
                         <!--</div>-->
                         <div class="row px-3">
                             <label class="mb-1">Email Address</label>
-                            <input class="mb-3" type="text" name="email" placeholder="Enter a valid email address" required="required">
+                            <input class="mb-3" type="text" name="email" placeholder="Enter a valid email address" value="{{ old('email') }}" required="required">
+                             @error('email') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
                         <div class="row px-3">
                             <label class="mb-1">Mobile No</label>
-                            <input class="mb-3" type="text" name="mobile" placeholder="Enter a valid mobile no" required="required">
+                            <input class="mb-3" type="text" name="mobile" placeholder="Enter a valid mobile no" value="{{ old('mobile') }}" required="required">
+                             @error('mobile') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
                         <div class="row px-3">
                             <label class="mb-1">Password</label>
-                            <input class="mb-4" type="password" name="password" placeholder="Enter password" required="required">
+                            <input class="mb-4" type="password" name="password" placeholder="Enter password" value="{{ old('password') }}" required="required">
+                             @error('password') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                         </div>
                         <div class="row mb-3 align-items-center">
                             <div class="col-sm-6">
@@ -93,7 +98,42 @@
 <script src="{{ asset('b2b/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('b2b/js/slick.min.js') }}"></script>
 <script src="{{ asset('b2b/js/custom.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        feather.replace()
+    </script>
+
+    <script>
+        // sweetalert fires | type = success, error, warning, info, question
+        function toastFire(type = 'success', title, body = '') {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                showCloseButton: true,
+                timer: 2000,
+                timerProgressBar: false,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: type,
+                title: title,
+                // text: body
+            })
+        }
+
+        // on session toast fires
+        @if (Session::get('success'))
+            toastFire('success', '{{ Session::get('success') }}');
+        @elseif (Session::get('failure'))
+            toastFire('warning', '{{ Session::get('failure') }}');
+        @endif
+    </script>
 
 
 

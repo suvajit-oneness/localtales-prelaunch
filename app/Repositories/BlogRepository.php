@@ -147,6 +147,7 @@ class BlogRepository extends BaseRepository implements BlogContract
      */
     public function updateBlog(array $params)
     {
+        // dd($params);
         $blog = $this->findOneOrFail($params['id']);
         $collection = collect($params)->except('_token');
         $blog->title = $collection['title'];
@@ -302,19 +303,19 @@ class BlogRepository extends BaseRepository implements BlogContract
      * @return mixed
      */
     public function getBlogcategories(){
-        $categories = Blogcategory::orderBy('title')->get();
+        $categories = Blogcategory::where('status',1)->orderBy('title')->get();
         return $categories;
     }
  /**
      * @return mixed
      */
     public function getBlogsubcategories(){
-        $categories = SubCategory::orderBy('title')->get();
+        $categories = SubCategory::where('status',1)->orderBy('title')->get();
 
         return $categories;
     }
     public function getBlogtertiarycategories(){
-        $categories = SubCategoryLevel::orderBy('title')->get();
+        $categories = SubCategoryLevel::where('status',1)->orderBy('title')->get();
 
         return $categories;
     }

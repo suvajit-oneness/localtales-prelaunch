@@ -226,6 +226,16 @@
         </li>
       </li>
         </div>
+         <li>
+            <a class="app-menu__item {{ request()->is('admin/contact-form*') ? 'active' : '' }} {{ sidebar_open(['admin.contact-form']) }}" href="{{ route('admin.contact-form.index') }}"><i class="app-menu__icon fa fa-handshake-o"></i>
+            <span class="app-menu__label">Contact Form</span>
+            </a>
+        </li>
+        <li>
+            <a class="app-menu__item {{ request()->is('admin/email-subscription*') ? 'active' : '' }} {{ sidebar_open(['admin.email-subscription']) }}" href="{{ route('admin.email-subscription.index') }}"><i class="app-menu__icon fa fa-handshake-o"></i>
+            <span class="app-menu__label">Subscription</span>
+            </a>
+        </li>
          <li class="text-light" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true"
             aria-controls="collapseSix">
             <a href="#" class="app-menu__item @if (request()->is('admin/query*') || request()->is('admin/query*')) {{ 'active' }} @endif">
@@ -313,6 +323,11 @@
          <li>
             <a class="app-menu__item {{ request()->is('admin/council*') ? 'active' : '' }} {{ sidebar_open(['admin.council']) }}" href="{{ route('admin.council.index') }}"><i class="app-menu__icon fa fa-handshake-o"></i>
             <span class="app-menu__label">Council</span>
+            </a>
+        </li>
+        <li>
+            <a class="app-menu__item {{ request()->is('admin/advocate*') ? 'active' : '' }} {{ sidebar_open(['admin.advocate']) }}" href="{{ route('admin.advocate.index') }}"><i class="app-menu__icon fa fa-handshake-o"></i>
+            <span class="app-menu__label">Advocate</span>
             </a>
         </li>
         <!---  Blog management ---->

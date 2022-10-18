@@ -3,14 +3,21 @@
 @section('content')
     <!-- ========== Inner Banner ========== -->
     @foreach($content as  $key => $blog)
-    <section class="inner_banner" style="background-image: url('{{URL::to('/').'/ContactusBanner/'}}{{$blog->banner_image}}');">
-        <div class="container">
-            <div class="row text-center justify-content-center">
-                <div class="col-12 col-lg-10">
-                    <h6>{{$blog->pretty_name}}</h6>
+    @php
+$demoImage = DB::table('demo_images')->where('title', '=', 'contact')->get();
+$demo = $demoImage[0]->image;
+@endphp
+<section class="inner_banner"
+@if($content[0]->image)
+            style="background: url({{URL::to('/').'/ContactusBanner/' .$content[0]->banner_image}})"
+        @else
+style="background: url({{URL::to('/').'/Demo/' .$demo}})"
+@endif
+                    >
+                    <div class="container position-relative">
+
+                        <h1 class="mb-4">Contact Us</h1>
                 </div>
-            </div>
-        </div>
     </section>
   @endforeach
     <!-- ========== Contact ========== -->
@@ -19,43 +26,71 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 contact-text">
-                    <div class="addresses">
-                        <img src="{{ asset('front/img/footer-logo.png')}}" alt="">
+                    <div class="addresses d-flex flex-column align-items-center justify-content-center">
+                        <img src="{{ asset('front/img/footer-logo.png')}}" height="50">
                         <ul class="contact-info mt-5">
-                            <li>
+                            {{--  <li>
                                 <i class="fa fa-map-marker-alt"></i>
                                 <p>
-                                    Dummy Location, South lead garb road, 3695AD, Australia
+                                   {!! $blog->content1  !!}
                                 </p>
                             </li>
-                            <li>
-                                <i class="fa fa-phone-alt"></i>
+                            <li class="mb-0">
+
                                 <p>
-                                    1-25663-59644-569
+
+                                    @php
+                                    $cat = $blog->content;
+
+                                    $displayCategoryName = '';
+                                    foreach(explode(',', $cat) as $catKey => $catVal) {
+
+                                        $catDetails = DB::table('settings')->where('id', $catVal)->first();
+                                         if($catDetails !=''){
+                                        //$displayCategoryName .= ''.$catVal.''.' ';
+                                        $displayCategoryName .= ''.'<span class="d-block mb-3"><i class="fa fa-phone-alt"></i>'.$catVal.'</span>';
+                                        }
+                                    }
+                                    echo $displayCategoryName;
+                                @endphp
+
                                 </p>
-                            </li>
-                            <li>
-                                <i class="fa fa-phone-alt"></i>
-                                <p>
-                                    1-59647-5697-3695
-                                </p>
-                            </li>
+                            </li>--}}
+
                             <li>
                                 <i class="fa fa-paper-plane"></i>
                                 <p>
-                                    info@localtales.net
+                                    {!! $blog->content2  !!}
                                 </p>
                             </li>
                         </ul>
+                        @php
+                                // social link
+                                $linkExists = Schema::hasTable('settings');
+                                if ($linkExists) {
+                                    $facebook = DB::table('settings')->where('key','=','social_facebook')->get();
+                                    $facebookLink= strip_tags(preg_replace('/\s+/', '', $facebook[0]->content));
+                                    $twitter = DB::table('settings')->where('key','=','social_twitter')->get();
+                                    $twitterLink= strip_tags(preg_replace('/\s+/', '', $twitter[0]->content));
+                                    $instagram = DB::table('settings')->where('key','=','social_instagram')->get();
+                                    $instagramLink= strip_tags(preg_replace('/\s+/', '', $instagram[0]->content));
+                                    $linkedin = DB::table('settings')->where('key','=','social_linkedin')->get();
+                                    $linkedinLink= strip_tags(preg_replace('/\s+/', '', $linkedin[0]->content));
+
+                                }
+                            @endphp
                         <ul class="social-icons d-flex mt-4">
                             <li>
-                                <i class="fab fa-facebook-f"></i>
+                                <a href="{{url($facebookLink)}}" class="mb-0"><i class="fab fa-facebook-f"></i></a>
                             </li>
                             <li>
-                                <i class="fab fa-twitter"></i>
+                                <a href="{{url($twitterLink)}}" class="mb-0"><i class="fab fa-twitter"></i></a>
                             </li>
-                            <li>
-                                <i class="fab fa-linkedin-in"></i>
+                            <li class="align-items-center">
+                                <a href="{{url($linkedinLink)}}" class="mb-0 d-flex"><i class="fab fa-linkedin-in"></i></a>
+                            </li>
+                            <li class="align-items-center">
+                                <a href="{{url($instagramLink) }}" class="mb-0 d-flex"><i class="fab fa-instagram"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -63,18 +98,22 @@
                 <div class="col-lg-6">
                     <div class="form-sec border-0 shadow card p-4">
                         <h5>Let's Get In Touch With Us</h5>
-                        <form action="#">
+                        <form action="{{ route('contactForm.store') }}" method="POST" role="form" enctype="multipart/form-data">@csrf
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name...">
+                                <input type="text" class="form-control" name="name" placeholder="Name..." value="{{ old('name') }}">
+                                @error('name') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Email...">
+                                <input type="email" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}">
+                                @error('email') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" placeholder="Phone no...">
+                                <input type="number" class="form-control" name="mobile" placeholder="Phone no..." value="{{ old('mobile') }}">
+                                @error('mobile') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control" rows="4" placeholder="What's inyour mind!"></textarea>
+                                <textarea class="form-control" rows="4" name="description" placeholder="What's inyour mind!">{{ old('description') }}</textarea>
+                                @error('description') <p class="text-danger">{{ $message ?? '' }}</p> @enderror
                             </div>
                             <button type="submit" class="w-100 btn main-btn">Submit Now</button>
                         </form>
@@ -84,27 +123,6 @@
         </div>
     </section>
     @endforeach
-    <!-- ========== Subscribe ========== -->
-    <section class="py-4 subscribe">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h6>Subscribe For a Newsletter</h6>
-                    <p>Want to be notified about new locations? Just sign up.</p>
-                </div>
-                <div class="col-md-6">
-                    <form>
-                        <div class="form-group position-relative m-0">
-                            <input type="email" class="form-control" placeholder="Enter your email">
-                            <button type="submit" class="subscribe-btn">
-                                <i class="fa fa-paper-plane"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ========== Inner Banner ========== -->
   @endsection

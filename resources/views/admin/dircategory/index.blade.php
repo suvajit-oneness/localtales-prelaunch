@@ -89,6 +89,12 @@
                                                 <a href="#" data-id="{{ $category['id'] }}"
                                                     class="sa-remove btn btn-sm btn-danger edit-btn"><i
                                                         class="fa fa-trash"></i></a>
+                                                        <a href="{{ route('admin.dircategory.email.details', $category['id']) }}"
+                                                    class="btn btn-sm btn-primary edit-btn"><i
+                                                        class="fa fa-envelope"></i></a>
+                                                        <a href="{{ route('admin.dircategory.directory.details', $category['id']) }}"
+                                                    class="btn btn-sm btn-primary edit-btn"><i
+                                                        class="app-menu__icon fa fa-handshake-o"></i></a>
                                             </div>
                                         </td>
                                     </tr>

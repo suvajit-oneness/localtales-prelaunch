@@ -24,10 +24,10 @@ class QueryController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'query_catagory' => 'required',
+           // 'query_catagory' => 'required',
             'query' => 'required',
         ]);
-        
+
         $data = $request->except('_token');
         $save = $this->QueryRepository->createQuery($data);
         if ($save != 'error') {

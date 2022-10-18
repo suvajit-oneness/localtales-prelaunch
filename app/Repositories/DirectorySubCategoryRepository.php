@@ -109,10 +109,10 @@ class DirectorySubCategoryRepository extends BaseRepository implements Directory
 
         $category->child_category = $collection['child_category'];
         $category->parent_category = $collection['parent_category'];
-        $category->child_description = $collection['child_description'] ?? '';
-        $category->child_short_content = $collection['child_short_content'];
-        $category->child_medium_content = $collection['child_medium_content'];
-        $category->child_long_content = $collection['child_long_content'];
+        $category->child_description = !empty($collection->child_description) ? $collection->child_description : '';
+        $category->child_short_content = !empty($collection->child_short_content) ? $collection->child_short_content : '';
+        $category->child_medium_content = !empty($collection->child_medium_content) ? $collection->child_medium_content : '';
+        $category->child_long_content = !empty($collection->child_long_content) ? $collection->child_long_content : '';
         $category->type = 0;
 
 

@@ -97,7 +97,7 @@ class BusinessRepository extends BaseRepository implements BusinessContract
             $business->save();
 
             return $business;
-            
+
         } catch (QueryException $exception) {
             throw new InvalidArgumentException($exception->getMessage());
         }
@@ -109,8 +109,8 @@ class BusinessRepository extends BaseRepository implements BusinessContract
      */
     public function updateBusiness(array $params)
     {
-        $business = $this->findOneOrFail($params['id']); 
-        $collection = collect($params)->except('_token'); 
+        $business = $this->findOneOrFail($params['id']);
+        $collection = collect($params)->except('_token');
 
         $business->name = $collection['name'];
         $business->business_name = $collection['business_name'];
@@ -164,7 +164,7 @@ class BusinessRepository extends BaseRepository implements BusinessContract
     public function detailsBusiness($id)
     {
         $businesses = Business::with('deals')->with('properties')->with('events')->where('id',$id)->get();
-        
+
         return $businesses;
     }
 
@@ -174,7 +174,7 @@ class BusinessRepository extends BaseRepository implements BusinessContract
      */
     public function getBusinessByPinCode($pinCode){
         $businesses = Business::with('category')->where('pin',$pinCode)->get();
-        
+
         return $businesses;
     }
 
@@ -184,7 +184,7 @@ class BusinessRepository extends BaseRepository implements BusinessContract
      */
     public function getTrendingBusinessByPinCode($pinCode){
         $businesses = Business::with('category')->where('pin',$pinCode)->take(3)->get();
-        
+
         return $businesses;
     }
 
@@ -195,7 +195,7 @@ class BusinessRepository extends BaseRepository implements BusinessContract
      */
     public function getBusinessByCategory($pinCode,$categoryId){
         $businesses = Business::with('category')->where('pin',$pinCode)->where('category_id',$categoryId)->get();
-        
+
         return $businesses;
     }
 
@@ -222,8 +222,8 @@ class BusinessRepository extends BaseRepository implements BusinessContract
      */
     public function deleteUserBusiness($directory_id,$user_id,$ip){
         Userbusiness::where("directory_id",$directory_id)->where("user_id",$user_id)->where("ip",$ip)->delete();
-        
-        return true;   
+
+        return true;
     }
 
     /**
@@ -246,10 +246,10 @@ class BusinessRepository extends BaseRepository implements BusinessContract
 
         return $userBusinesses;
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * @param business_id
      * @param user_id
@@ -283,8 +283,7 @@ class BusinessRepository extends BaseRepository implements BusinessContract
      * @return mixed
      */
     public function UserCollection($user_id){
-        $UserBusinesses = UserCollection::with('collection')->where("user_id",$user_id)->get();
-
+        $UserBusinesses = UserCollection::where('user_id',$user_id)->get();
         return $UserBusinesses;
     }
 
@@ -298,8 +297,8 @@ class BusinessRepository extends BaseRepository implements BusinessContract
 
         return $userBusinesses;
     }
-    
-    
+
+
     public function claim(array $params)
      {
         try {

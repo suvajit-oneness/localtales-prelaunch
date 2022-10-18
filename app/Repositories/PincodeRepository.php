@@ -73,7 +73,18 @@ class PincodeRepository extends BaseRepository implements PincodeContract
             $pin->pin = $collection['pin'];
             $pin->description = $collection['description'];
             $pin->state_id = $collection['state_id'];
+           /* if (isset($collection['image'])) {
+            if ($pin->image != 'placeholder-image.png')
+                File::delete(public_path() . '/admin/uploads/pincode/images/' . $pin->image);
             $pin->image = $collection['image'];
+            */
+            if(!empty($params['image'])) {
+                $profile_image = $collection['image'] ?? '';
+                $imageName = time().".".$profile_image->getClientOriginalName();
+                $profile_image->move("admin/uploads/pincode/images/",$imageName);
+                $uploadedImage = $imageName;
+                $pin->image = $uploadedImage;
+            }
 
             $pin->save();
 
@@ -96,10 +107,17 @@ class PincodeRepository extends BaseRepository implements PincodeContract
         $pin->description = $collection['description'];
         $pin->state_id = $collection['state_id'];
 
-        if (isset($collection['image'])) {
+       /* if (isset($collection['image'])) {
             if ($pin->image != 'placeholder-image.png')
-                File::delete(public_path() . '/admin/uploads/suburb/' . $pin->image);
+                File::delete(public_path() . '/admin/uploads/pincode/images/' . $pin->image);
             $pin->image = $collection['image'];
+        }*/
+        if(!empty($params['image'])) {
+            $profile_image = $collection['image'] ?? '';
+            $imageName = time().".".$profile_image->getClientOriginalName();
+            $profile_image->move("admin/uploads/pincode/images/",$imageName);
+            $uploadedImage = $imageName;
+            $pin->image = $uploadedImage;
         }
 
         // $profile_image = $collection['image'];
@@ -203,7 +221,7 @@ class PincodeRepository extends BaseRepository implements PincodeContract
         //   dd($blogs);
         return $pin;
     }
-    
+
      public function help(array $params)
     {
         try {
@@ -224,5 +242,5 @@ class PincodeRepository extends BaseRepository implements PincodeContract
             throw new InvalidArgumentException($exception->getMessage());
         }
     }
-    
+
 }

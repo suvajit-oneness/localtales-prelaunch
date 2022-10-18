@@ -8,7 +8,7 @@
                 <p></p>
             </div>
             <div class="col-md-6 text-right">
-                
+
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="tile">
-                
+
             <form action="{{ route('admin.demo-image.store') }}" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
                     <div class="tile-body">
@@ -30,6 +30,11 @@
                                 <option value="collection">Collection</option>
                                 <option value="article">Article</option>
                                 <option value="category">Category</option>
+                                <option value="help">Help</option>
+                                <option value="contact">ContactUs</option>
+                                <option value="about">AboutUs</option>
+                                <option value="term">Terms</option>
+                                <option value="privacy">Privacy</option>
 
                             </select>
                             @error('title') {{ $message ?? '' }} @enderror
@@ -52,6 +57,6 @@
             </div>
         </div>
     </div>
-   
+
 @endsection
 

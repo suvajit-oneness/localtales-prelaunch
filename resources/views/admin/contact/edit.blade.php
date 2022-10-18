@@ -23,10 +23,24 @@
 
 
                         <div class="form-group">
-                            <label class="control-label" for="content">Content</label>
+                            <label class="control-label" for="content">Contact No</label>
                             <textarea class="form-control" rows="4" name="content" id="content">{{ old('content', $contact->content) }}</textarea>
                             <input type="hidden" name="id" value="{{ $contact->id }}">
                             @error('content') {{ $message }} @enderror
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="content1">Address</label>
+                            <textarea class="form-control" rows="4" name="content1" id="content1">{{ old('content1', $contact->content1) }}</textarea>
+                            <input type="hidden" name="id" value="{{ $contact->id }}">
+                            @error('content1') {{ $message }} @enderror
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="content2">Url</label>
+                            <textarea class="form-control" rows="4" name="content2" id="content2">{{ old('content2', $contact->content2) }}</textarea>
+                            <input type="hidden" name="id" value="{{ $contact->id }}">
+                            @error('content2') {{ $message }} @enderror
 
                         </div>
 
@@ -82,6 +96,12 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script type="text/javascript">
     $('#content').summernote({
+        height: 400
+    });
+       $('#content1').summernote({
+        height: 400
+    });
+       $('#content2').summernote({
         height: 400
     });
 </script>

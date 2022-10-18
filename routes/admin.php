@@ -107,7 +107,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/csv-store', 'Admin\CategoryManagementController@csvStore')->name('admin.category.data.csv.store');
             Route::get('/export', 'Admin\CategoryManagementController@export')->name('admin.category.data.csv.export');
         });
-        
+
         //faq
 
         Route::group(['prefix'  =>   'categoryfaq'], function () {
@@ -314,9 +314,12 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/{id}/delete', 'Admin\DirectoryCategoryController@delete')->name('admin.dircategory.delete');
             Route::post('updateStatus', 'Admin\DirectoryCategoryController@updateStatus')->name('admin.dircategory.updateStatus');
             Route::get('/{id}/details', 'Admin\DirectoryCategoryController@details')->name('admin.dircategory.details');
+            Route::get('/{id}/email-template/details', 'Admin\DirectoryCategoryController@emaildetails')->name('admin.dircategory.email.details');
+            Route::get('/{id}/directory/details', 'Admin\DirectoryCategoryController@directorydetails')->name('admin.dircategory.directory.details');
             Route::post('/csv-store', 'Admin\DirectoryCategoryController@csvStore')->name('admin.dircategory.data.csv.store');
             Route::get('/export', 'Admin\DirectoryCategoryController@export')->name('admin.dircategory.data.csv.export');
             Route::post('upload/image', 'Admin\DirectoryCategoryController@upload_bulk_images')->name('admin.dircategory.image.upload');
+            Route::post('/send/email', 'Admin\DirectoryCategoryController@sendemail')->name('admin.directory.email.send');
         });
 
         /**  Directory Secondary Category  **/
@@ -356,8 +359,14 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::get('/', 'Admin\BussinessLeadController@council')->name('admin.council.index');
         });
-
-
+        //**  Advocate registration  **/
+        Route::group(['prefix'  =>   'advocate'], function () {
+            Route::get('/', 'Admin\AdvocateRegistrationController@index')->name('admin.advocate.index');
+            Route::get('/{id}/mail/send', 'Admin\AdvocateRegistrationController@show')->name('admin.advocate.mail');
+            Route::get('/{id}/view', 'Admin\AdvocateRegistrationController@details')->name('admin.advocate.view');
+            Route::post('/store', 'Admin\AdvocateRegistrationController@store')->name('admin.advocate.store');
+            Route::get('/{id}/view', 'Admin\AdvocateRegistrationController@details')->name('admin.advocate.view');
+        });
         // settings
         Route::group(['prefix'  =>   'settings'], function () {
             Route::get('/', 'Admin\SettingController@index')->name('admin.settings.index');
@@ -567,5 +576,16 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/csv-store', 'Admin\HelpController@csvStore')->name('admin.userhelp.data.csv.store');
             Route::get('/export', 'Admin\HelpController@export')->name('admin.userhelp.data.csv.export');
         });
+        Route::group(['prefix' => 'contact-form'], function () {
+            Route::get('/', 'Admin\ContactController@index')->name('admin.contact-form.index');
+            Route::get('/detail/{id}', 'Admin\ContactController@detail')->name('admin.contact-form.detail');
+
     });
+    Route::group(['prefix' => 'email-subscription'], function () {
+        Route::get('/', 'Admin\SubscriptionController@index')->name('admin.email-subscription.index');
+        Route::get('/detail/{id}', 'Admin\SubscriptionController@detail')->name('admin.email-subscription.detail');
+
 });
+});
+});
+ Route::view('/send/business/mail','admin.mail.business-register');

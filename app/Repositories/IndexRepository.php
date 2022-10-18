@@ -69,30 +69,34 @@ class IndexRepository extends BaseRepository implements IndexContract
         $contact->content = $collection['content'];
         $contact->content1 = $collection['content1'];
         $contact->content2 = $collection['content2'];
+        if(!empty($params['image'])){
         $image = $collection['image'];
         $imageName = time().".".$image->getClientOriginalName();
         $image->move("Extra/",$imageName);
         $uploadedImage = $imageName;
         $contact->image = $uploadedImage;
-
+        }
+        if(!empty($params['banner_image'])){
         $banner_image = $collection['banner_image'];
         $imageName = time().".".$banner_image->getClientOriginalName();
         $banner_image->move("SplashBanner/",$imageName);
         $uploadedImage = $imageName;
         $contact->banner_image = $uploadedImage;
-
+        }
+        if(!empty($params['image2'])){
         $extra_image = $collection['image2'];
         $imageName = time().".".$extra_image->getClientOriginalName();
         $extra_image->move("Splash/",$imageName);
         $uploadedImage = $imageName;
         $contact->image2 = $uploadedImage;
-
-
+        }
+        if(!empty($params['logo'])){
         $logo = $collection['logo'];
         $imageName = time().".".$logo->getClientOriginalName();
         $logo->move("ContactusBanner/",$imageName);
         $uploadedImage = $imageName;
         $contact->logo = $uploadedImage;
+        }
         $contact->save();
 
         return $contact;

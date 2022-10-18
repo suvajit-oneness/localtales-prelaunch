@@ -35,7 +35,7 @@
         $address = $business->directory->address;
 
         if ($directoryLattitude == null || $directoryLongitude == null ) {
-            $url = 'https://maps.google.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4';
+            $url = 'https://maps.google.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -438,7 +438,7 @@
 @endsection
 
 @push('scripts')
-    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4" type="text/javascript"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM" type="text/javascript"></script>
 
     <script type="text/javascript">
 	@php
@@ -448,11 +448,12 @@
            if($business->directory->image = ''){
 	        $img = "https://demo91.co.in/localtales-prelaunch/public/Directory/placeholder-image.png";
             }else{
-                $img = "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=".$business->directory->latitude.",".$business->directory->longitude."&fov=120&heading=0&key=AIzaSyDegpPMIh4JJgSPtZwE6cfTjXSQiSYOdc4";
+                $img = "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=".$business->directory->latitude.",".$business->directory->longitude."&fov=120&heading=0&key=AIzaSyDbT-LjisuP4CnRb3BKWdeJzB4tNYKWPXM";
             }
 
+            //$page_link = URL::to('directory/' . $business->directory->slug );
             $page_link = URL::to('directory/' . $business->directory->slug );
-
+            //dd($page_link);
             //$data = [$business->directory->name, floatval($business->directory->latitude), floatval($business->directory->longitude), $business->directory->address, $img, $page_link];
             $data = [$business->directory->name, floatval($business->directory->latitude), floatval($business->directory->longitude), $business->directory->address,$page_link];
             array_push($locations, $data);
@@ -533,10 +534,10 @@
                 const contentString =
                 '<div class="googleMapView content">' +
                 //'<img src="' + locations[i][4] + '" class="w-100">' +
-                '<div class="mapPopContent"><div id="bodyContent" class="bodyContent"><a href="' + locations[i][5] +
+                '<div class="mapPopContent"><div id="bodyContent" class="bodyContent"><a href="' + locations[i][4] +
                 '" target="_blank"><h6 class="firstHeading mb-2">' + locations[i][0] + '</h6></a>' +
                 '<p>' + locations[i][3] + '</p></div>' +
-                '<a href="' + locations[i][5] + '" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
+                '<a href="' + locations[i][4] + '" target="_blank" class="directionBtn"><i class="fas fa-link"></i></a>' +
                 '</div></div>';
 
                 /*

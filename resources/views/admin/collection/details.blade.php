@@ -97,7 +97,7 @@
                             <p></p>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a href="{{ route('admin.collectiondir.create', ['collection' => $collection->id]) }}"
+                            <a href="{{ route('admin.collectiondir.edit',$collection->id) }}"
                                 class="btn btn-primary"><i class="fa fa-plus"></i> Edit Directories</a>
 
                         </div>

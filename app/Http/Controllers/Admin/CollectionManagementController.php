@@ -48,6 +48,7 @@ class CollectionManagementController extends BaseController
     public function edit($id)
     {
         $collection = $this->FrontCollectionRepository->findfrontcollectionById($id);
+
         $this->setPageTitle('Collection', 'Edit Home Page : '.$collection->pretty_name);
         return view('admin.frontcollection.edit', compact('collection'));
     }
@@ -65,7 +66,7 @@ class CollectionManagementController extends BaseController
             'content1'      =>  'required|string|min:1',
            // 'content2'      =>  'required|string|min:1',
             //'image'      =>  'required|mimes:jpg,jpeg,png|max:1000',
-            //'banner_image'      => 'required|mimes:jpg,jpeg,png|min:1000',
+            'banner_image'      => 'required|mimes:jpg,jpeg,png|min:1000',
             //'image2'      => 'required|mimes:jpg,jpeg,png|min:1000',
             //'logo'      =>  'required|mimes:jpg,jpeg,png|min:1000',
 

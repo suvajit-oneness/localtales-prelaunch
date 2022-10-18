@@ -12,7 +12,7 @@
             <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
               <a class="nav-link" href="{!! URL::to('/') !!}">Home</a>
             </li>
-            
+
             <li class="dropdown nav-item {{ request()->is('postcode*')|| request()->is('suburb*') ? 'active' : '' }}">
                 <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Location</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -34,20 +34,22 @@
               </li>
               <li class="nav-item ">
                 <!--<a class="nav-link" href="{!! URL::to('article') !!}">Help</a>-->
-                
+
 
               </li>
           </ul>
-          <div class="form-inline my-2 my-lg-0">
+          <div class="form-inline my-2 my-lg-0 login-content-holder">
               @if(Auth::guard('user')->check())
-						<a type="button" class="btn btn-login" href="{!! URL::to('site-edit-profile') !!}">
+						<a type="button" class="btn btn-login d-flex align-items-center justify-content-center" href="{!! URL::to('site-edit-profile') !!}" style="
+                        height: 35px;">
 							<!-- <span><img src="{{ asset('site/images/login-icon.png ')}}"></span> -->
 
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-							<span>Hi, {{Auth::guard('user')->user()->name}}</span>
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+							<span class="ml-1">Hi, {{Auth::guard('user')->user()->name}}</span>
 						</a>
 						@else
-               <a type="button" class="btn btn-login" href="{!! URL::to('login') !!}" ><img src="{{ asset('front/img/login.svg')}}"> Login</a>
+               <a type="button" class="btn btn-login d-flex align-items-center justify-content-center" href="{!! URL::to('login') !!}" style="
+               height: 35px;"><img src="{{ asset('front/img/login.svg')}}"> Login</a>
                	@endif
             <a type="button" class="btn btn-login btn_buseness" href="{{ route('business.signup')}}"><img src="{{ asset('front/img/briefcase.svg')}}"> Business Signup</a>
           </div>
@@ -136,7 +138,7 @@ function yesnoCheck() {
   src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
         // tooltip
         $(function () {
@@ -164,7 +166,7 @@ function yesnoCheck() {
             toastFire('danger', '{{ Session::get('failure') }}');
         @endif
 
-    </script>
+    </script> --}}
 
   <script>
      $(document).on('submit', '#helpForm', (event) => {
